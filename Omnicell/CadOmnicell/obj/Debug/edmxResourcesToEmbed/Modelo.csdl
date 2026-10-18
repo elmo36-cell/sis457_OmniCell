@@ -1,0 +1,745 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LabOmnicellModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Cliente">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nitCi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="razonSocialNombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="tipoCliente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Cliente" FromRole="Cliente" ToRole="Venta" />
+    <Property Name="razonSocial" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CompatibilidadPantalla">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idPantallaRepuesto" Type="Int32" Nullable="false" />
+    <Property Name="idModeloDispositivo" Type="Int32" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="ModeloDispositivo" Relationship="Self.fk_Compatibilidad_Modelo" FromRole="CompatibilidadPantalla" ToRole="ModeloDispositivo" />
+    <NavigationProperty Name="PantallaRepuesto" Relationship="Self.fk_Compatibilidad_Pantalla" FromRole="CompatibilidadPantalla" ToRole="PantallaRepuesto" />
+  </EntityType>
+  <EntityType Name="Compra">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idProveedor" Type="Int32" Nullable="false" />
+    <Property Name="idEmpleado" Type="Int32" Nullable="false" />
+    <Property Name="fechaCompra" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="numeroFacturaProv" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="costoTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.fk_Compra_Empleado" FromRole="Compra" ToRole="Empleado" />
+    <NavigationProperty Name="Proveedor" Relationship="Self.fk_Compra_Proveedor" FromRole="Compra" ToRole="Proveedor" />
+    <NavigationProperty Name="CompraDetalle" Relationship="Self.fk_CompraDetalle_Compra" FromRole="Compra" ToRole="CompraDetalle" />
+    <Property Name="factura" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CompraDetalle">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idCompra" Type="Int32" Nullable="false" />
+    <Property Name="idPantallaRepuesto" Type="Int32" Nullable="false" />
+    <Property Name="cantidad" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="costoUnitario" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="subtotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Compra" Relationship="Self.fk_CompraDetalle_Compra" FromRole="CompraDetalle" ToRole="Compra" />
+    <NavigationProperty Name="PantallaRepuesto" Relationship="Self.fk_CompraDetalle_Pantalla" FromRole="CompraDetalle" ToRole="PantallaRepuesto" />
+    <Property Name="idPantalla" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Pantalla" Relationship="LabOmnicellModel.fk_CompraDetalle_Pantalla1" FromRole="CompraDetalle" ToRole="Pantalla" />
+  </EntityType>
+  <EntityType Name="Empleado">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="primerApellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="segundoApellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="cedulaIdentidad" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="celular" Type="Int64" Nullable="false" />
+    <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="cargo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Compra" Relationship="Self.fk_Compra_Empleado" FromRole="Empleado" ToRole="Compra" />
+    <NavigationProperty Name="Usuario" Relationship="Self.fk_Usuario_Empleado" FromRole="Empleado" ToRole="Usuario" />
+    <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Empleado" FromRole="Empleado" ToRole="Venta" />
+    <Property Name="ci" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="InventarioStock">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idSucursal" Type="Int32" Nullable="false" />
+    <Property Name="idPantallaRepuesto" Type="Int32" Nullable="false" />
+    <Property Name="stockActual" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="stockMinimo" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="PantallaRepuesto" Relationship="Self.fk_Inventario_Pantalla" FromRole="InventarioStock" ToRole="PantallaRepuesto" />
+    <NavigationProperty Name="Sucursal" Relationship="Self.fk_Inventario_Sucursal" FromRole="InventarioStock" ToRole="Sucursal" />
+  </EntityType>
+  <EntityType Name="MarcaDispositivo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="ModeloDispositivo" Relationship="Self.fk_Modelo_Marca" FromRole="MarcaDispositivo" ToRole="ModeloDispositivo" />
+  </EntityType>
+  <EntityType Name="ModeloDispositivo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idMarcaDispositivo" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="CompatibilidadPantalla" Relationship="Self.fk_Compatibilidad_Modelo" FromRole="ModeloDispositivo" ToRole="CompatibilidadPantalla" />
+    <NavigationProperty Name="MarcaDispositivo" Relationship="Self.fk_Modelo_Marca" FromRole="ModeloDispositivo" ToRole="MarcaDispositivo" />
+  </EntityType>
+  <EntityType Name="PantallaRepuesto">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="codigoSku" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="tipoCalidad" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="tecnologiaTactil" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="precioVenta" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="stockTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="CompatibilidadPantalla" Relationship="Self.fk_Compatibilidad_Pantalla" FromRole="PantallaRepuesto" ToRole="CompatibilidadPantalla" />
+    <NavigationProperty Name="CompraDetalle" Relationship="Self.fk_CompraDetalle_Pantalla" FromRole="PantallaRepuesto" ToRole="CompraDetalle" />
+    <NavigationProperty Name="InventarioStock" Relationship="Self.fk_Inventario_Pantalla" FromRole="PantallaRepuesto" ToRole="InventarioStock" />
+    <NavigationProperty Name="VentaDetalle" Relationship="Self.fk_VentaDetalle_Pantalla" FromRole="PantallaRepuesto" ToRole="VentaDetalle" />
+  </EntityType>
+  <EntityType Name="Proveedor">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="razonSocial" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pais" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contactoPersona" Type="String" MaxLength="60" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="telefono" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Compra" Relationship="Self.fk_Compra_Proveedor" FromRole="Proveedor" ToRole="Compra" />
+  </EntityType>
+  <EntityType Name="Rol">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Usuario" Relationship="Self.fk_Usuario_Rol" FromRole="Rol" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Sucursal">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="InventarioStock" Relationship="Self.fk_Inventario_Sucursal" FromRole="Sucursal" ToRole="InventarioStock" />
+    <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Sucursal" FromRole="Sucursal" ToRole="Venta" />
+    <NavigationProperty Name="Inventario" Relationship="LabOmnicellModel.fk_Inventario_Sucursal1" FromRole="Sucursal" ToRole="Inventario" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idEmpleado" Type="Int32" Nullable="false" />
+    <Property Name="idRol" Type="Int32" Nullable="false" />
+    <Property Name="usuario1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="clave" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.fk_Usuario_Empleado" FromRole="Usuario" ToRole="Empleado" />
+    <NavigationProperty Name="Rol" Relationship="Self.fk_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
+  </EntityType>
+  <EntityType Name="Venta">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idCliente" Type="Int32" Nullable="false" />
+    <Property Name="idEmpleado" Type="Int32" Nullable="false" />
+    <Property Name="idSucursal" Type="Int32" Nullable="false" />
+    <Property Name="fechaVenta" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="tipoPago" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="montoTotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Cliente" Relationship="Self.fk_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
+    <NavigationProperty Name="Empleado" Relationship="Self.fk_Venta_Empleado" FromRole="Venta" ToRole="Empleado" />
+    <NavigationProperty Name="Sucursal" Relationship="Self.fk_Venta_Sucursal" FromRole="Venta" ToRole="Sucursal" />
+    <NavigationProperty Name="VentaDetalle" Relationship="Self.fk_VentaDetalle_Venta" FromRole="Venta" ToRole="VentaDetalle" />
+  </EntityType>
+  <EntityType Name="VentaDetalle">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idVenta" Type="Int32" Nullable="false" />
+    <Property Name="idPantallaRepuesto" Type="Int32" Nullable="false" />
+    <Property Name="cantidad" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="precioUnitario" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="subtotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="PantallaRepuesto" Relationship="Self.fk_VentaDetalle_Pantalla" FromRole="VentaDetalle" ToRole="PantallaRepuesto" />
+    <NavigationProperty Name="Venta" Relationship="Self.fk_VentaDetalle_Venta" FromRole="VentaDetalle" ToRole="Venta" />
+    <Property Name="idPantalla" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Pantalla" Relationship="LabOmnicellModel.fk_VentaDetalle_Pantalla1" FromRole="VentaDetalle" ToRole="Pantalla" />
+  </EntityType>
+  <Association Name="fk_Venta_Cliente">
+    <End Role="Cliente" Type="Self.Cliente" Multiplicity="1" />
+    <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cliente">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Venta">
+        <PropertyRef Name="idCliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Compatibilidad_Modelo">
+    <End Role="ModeloDispositivo" Type="Self.ModeloDispositivo" Multiplicity="1" />
+    <End Role="CompatibilidadPantalla" Type="Self.CompatibilidadPantalla" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModeloDispositivo">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CompatibilidadPantalla">
+        <PropertyRef Name="idModeloDispositivo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Compatibilidad_Pantalla">
+    <End Role="PantallaRepuesto" Type="Self.PantallaRepuesto" Multiplicity="1" />
+    <End Role="CompatibilidadPantalla" Type="Self.CompatibilidadPantalla" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PantallaRepuesto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CompatibilidadPantalla">
+        <PropertyRef Name="idPantallaRepuesto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Compra_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Compra">
+        <PropertyRef Name="idEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Compra_Proveedor">
+    <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
+    <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedor">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Compra">
+        <PropertyRef Name="idProveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_CompraDetalle_Compra">
+    <End Role="Compra" Type="Self.Compra" Multiplicity="1" />
+    <End Role="CompraDetalle" Type="Self.CompraDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Compra">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CompraDetalle">
+        <PropertyRef Name="idCompra" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_CompraDetalle_Pantalla">
+    <End Role="PantallaRepuesto" Type="Self.PantallaRepuesto" Multiplicity="1" />
+    <End Role="CompraDetalle" Type="Self.CompraDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PantallaRepuesto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CompraDetalle">
+        <PropertyRef Name="idPantallaRepuesto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Usuario_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="idEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Venta_Empleado">
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+    <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleado">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Venta">
+        <PropertyRef Name="idEmpleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Inventario_Pantalla">
+    <End Role="PantallaRepuesto" Type="Self.PantallaRepuesto" Multiplicity="1" />
+    <End Role="InventarioStock" Type="Self.InventarioStock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PantallaRepuesto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="InventarioStock">
+        <PropertyRef Name="idPantallaRepuesto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Inventario_Sucursal">
+    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="1" />
+    <End Role="InventarioStock" Type="Self.InventarioStock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sucursal">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="InventarioStock">
+        <PropertyRef Name="idSucursal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Modelo_Marca">
+    <End Role="MarcaDispositivo" Type="Self.MarcaDispositivo" Multiplicity="1" />
+    <End Role="ModeloDispositivo" Type="Self.ModeloDispositivo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MarcaDispositivo">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ModeloDispositivo">
+        <PropertyRef Name="idMarcaDispositivo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_VentaDetalle_Pantalla">
+    <End Role="PantallaRepuesto" Type="Self.PantallaRepuesto" Multiplicity="1" />
+    <End Role="VentaDetalle" Type="Self.VentaDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PantallaRepuesto">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="VentaDetalle">
+        <PropertyRef Name="idPantallaRepuesto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Usuario_Rol">
+    <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rol">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="idRol" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Venta_Sucursal">
+    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="1" />
+    <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sucursal">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Venta">
+        <PropertyRef Name="idSucursal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_VentaDetalle_Venta">
+    <End Role="Venta" Type="Self.Venta" Multiplicity="1" />
+    <End Role="VentaDetalle" Type="Self.VentaDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Venta">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="VentaDetalle">
+        <PropertyRef Name="idVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="LabOmnicellEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Cliente" EntityType="Self.Cliente" />
+    <EntitySet Name="CompatibilidadPantalla" EntityType="Self.CompatibilidadPantalla" />
+    <EntitySet Name="Compra" EntityType="Self.Compra" />
+    <EntitySet Name="CompraDetalle" EntityType="Self.CompraDetalle" />
+    <EntitySet Name="Empleado" EntityType="Self.Empleado" />
+    <EntitySet Name="InventarioStock" EntityType="Self.InventarioStock" />
+    <EntitySet Name="MarcaDispositivo" EntityType="Self.MarcaDispositivo" />
+    <EntitySet Name="ModeloDispositivo" EntityType="Self.ModeloDispositivo" />
+    <EntitySet Name="PantallaRepuesto" EntityType="Self.PantallaRepuesto" />
+    <EntitySet Name="Proveedor" EntityType="Self.Proveedor" />
+    <EntitySet Name="Rol" EntityType="Self.Rol" />
+    <EntitySet Name="Sucursal" EntityType="Self.Sucursal" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <EntitySet Name="Venta" EntityType="Self.Venta" />
+    <EntitySet Name="VentaDetalle" EntityType="Self.VentaDetalle" />
+    <AssociationSet Name="fk_Venta_Cliente" Association="Self.fk_Venta_Cliente">
+      <End Role="Cliente" EntitySet="Cliente" />
+      <End Role="Venta" EntitySet="Venta" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Compatibilidad_Modelo" Association="Self.fk_Compatibilidad_Modelo">
+      <End Role="ModeloDispositivo" EntitySet="ModeloDispositivo" />
+      <End Role="CompatibilidadPantalla" EntitySet="CompatibilidadPantalla" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Compatibilidad_Pantalla" Association="Self.fk_Compatibilidad_Pantalla">
+      <End Role="PantallaRepuesto" EntitySet="PantallaRepuesto" />
+      <End Role="CompatibilidadPantalla" EntitySet="CompatibilidadPantalla" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Compra_Empleado" Association="Self.fk_Compra_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Compra" EntitySet="Compra" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Compra_Proveedor" Association="Self.fk_Compra_Proveedor">
+      <End Role="Proveedor" EntitySet="Proveedor" />
+      <End Role="Compra" EntitySet="Compra" />
+    </AssociationSet>
+    <AssociationSet Name="fk_CompraDetalle_Compra" Association="Self.fk_CompraDetalle_Compra">
+      <End Role="Compra" EntitySet="Compra" />
+      <End Role="CompraDetalle" EntitySet="CompraDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_CompraDetalle_Pantalla" Association="Self.fk_CompraDetalle_Pantalla">
+      <End Role="PantallaRepuesto" EntitySet="PantallaRepuesto" />
+      <End Role="CompraDetalle" EntitySet="CompraDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Usuario_Empleado" Association="Self.fk_Usuario_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Venta_Empleado" Association="Self.fk_Venta_Empleado">
+      <End Role="Empleado" EntitySet="Empleado" />
+      <End Role="Venta" EntitySet="Venta" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Inventario_Pantalla" Association="Self.fk_Inventario_Pantalla">
+      <End Role="PantallaRepuesto" EntitySet="PantallaRepuesto" />
+      <End Role="InventarioStock" EntitySet="InventarioStock" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Inventario_Sucursal" Association="Self.fk_Inventario_Sucursal">
+      <End Role="Sucursal" EntitySet="Sucursal" />
+      <End Role="InventarioStock" EntitySet="InventarioStock" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Modelo_Marca" Association="Self.fk_Modelo_Marca">
+      <End Role="MarcaDispositivo" EntitySet="MarcaDispositivo" />
+      <End Role="ModeloDispositivo" EntitySet="ModeloDispositivo" />
+    </AssociationSet>
+    <AssociationSet Name="fk_VentaDetalle_Pantalla" Association="Self.fk_VentaDetalle_Pantalla">
+      <End Role="PantallaRepuesto" EntitySet="PantallaRepuesto" />
+      <End Role="VentaDetalle" EntitySet="VentaDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Usuario_Rol" Association="Self.fk_Usuario_Rol">
+      <End Role="Rol" EntitySet="Rol" />
+      <End Role="Usuario" EntitySet="Usuario" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Venta_Sucursal" Association="Self.fk_Venta_Sucursal">
+      <End Role="Sucursal" EntitySet="Sucursal" />
+      <End Role="Venta" EntitySet="Venta" />
+    </AssociationSet>
+    <AssociationSet Name="fk_VentaDetalle_Venta" Association="Self.fk_VentaDetalle_Venta">
+      <End Role="Venta" EntitySet="Venta" />
+      <End Role="VentaDetalle" EntitySet="VentaDetalle" />
+    </AssociationSet>
+    <FunctionImport Name="paClienteListar" ReturnType="Collection(LabOmnicellModel.paClienteListar_Result)">
+      <Parameter Name="parametro" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="paPantallaRepuestoListar" ReturnType="Collection(LabOmnicellModel.paPantallaRepuestoListar_Result)">
+      <Parameter Name="parametro" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Compatibilidad" EntityType="LabOmnicellModel.Compatibilidad" />
+    <EntitySet Name="Inventario" EntityType="LabOmnicellModel.Inventario" />
+    <EntitySet Name="Marca" EntityType="LabOmnicellModel.Marca" />
+    <EntitySet Name="Modelo" EntityType="LabOmnicellModel.Modelo" />
+    <EntitySet Name="Pantalla" EntityType="LabOmnicellModel.Pantalla" />
+    <AssociationSet Name="fk_Compatibilidad_Modelo1" Association="LabOmnicellModel.fk_Compatibilidad_Modelo1">
+      <End Role="Modelo" EntitySet="Modelo" />
+      <End Role="Compatibilidad" EntitySet="Compatibilidad" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Compatibilidad_Pantalla1" Association="LabOmnicellModel.fk_Compatibilidad_Pantalla1">
+      <End Role="Pantalla" EntitySet="Pantalla" />
+      <End Role="Compatibilidad" EntitySet="Compatibilidad" />
+    </AssociationSet>
+    <AssociationSet Name="fk_CompraDetalle_Pantalla1" Association="LabOmnicellModel.fk_CompraDetalle_Pantalla1">
+      <End Role="Pantalla" EntitySet="Pantalla" />
+      <End Role="CompraDetalle" EntitySet="CompraDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Inventario_Pantalla1" Association="LabOmnicellModel.fk_Inventario_Pantalla1">
+      <End Role="Pantalla" EntitySet="Pantalla" />
+      <End Role="Inventario" EntitySet="Inventario" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Inventario_Sucursal1" Association="LabOmnicellModel.fk_Inventario_Sucursal1">
+      <End Role="Sucursal" EntitySet="Sucursal" />
+      <End Role="Inventario" EntitySet="Inventario" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Modelo_Marca1" Association="LabOmnicellModel.fk_Modelo_Marca1">
+      <End Role="Marca" EntitySet="Marca" />
+      <End Role="Modelo" EntitySet="Modelo" />
+    </AssociationSet>
+    <AssociationSet Name="fk_VentaDetalle_Pantalla1" Association="LabOmnicellModel.fk_VentaDetalle_Pantalla1">
+      <End Role="Pantalla" EntitySet="Pantalla" />
+      <End Role="VentaDetalle" EntitySet="VentaDetalle" />
+    </AssociationSet>
+    <FunctionImport Name="paPantallaListar" ReturnType="Collection(LabOmnicellModel.paPantallaListar_Result)">
+      <Parameter Name="parametro" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="paClienteListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="razonSocialNombre" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="telefono" Nullable="false" MaxLength="20" />
+    <Property Type="String" Name="direccion" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="tipoCliente" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+    <Property Type="Int16" Name="estado" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="paPantallaRepuestoListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="codigoSku" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="tipoCalidad" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="tecnologiaTactil" Nullable="false" MaxLength="30" />
+    <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="Decimal" Name="stockTotal" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+    <Property Type="Int16" Name="estado" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Compatibilidad">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idPantalla" Type="Int32" Nullable="false" />
+    <Property Name="idModelo" Type="Int32" Nullable="false" />
+    <Property Name="usuarioRegistro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Modelo" Relationship="LabOmnicellModel.fk_Compatibilidad_Modelo1" FromRole="Compatibilidad" ToRole="Modelo" />
+    <NavigationProperty Name="Pantalla" Relationship="LabOmnicellModel.fk_Compatibilidad_Pantalla1" FromRole="Compatibilidad" ToRole="Pantalla" />
+  </EntityType>
+  <EntityType Name="Inventario">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idSucursal" Type="Int32" Nullable="false" />
+    <Property Name="idPantalla" Type="Int32" Nullable="false" />
+    <Property Name="stockActual" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <Property Name="stockMinimo" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <Property Name="usuarioRegistro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Pantalla" Relationship="LabOmnicellModel.fk_Inventario_Pantalla1" FromRole="Inventario" ToRole="Pantalla" />
+    <NavigationProperty Name="Sucursal" Relationship="LabOmnicellModel.fk_Inventario_Sucursal1" FromRole="Inventario" ToRole="Sucursal" />
+  </EntityType>
+  <EntityType Name="Marca">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="usuarioRegistro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Modelo" Relationship="LabOmnicellModel.fk_Modelo_Marca1" FromRole="Marca" ToRole="Modelo" />
+  </EntityType>
+  <EntityType Name="Modelo">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idMarca" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="usuarioRegistro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Compatibilidad" Relationship="LabOmnicellModel.fk_Compatibilidad_Modelo1" FromRole="Modelo" ToRole="Compatibilidad" />
+    <NavigationProperty Name="Marca" Relationship="LabOmnicellModel.fk_Modelo_Marca1" FromRole="Modelo" ToRole="Marca" />
+  </EntityType>
+  <EntityType Name="Pantalla">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="sku" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="calidad" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="tecnologia" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="precioVenta" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <Property Name="stockTotal" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <Property Name="usuarioRegistro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Compatibilidad" Relationship="LabOmnicellModel.fk_Compatibilidad_Pantalla1" FromRole="Pantalla" ToRole="Compatibilidad" />
+    <NavigationProperty Name="CompraDetalle" Relationship="LabOmnicellModel.fk_CompraDetalle_Pantalla1" FromRole="Pantalla" ToRole="CompraDetalle" />
+    <NavigationProperty Name="Inventario" Relationship="LabOmnicellModel.fk_Inventario_Pantalla1" FromRole="Pantalla" ToRole="Inventario" />
+    <NavigationProperty Name="VentaDetalle" Relationship="LabOmnicellModel.fk_VentaDetalle_Pantalla1" FromRole="Pantalla" ToRole="VentaDetalle" />
+  </EntityType>
+  <Association Name="fk_Compatibilidad_Modelo1">
+    <End Type="LabOmnicellModel.Modelo" Role="Modelo" Multiplicity="1" />
+    <End Type="LabOmnicellModel.Compatibilidad" Role="Compatibilidad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Modelo">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Compatibilidad">
+        <PropertyRef Name="idModelo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Compatibilidad_Pantalla1">
+    <End Type="LabOmnicellModel.Pantalla" Role="Pantalla" Multiplicity="1" />
+    <End Type="LabOmnicellModel.Compatibilidad" Role="Compatibilidad" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pantalla">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Compatibilidad">
+        <PropertyRef Name="idPantalla" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_CompraDetalle_Pantalla1">
+    <End Type="LabOmnicellModel.Pantalla" Role="Pantalla" Multiplicity="1" />
+    <End Type="LabOmnicellModel.CompraDetalle" Role="CompraDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pantalla">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="CompraDetalle">
+        <PropertyRef Name="idPantalla" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Inventario_Pantalla1">
+    <End Type="LabOmnicellModel.Pantalla" Role="Pantalla" Multiplicity="1" />
+    <End Type="LabOmnicellModel.Inventario" Role="Inventario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pantalla">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Inventario">
+        <PropertyRef Name="idPantalla" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Inventario_Sucursal1">
+    <End Type="LabOmnicellModel.Sucursal" Role="Sucursal" Multiplicity="1" />
+    <End Type="LabOmnicellModel.Inventario" Role="Inventario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sucursal">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Inventario">
+        <PropertyRef Name="idSucursal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Modelo_Marca1">
+    <End Type="LabOmnicellModel.Marca" Role="Marca" Multiplicity="1" />
+    <End Type="LabOmnicellModel.Modelo" Role="Modelo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Marca">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Modelo">
+        <PropertyRef Name="idMarca" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_VentaDetalle_Pantalla1">
+    <End Type="LabOmnicellModel.Pantalla" Role="Pantalla" Multiplicity="1" />
+    <End Type="LabOmnicellModel.VentaDetalle" Role="VentaDetalle" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pantalla">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="VentaDetalle">
+        <PropertyRef Name="idPantalla" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="paPantallaListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="sku" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="calidad" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="tecnologia" Nullable="false" MaxLength="30" />
+    <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="Decimal" Name="stockTotal" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+    <Property Type="Int16" Name="estado" Nullable="false" />
+  </ComplexType>
+</Schema>

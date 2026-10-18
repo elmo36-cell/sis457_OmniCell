@@ -1,0 +1,2 @@
+D:\SIS457\sis457_Omnicell\Omnicell\ClnOmnicell\obj\Debug\ClnOmnicell.csproj.AssemblyReference.cache
+D:\SIS457\sis457_Omnicell\Omnicell\ClnOmnicell\obj\Debug\ClnOmnicell.csproj.CoreCompileInputs.cache

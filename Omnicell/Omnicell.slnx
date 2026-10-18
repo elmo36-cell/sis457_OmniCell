@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CadOmnicell/CadOmnicell.csproj" Id="9c7c196c-e115-4b65-8f6c-689f2eb3a790" />
+  <Project Path="ClnOmnicell/ClnOmnicell.csproj" Id="dc1cfe43-4843-4902-a261-4a8ed154944e" />
+  <Project Path="CpOmnicell/CpOmnicell.csproj" Id="32f25c7f-3d23-4ef4-a3a9-19016017b459" />
+</Solution>

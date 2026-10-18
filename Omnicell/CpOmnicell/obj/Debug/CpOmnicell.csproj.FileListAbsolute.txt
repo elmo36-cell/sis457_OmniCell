@@ -1,0 +1,4 @@
+D:\SIS457\sis457_Omnicell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.AssemblyReference.cache
+D:\SIS457\sis457_Omnicell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.Properties.Resources.resources
+D:\SIS457\sis457_Omnicell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.GenerateResource.cache
+D:\SIS457\sis457_Omnicell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.CoreCompileInputs.cache
