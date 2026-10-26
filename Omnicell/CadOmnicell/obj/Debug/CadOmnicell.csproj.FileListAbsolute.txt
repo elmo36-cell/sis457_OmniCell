@@ -1,2 +1,14 @@
 D:\SIS457\sis457_Omnicell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.csproj.AssemblyReference.cache
 D:\SIS457\sis457_Omnicell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.csproj.CoreCompileInputs.cache
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\CadOmnicell.dll.config
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\CadOmnicell.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\CadOmnicell.pdb
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.SqlServer.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.xml
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.SqlServer.xml
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.csproj.AssemblyReference.cache
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.csproj.CoreCompileInputs.cache
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnic.169F8D2B.Up2Date
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.pdb
