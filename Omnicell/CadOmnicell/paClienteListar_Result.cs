@@ -15,6 +15,9 @@ namespace CadOmnicell
     {
         public int id { get; set; }
         public string nitCi { get; set; }
+        public string nombres { get; set; }
+        public string primerApellido { get; set; }
+        public string segundoApellido { get; set; }
         public string razonSocial { get; set; }
         public string telefono { get; set; }
         public string direccion { get; set; }

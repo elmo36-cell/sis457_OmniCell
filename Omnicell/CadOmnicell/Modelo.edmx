@@ -11,7 +11,10 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nitCi" Type="varchar" MaxLength="20" Nullable="false" />
-          <Property Name="razonSocial" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="nombres" Type="varchar" MaxLength="50" />
+          <Property Name="primerApellido" Type="varchar" MaxLength="30" />
+          <Property Name="segundoApellido" Type="varchar" MaxLength="30" />
+          <Property Name="razonSocial" Type="varchar" MaxLength="150" />
           <Property Name="telefono" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="direccion" Type="varchar" MaxLength="150" />
           <Property Name="tipoCliente" Type="varchar" MaxLength="30" Nullable="false" />
@@ -167,7 +170,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idEmpleado" Type="int" Nullable="false" />
           <Property Name="idRol" Type="int" Nullable="false" />
-          <Property Name="usuario" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="nombreUsuario" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="clave" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="usuarioRegistro" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
@@ -198,6 +201,7 @@
           <Property Name="cantidad" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioUnitario" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="subtotal" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="observacionGarantia" Type="varchar" MaxLength="150" />
           <Property Name="usuarioRegistro" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
           <Property Name="estado" Type="smallint" Nullable="false" />
@@ -397,7 +401,25 @@
         <Function Name="paClienteListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="parametro" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="paEmpleadoListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="parametro" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="paMarcaListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="parametro" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="paModeloListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="parametro" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="paPantallaListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="parametro" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="paProveedorListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="parametro" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="paSucursalListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="parametro" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="paUsuarioListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="parametro" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="LabOmnicellModelStoreContainer">
@@ -492,7 +514,10 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nitCi" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="razonSocial" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="primerApellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="segundoApellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="razonSocial" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="tipoCliente" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
@@ -672,7 +697,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idEmpleado" Type="Int32" Nullable="false" />
           <Property Name="idRol" Type="Int32" Nullable="false" />
-          <Property Name="usuario1" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombreUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="clave" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
@@ -709,6 +734,7 @@
           <Property Name="cantidad" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="precioUnitario" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="subtotal" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="observacionGarantia" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="estado" Type="Int16" Nullable="false" />
@@ -907,7 +933,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="LabOmnicellEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="LabOmnicellEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Cliente" EntityType="Self.Cliente" />
           <EntitySet Name="Compatibilidad" EntityType="Self.Compatibilidad" />
           <EntitySet Name="Compra" EntityType="Self.Compra" />
@@ -990,17 +1016,67 @@
           <FunctionImport Name="paClienteListar" ReturnType="Collection(LabOmnicellModel.paClienteListar_Result)">
             <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="paEmpleadoListar" ReturnType="Collection(LabOmnicellModel.paEmpleadoListar_Result)">
+            <Parameter Name="parametro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="paMarcaListar" ReturnType="Collection(LabOmnicellModel.paMarcaListar_Result)">
+            <Parameter Name="parametro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="paModeloListar" ReturnType="Collection(LabOmnicellModel.paModeloListar_Result)">
+            <Parameter Name="parametro" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="paPantallaListar" ReturnType="Collection(LabOmnicellModel.paPantallaListar_Result)">
+            <Parameter Name="parametro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="paProveedorListar" ReturnType="Collection(LabOmnicellModel.paProveedorListar_Result)">
+            <Parameter Name="parametro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="paSucursalListar" ReturnType="Collection(LabOmnicellModel.paSucursalListar_Result)">
+            <Parameter Name="parametro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="paUsuarioListar" ReturnType="Collection(LabOmnicellModel.paUsuarioListar_Result)">
             <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="paClienteListar_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="razonSocial" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="nombres" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="primerApellido" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="segundoApellido" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="razonSocial" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="telefono" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="direccion" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="tipoCliente" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="paEmpleadoListar_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="primerApellido" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="segundoApellido" Nullable="true" MaxLength="30" />
+          <Property Type="String" Name="ci" Nullable="false" MaxLength="15" />
+          <Property Type="Int64" Name="celular" Nullable="false" />
+          <Property Type="String" Name="direccion" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="paMarcaListar_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="paModeloListar_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="idMarca" Nullable="false" />
+          <Property Type="String" Name="modelo" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="marca" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
           <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
           <Property Type="Int16" Name="estado" Nullable="false" />
@@ -1017,17 +1093,49 @@
           <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
           <Property Type="Int16" Name="estado" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="paProveedorListar_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="razonSocial" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="pais" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="contactoPersona" Nullable="false" MaxLength="60" />
+          <Property Type="String" Name="telefono" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="paSucursalListar_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="80" />
+          <Property Type="String" Name="ciudad" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="direccion" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="paUsuarioListar_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="idEmpleado" Nullable="false" />
+          <Property Type="Int32" Name="idRol" Nullable="false" />
+          <Property Type="String" Name="nombreUsuario" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
+          <Property Type="Int16" Name="estado" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="LabOmnicellModelStoreContainer" CdmEntityContainer="LabOmnicellEntities1">
+        <EntityContainerMapping StorageEntityContainer="LabOmnicellModelStoreContainer" CdmEntityContainer="LabOmnicellEntities">
           <EntitySetMapping Name="Cliente">
             <EntityTypeMapping TypeName="LabOmnicellModel.Cliente">
               <MappingFragment StoreEntitySet="Cliente">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nitCi" ColumnName="nitCi" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="primerApellido" ColumnName="primerApellido" />
+                <ScalarProperty Name="segundoApellido" ColumnName="segundoApellido" />
                 <ScalarProperty Name="razonSocial" ColumnName="razonSocial" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
@@ -1196,7 +1304,7 @@
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
                 <ScalarProperty Name="idRol" ColumnName="idRol" />
-                <ScalarProperty Name="usuario1" ColumnName="usuario" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
                 <ScalarProperty Name="clave" ColumnName="clave" />
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
                 <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
@@ -1229,6 +1337,7 @@
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />
                 <ScalarProperty Name="precioUnitario" ColumnName="precioUnitario" />
                 <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="observacionGarantia" ColumnName="observacionGarantia" />
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
                 <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
@@ -1240,10 +1349,54 @@
               <ComplexTypeMapping TypeName="LabOmnicellModel.paClienteListar_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nitCi" ColumnName="nitCi" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="primerApellido" ColumnName="primerApellido" />
+                <ScalarProperty Name="segundoApellido" ColumnName="segundoApellido" />
                 <ScalarProperty Name="razonSocial" ColumnName="razonSocial" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="tipoCliente" ColumnName="tipoCliente" />
+                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="paEmpleadoListar" FunctionName="LabOmnicellModel.Store.paEmpleadoListar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LabOmnicellModel.paEmpleadoListar_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="primerApellido" ColumnName="primerApellido" />
+                <ScalarProperty Name="segundoApellido" ColumnName="segundoApellido" />
+                <ScalarProperty Name="ci" ColumnName="ci" />
+                <ScalarProperty Name="celular" ColumnName="celular" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="cargo" ColumnName="cargo" />
+                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="paMarcaListar" FunctionName="LabOmnicellModel.Store.paMarcaListar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LabOmnicellModel.paMarcaListar_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="paModeloListar" FunctionName="LabOmnicellModel.Store.paModeloListar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LabOmnicellModel.paModeloListar_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idMarca" ColumnName="idMarca" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="marca" ColumnName="marca" />
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
                 <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
@@ -1260,6 +1413,47 @@
                 <ScalarProperty Name="tecnologia" ColumnName="tecnologia" />
                 <ScalarProperty Name="precioVenta" ColumnName="precioVenta" />
                 <ScalarProperty Name="stockTotal" ColumnName="stockTotal" />
+                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="paProveedorListar" FunctionName="LabOmnicellModel.Store.paProveedorListar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LabOmnicellModel.paProveedorListar_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="razonSocial" ColumnName="razonSocial" />
+                <ScalarProperty Name="pais" ColumnName="pais" />
+                <ScalarProperty Name="contactoPersona" ColumnName="contactoPersona" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="paSucursalListar" FunctionName="LabOmnicellModel.Store.paSucursalListar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LabOmnicellModel.paSucursalListar_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="paUsuarioListar" FunctionName="LabOmnicellModel.Store.paUsuarioListar">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LabOmnicellModel.paUsuarioListar_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
+                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
                 <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
                 <ScalarProperty Name="estado" ColumnName="estado" />

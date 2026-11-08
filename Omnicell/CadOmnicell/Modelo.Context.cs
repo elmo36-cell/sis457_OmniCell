@@ -15,10 +15,10 @@ namespace CadOmnicell
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class LabOmnicellEntities1 : DbContext
+    public partial class LabOmnicellEntities : DbContext
     {
-        public LabOmnicellEntities1()
-            : base("name=LabOmnicellEntities1")
+        public LabOmnicellEntities()
+            : base("name=LabOmnicellEntities")
         {
         }
     
@@ -52,6 +52,33 @@ namespace CadOmnicell
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paClienteListar_Result>("paClienteListar", parametroParameter);
         }
     
+        public virtual ObjectResult<paEmpleadoListar_Result> paEmpleadoListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paEmpleadoListar_Result>("paEmpleadoListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paMarcaListar_Result> paMarcaListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paMarcaListar_Result>("paMarcaListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paModeloListar_Result> paModeloListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paModeloListar_Result>("paModeloListar", parametroParameter);
+        }
+    
         public virtual ObjectResult<paPantallaListar_Result> paPantallaListar(string parametro)
         {
             var parametroParameter = parametro != null ?
@@ -59,6 +86,33 @@ namespace CadOmnicell
                 new ObjectParameter("parametro", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paPantallaListar_Result>("paPantallaListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paProveedorListar_Result> paProveedorListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paProveedorListar_Result>("paProveedorListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paSucursalListar_Result> paSucursalListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paSucursalListar_Result>("paSucursalListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paUsuarioListar_Result> paUsuarioListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paUsuarioListar_Result>("paUsuarioListar", parametroParameter);
         }
     }
 }

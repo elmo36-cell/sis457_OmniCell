@@ -1,10 +1,10 @@
-﻿-- 1. Desconectarse de la base de datos y poner en modo de usuario único para borrarla
+﻿-- Desconectarse de la base de datos
 ALTER DATABASE LabOmnicell SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 GO
--- 2. Eliminar la base de datos
+-- Eliminar la base de datos
 DROP DATABASE LabOmnicell;
 GO
--- 3. Eliminar el inicio de sesión del servidor
+-- Eliminar el inicio de sesión del servidor
 DROP LOGIN usromnicell;
 GO
 
@@ -60,9 +60,9 @@ CREATE TABLE Rol (
 
 CREATE TABLE Usuario (
     id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
-    idEmpleado INT NOT NULL UNIQUE,
+    idEmpleado INT NOT NULL,
     idRol INT NOT NULL,
-    usuario VARCHAR(20) NOT NULL UNIQUE,
+    nombreUsuario VARCHAR(20) NOT NULL UNIQUE,
     clave VARCHAR(100) NOT NULL,
     CONSTRAINT fk_Usuario_Empleado FOREIGN KEY (idEmpleado) REFERENCES Empleado(id),
     CONSTRAINT fk_Usuario_Rol FOREIGN KEY (idRol) REFERENCES Rol(id)
@@ -149,10 +149,13 @@ CREATE TABLE Inventario (
 CREATE TABLE Cliente (
     id INT NOT NULL PRIMARY KEY IDENTITY(1,1),
     nitCi VARCHAR(20) NOT NULL UNIQUE,
-    razonSocial VARCHAR(150) NOT NULL,
+    nombres VARCHAR(50) NULL,
+    primerApellido VARCHAR(30) NULL,
+    segundoApellido VARCHAR(30) NULL,
+    razonSocial VARCHAR(150) NULL,
     telefono VARCHAR(20) NOT NULL,
     direccion VARCHAR(150) NULL,
-    tipoCliente VARCHAR(30) NOT NULL 
+    tipoCliente VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE Venta (
@@ -175,11 +178,11 @@ CREATE TABLE VentaDetalle (
     cantidad DECIMAL(10,2) NOT NULL CHECK(cantidad > 0),
     precioUnitario DECIMAL(10,2) NOT NULL CHECK(precioUnitario > 0),
     subtotal DECIMAL(10,2) NOT NULL CHECK(subtotal > 0),
+    observacionGarantia VARCHAR(150) NULL, -- Sello o número de serie para control de garantías de pantallas
     CONSTRAINT fk_VentaDetalle_Venta FOREIGN KEY (idVenta) REFERENCES Venta(id),
     CONSTRAINT fk_VentaDetalle_Pantalla FOREIGN KEY (idPantalla) REFERENCES Pantalla(id)
 );
 
--- Auditoría estándar
 ALTER TABLE Empleado ADD usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(), fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(), estado SMALLINT NOT NULL DEFAULT 1;
 ALTER TABLE Rol ADD usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(), fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(), estado SMALLINT NOT NULL DEFAULT 1;
 ALTER TABLE Usuario ADD usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(), fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(), estado SMALLINT NOT NULL DEFAULT 1;
@@ -205,28 +208,110 @@ CREATE PROC paPantallaListar @parametro VARCHAR(50) AS
   WHERE estado = 1 AND (sku + descripcion + calidad LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY descripcion;
 GO
-EXEC paPantallaListar 'Iphone 13 pro';
+EXEC paPantallaListar 'OLED';
+GO
 
+GO
 DROP PROC IF EXISTS paClienteListar;
 GO
 CREATE PROC paClienteListar @parametro VARCHAR(50) AS
-  SELECT id, nitCi, razonSocial, telefono, direccion, tipoCliente, usuarioRegistro, fechaRegistro, estado
+  SELECT id, nitCi, nombres, primerApellido, segundoApellido, razonSocial, telefono, direccion, tipoCliente, usuarioRegistro, fechaRegistro, estado
   FROM Cliente
-  WHERE estado = 1 AND (nitCi + razonSocial LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
+  WHERE estado = 1 AND (
+        nitCi LIKE '%' + @parametro + '%' OR 
+        nombres + ' ' + ISNULL(primerApellido,'') LIKE '%' + REPLACE(@parametro, ' ', '%') + '%' OR
+        ISNULL(razonSocial,'') LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+  )
+  ORDER BY nitCi;
+GO
+EXEC paClienteListar 'Guzman';
+GO
+
+GO
+DROP PROC IF EXISTS paEmpleadoListar;
+GO
+CREATE PROC paEmpleadoListar @parametro VARCHAR(50) AS
+  SELECT id, nombres, primerApellido, segundoApellido, ci, celular, direccion, cargo, usuarioRegistro, fechaRegistro, estado
+  FROM Empleado
+  WHERE estado = 1 AND (ci + nombres + primerApellido LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
+  ORDER BY primerApellido, nombres;
+GO
+EXEC paEmpleadoListar 'Carlos';
+GO
+
+GO
+DROP PROC IF EXISTS paUsuarioListar;
+GO
+CREATE PROC paUsuarioListar @parametro VARCHAR(50) AS
+  SELECT u.id, u.idEmpleado, u.idRol, u.nombreUsuario, u.usuarioRegistro, u.fechaRegistro, u.estado
+  FROM Usuario u
+  INNER JOIN Empleado e ON u.idEmpleado = e.id
+  WHERE u.estado = 1 AND (u.nombreUsuario + e.nombres + e.primerApellido LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
+  ORDER BY u.nombreUsuario;
+GO
+EXEC paUsuarioListar 'admin';
+GO
+
+GO
+DROP PROC IF EXISTS paProveedorListar;
+GO
+CREATE PROC paProveedorListar @parametro VARCHAR(50) AS
+  SELECT id, razonSocial, pais, contactoPersona, telefono, usuarioRegistro, fechaRegistro, estado
+  FROM Proveedor
+  WHERE estado = 1 AND (razonSocial + contactoPersona + pais LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY razonSocial;
 GO
-EXEC paClienteListar 'CelRep';
+EXEC paProveedorListar 'Global';
+GO
 
--- DML
+GO
+DROP PROC IF EXISTS paSucursalListar;
+GO
+CREATE PROC paSucursalListar @parametro VARCHAR(50) AS
+  SELECT id, nombre, ciudad, direccion, telefono, usuarioRegistro, fechaRegistro, estado
+  FROM Sucursal
+  WHERE estado = 1 AND (nombre + ciudad LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
+  ORDER BY nombre;
+GO
+EXEC paSucursalListar 'Sucre';
+GO
+
+GO
+DROP PROC IF EXISTS paMarcaListar;
+GO
+CREATE PROC paMarcaListar @parametro VARCHAR(50) AS
+  SELECT id, nombre, usuarioRegistro, fechaRegistro, estado
+  FROM Marca
+  WHERE estado = 1 AND (nombre LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
+  ORDER BY nombre;
+GO
+EXEC paMarcaListar 'Apple';
+GO
+
+GO
+DROP PROC IF EXISTS paModeloListar;
+GO
+CREATE PROC paModeloListar @parametro VARCHAR(50) AS
+  SELECT m.id, m.idMarca, m.nombre AS modelo, ma.nombre AS marca, m.usuarioRegistro, m.fechaRegistro, m.estado
+  FROM Modelo m
+  INNER JOIN Marca ma ON m.idMarca = ma.id
+  WHERE m.estado = 1 AND (m.nombre + ma.nombre LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
+  ORDER BY ma.nombre, m.nombre;
+GO
+EXEC paModeloListar 'iPhone';
+GO
+
+-- DML (Datos Iniciales)
 INSERT INTO Rol (nombre, descripcion)
 VALUES ('Administrador', 'Control total del sistema'), ('Vendedor', 'Encargado de atenciones y ventas');
 
 INSERT INTO Empleado (nombres, primerApellido, segundoApellido, ci, celular, direccion, cargo)
 VALUES ('Carlos', 'Mendoza', 'Rojas', '8976543', 70012345, 'Av. 6 de Agosto #450', 'Gerente General'),
-('Tifany', 'Perez', 'Motalvo', '6543281', 71234567, 'Av. Emilio Hoschamn #123', 'Vendedor');
+       ('Tifany', 'Perez', 'Motalvo', '6543281', 71234567, 'Av. Emilio Hoschamn #123', 'Vendedor');
 
-INSERT INTO Usuario (idEmpleado, idRol, usuario, clave)
-VALUES (1, 1, 'admin', 'Q04sp73uUzMPFuEBS5xNLg==');
+INSERT INTO Usuario (idEmpleado, idRol, nombreUsuario, clave)
+VALUES (1, 1, 'admin', 'Q04sp73uUzMPFuEBS5xNLg=='),
+       (2, 2, 'tperez', 'Q04sp73uUzMPFuEBS5xNLg==');
 
 INSERT INTO Marca (nombre)
 VALUES ('Apple'), ('Samsung'), ('Xiaomi'), ('Tecno'), ('Infinix');
@@ -239,12 +324,16 @@ VALUES ('IP13PRO-OL', 'Pantalla OLED Original para iPhone 13 Pro', 'OLED Origina
        ('SGS22-INC', 'Pantalla Incell para Samsung Galaxy S22', 'Incell', 'OGS', 300.00, 15),
        ('XMN10PR-OLED', 'Pantalla LCD para Xiaomi Note 10 Pro', 'OLED', 'Capacitiva', 350.00, 15);
 
-INSERT INTO Cliente (nitCi, razonSocial, telefono, direccion, tipoCliente) 
-VALUES ('5432109012', 'Servicios Técnicos Celular Express', 71234567, 'Calle España #210', 'Técnico Mayorista'),
-('3214567', 'Servicios Técnicos CelRep', 7654321, 'Calle Aniceto Arce #60', 'Técnico Minorista');
+INSERT INTO Cliente (nitCi, nombres, primerApellido, segundoApellido, razonSocial, telefono, direccion, tipoCliente) 
+VALUES ('0', 'Consumidor', 'Final', NULL, NULL, '0000000', 'Sin Dirección', 'Consumidor Final'),
+       ('6543210', 'Pedro', 'Guzman', 'Vargas', NULL, '72345678', 'Av. Las Américas #12', 'Minorista'),
+       ('5432109012', NULL, NULL, NULL, 'Servicios Técnicos Celular Express', '71234567', 'Calle España #210', 'Técnico Mayorista');
 
+
+SELECT * FROM Rol;
 SELECT * FROM Empleado;
 SELECT * FROM Usuario;
-SELECT * FROM Pantalla;
-SELECT * FROM Cliente;
 SELECT * FROM Marca;
+SELECT * FROM Modelo;
+SELECT * FROM Pantalla;
+SELECT * FROM Inventario;
