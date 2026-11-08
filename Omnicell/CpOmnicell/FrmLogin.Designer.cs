@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
             this.tbFondo = new System.Windows.Forms.PictureBox();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblContraseña = new System.Windows.Forms.Label();
@@ -36,7 +37,11 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnInicioSesion = new System.Windows.Forms.Button();
             this.lblTilOmnicell = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnSalir = new System.Windows.Forms.Button();
+            this.btnInicioCliente = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.tbFondo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // tbFondo
@@ -51,7 +56,7 @@
             // lblUsuario
             // 
             this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(485, 198);
+            this.lblUsuario.Location = new System.Drawing.Point(486, 124);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(43, 13);
             this.lblUsuario.TabIndex = 10;
@@ -60,7 +65,7 @@
             // lblContraseña
             // 
             this.lblContraseña.AutoSize = true;
-            this.lblContraseña.Location = new System.Drawing.Point(485, 258);
+            this.lblContraseña.Location = new System.Drawing.Point(486, 184);
             this.lblContraseña.Name = "lblContraseña";
             this.lblContraseña.Size = new System.Drawing.Size(61, 13);
             this.lblContraseña.TabIndex = 11;
@@ -71,18 +76,17 @@
             this.lblInicioSesion.AutoSize = true;
             this.lblInicioSesion.BackColor = System.Drawing.Color.Transparent;
             this.lblInicioSesion.Font = new System.Drawing.Font("Microsoft YaHei", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInicioSesion.Location = new System.Drawing.Point(517, 123);
+            this.lblInicioSesion.Location = new System.Drawing.Point(518, 49);
             this.lblInicioSesion.Name = "lblInicioSesion";
             this.lblInicioSesion.Size = new System.Drawing.Size(203, 31);
             this.lblInicioSesion.TabIndex = 12;
             this.lblInicioSesion.Text = "Inicio de Sesion";
-            this.lblInicioSesion.Click += new System.EventHandler(this.lblInicioSesion_Click);
             // 
             // txtUsuarios
             // 
             this.txtUsuarios.BackColor = System.Drawing.Color.SteelBlue;
             this.txtUsuarios.ForeColor = System.Drawing.Color.White;
-            this.txtUsuarios.Location = new System.Drawing.Point(488, 214);
+            this.txtUsuarios.Location = new System.Drawing.Point(489, 140);
             this.txtUsuarios.Name = "txtUsuarios";
             this.txtUsuarios.Size = new System.Drawing.Size(258, 20);
             this.txtUsuarios.TabIndex = 13;
@@ -91,7 +95,7 @@
             // 
             this.textBox1.BackColor = System.Drawing.Color.SteelBlue;
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(488, 274);
+            this.textBox1.Location = new System.Drawing.Point(489, 200);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(258, 20);
             this.textBox1.TabIndex = 14;
@@ -103,12 +107,13 @@
             this.btnInicioSesion.FlatAppearance.BorderSize = 10;
             this.btnInicioSesion.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnInicioSesion.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInicioSesion.Location = new System.Drawing.Point(537, 334);
+            this.btnInicioSesion.Location = new System.Drawing.Point(538, 244);
             this.btnInicioSesion.Name = "btnInicioSesion";
             this.btnInicioSesion.Size = new System.Drawing.Size(153, 37);
             this.btnInicioSesion.TabIndex = 15;
             this.btnInicioSesion.Text = "Iniciar Sesion";
             this.btnInicioSesion.UseVisualStyleBackColor = false;
+            this.btnInicioSesion.Click += new System.EventHandler(this.btnInicioSesion_Click);
             // 
             // lblTilOmnicell
             // 
@@ -116,11 +121,54 @@
             this.lblTilOmnicell.BackColor = System.Drawing.SystemColors.MenuHighlight;
             this.lblTilOmnicell.Font = new System.Drawing.Font("Microsoft YaHei", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTilOmnicell.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.lblTilOmnicell.Location = new System.Drawing.Point(54, 93);
+            this.lblTilOmnicell.Location = new System.Drawing.Point(54, 68);
             this.lblTilOmnicell.Name = "lblTilOmnicell";
             this.lblTilOmnicell.Size = new System.Drawing.Size(320, 86);
             this.lblTilOmnicell.TabIndex = 16;
             this.lblTilOmnicell.Text = "Omnicell";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BackColor = System.Drawing.Color.RoyalBlue;
+            this.pictureBox1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.BackgroundImage")));
+            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(69, 157);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(274, 219);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 17;
+            this.pictureBox1.TabStop = false;
+            // 
+            // btnSalir
+            // 
+            this.btnSalir.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnSalir.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnSalir.FlatAppearance.BorderSize = 10;
+            this.btnSalir.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnSalir.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSalir.Location = new System.Drawing.Point(538, 367);
+            this.btnSalir.Name = "btnSalir";
+            this.btnSalir.Size = new System.Drawing.Size(153, 37);
+            this.btnSalir.TabIndex = 18;
+            this.btnSalir.Text = "Salir";
+            this.btnSalir.UseVisualStyleBackColor = false;
+            this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
+            // 
+            // btnInicioCliente
+            // 
+            this.btnInicioCliente.BackColor = System.Drawing.SystemColors.Highlight;
+            this.btnInicioCliente.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.btnInicioCliente.FlatAppearance.BorderSize = 10;
+            this.btnInicioCliente.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnInicioCliente.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInicioCliente.Location = new System.Drawing.Point(523, 287);
+            this.btnInicioCliente.Name = "btnInicioCliente";
+            this.btnInicioCliente.Size = new System.Drawing.Size(183, 37);
+            this.btnInicioCliente.TabIndex = 19;
+            this.btnInicioCliente.Text = "Iniciar como Invitado";
+            this.btnInicioCliente.UseVisualStyleBackColor = false;
+            this.btnInicioCliente.Click += new System.EventHandler(this.btnInicioCliente_Click);
             // 
             // FrmLogin
             // 
@@ -128,6 +176,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnInicioCliente);
+            this.Controls.Add(this.btnSalir);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblTilOmnicell);
             this.Controls.Add(this.btnInicioSesion);
             this.Controls.Add(this.textBox1);
@@ -136,11 +187,13 @@
             this.Controls.Add(this.lblContraseña);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.tbFondo);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Omnicell ::: Inicio De Sesion";
             this.Load += new System.EventHandler(this.FrmLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tbFondo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -158,5 +211,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button btnInicioSesion;
         private System.Windows.Forms.Label lblTilOmnicell;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnSalir;
+        private System.Windows.Forms.Button btnInicioCliente;
     }
 }

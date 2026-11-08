@@ -22,14 +22,21 @@ namespace CpOmnicell
 
         }
 
-        private void kryptonLabel1_Click(object sender, EventArgs e)
+        private void btnSalir_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
 
-        private void lblInicioSesion_Click(object sender, EventArgs e)
+        private void btnInicioCliente_Click(object sender, EventArgs e)
         {
+            FrmMenuCliente frmMenuCliente = new FrmMenuCliente();
+            frmMenuCliente.Show();
+        }
 
+        private void btnInicioSesion_Click(object sender, EventArgs e)
+        {
+            FrmMenuVendedor frmMenuVendedor = new FrmMenuVendedor();
+            frmMenuVendedor.Show();
         }
     }
 }
