@@ -21,5 +21,10 @@ namespace CpOmnicell
         {
             Close();
         }
+
+        private void ribbonButton18_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

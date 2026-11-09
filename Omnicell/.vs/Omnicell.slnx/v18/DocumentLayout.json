@@ -7,11 +7,11 @@
       "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmmenuvendedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\cpomnicell\\frmmenucliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\cpomnicell\\frmmenucliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmmenucliente.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\cpomnicell\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\cpomnicell\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmlogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
@@ -45,8 +45,7 @@
               "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmMenuCliente.cs [Dise\u00F1o]",
               "RelativeToolTip": "CpOmnicell\\FrmMenuCliente.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-08T21:20:31.474Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2026-11-08T21:20:31.474Z"
             },
             {
               "$type": "Document",
@@ -57,8 +56,7 @@
               "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmLogin.cs [Dise\u00F1o]",
               "RelativeToolTip": "CpOmnicell\\FrmLogin.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-08T21:20:29.014Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "WhenOpened": "2026-11-08T21:20:29.014Z"
             }
           ]
         }
