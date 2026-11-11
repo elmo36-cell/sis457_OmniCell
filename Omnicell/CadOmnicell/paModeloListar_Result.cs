@@ -14,11 +14,7 @@ namespace CadOmnicell
     public partial class paModeloListar_Result
     {
         public int id { get; set; }
-        public int idMarca { get; set; }
-        public string modelo { get; set; }
         public string marca { get; set; }
-        public string usuarioRegistro { get; set; }
-        public System.DateTime fechaRegistro { get; set; }
-        public short estado { get; set; }
+        public string modelo { get; set; }
     }
 }

@@ -301,6 +301,84 @@ GO
 EXEC paModeloListar 'iPhone';
 GO
 
+GO
+DROP PROC IF EXISTS paVentaListar;
+GO
+CREATE PROC paVentaListar @parametro VARCHAR(50) AS BEGIN
+  SELECT v.id, v.fechaVenta, CONCAT(c.nombres, ' ', c.primerApellido) AS cliente, c.nitCi, CONCAT(e.nombres, ' ', e.primerApellido) AS vendedor, s.nombre AS sucursal, v.tipoPago, v.montoTotal
+    FROM Venta v
+    INNER JOIN Cliente c ON v.idCliente = c.id
+    INNER JOIN Empleado e ON v.idEmpleado = e.id
+    INNER JOIN Sucursal s ON v.idSucursal = s.id
+    WHERE CONCAT( v.id, ' ', c.nitCi, ' ', c.nombres, ' ', c.primerApellido, ' ', e.nombres, ' ', e.primerApellido, ' ', s.nombre, ' ', v.tipoPago ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    ORDER BY v.id DESC;
+END;
+GO
+EXEC paVentaListar '';
+GO
+
+GO
+DROP PROC IF EXISTS paCompraListar;
+GO
+CREATE PROC paCompraListar @parametro VARCHAR(50) AS BEGIN
+  SELECT c.id, c.fechaCompra, p.razonSocial AS proveedor, p.pais, e.nombres + ' ' + e.primerApellido AS empleado, c.factura, c.costoTotal
+    FROM Compra c
+    INNER JOIN Proveedor p ON c.idProveedor = p.id
+    INNER JOIN Empleado e ON c.idEmpleado = e.id
+    WHERE CONCAT( c.id, ' ', p.razonSocial, ' ', p.pais, ' ', e.nombres, ' ', e.primerApellido, ' ', c.factura ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    ORDER BY c.id DESC;
+END;
+GO
+EXEC paCompraListar '';
+GO
+
+
+GO
+DROP PROC IF EXISTS paInventarioListar;
+GO
+CREATE PROC paInventarioListar @parametro VARCHAR(50) AS BEGIN
+  SELECT i.id, s.nombre AS sucursal, p.sku, p.descripcion, p.calidad, p.tecnologia, i.stockActual, i.stockMinimo, p.precioVenta
+    FROM Inventario i
+    INNER JOIN Sucursal s ON i.idSucursal = s.id
+    INNER JOIN Pantalla p ON i.idPantalla = p.id
+    WHERE CONCAT( s.nombre, ' ', p.sku, ' ', p.descripcion, ' ', p.calidad, ' ', p.tecnologia ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    ORDER BY s.nombre, p.descripcion;
+END;
+GO
+EXEC paInventarioListar '';
+GO
+
+GO
+DROP PROC IF EXISTS paInventarioStockBajo;
+GO
+CREATE PROC paInventarioStockBajo AS BEGIN
+  SELECT i.id, s.nombre AS sucursal, p.sku, p.descripcion, p.calidad, i.stockActual, i.stockMinimo
+    FROM Inventario i
+    INNER JOIN Sucursal s ON i.idSucursal = s.id
+    INNER JOIN Pantalla p ON i.idPantalla = p.id
+    WHERE i.stockActual <= i.stockMinimo
+    ORDER BY i.stockActual ASC;
+END;
+GO
+EXEC paInventarioStockBajo;
+GO
+
+GO
+DROP PROC IF EXISTS paModeloListar;
+GO
+CREATE PROC paModeloListar @parametro VARCHAR(50) AS BEGIN
+  SELECT m.id, ma.nombre AS marca, m.nombre AS modelo
+    FROM Modelo m
+    INNER JOIN Marca ma ON m.idMarca = ma.id
+    WHERE CONCAT(ma.nombre, ' ', m.nombre) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    ORDER BY ma.nombre, m.nombre;
+END;
+GO
+EXEC paModeloListar '';
+GO
+
+
+
 -- DML (Datos Iniciales)
 INSERT INTO Rol (nombre, descripcion)
 VALUES ('Administrador', 'Control total del sistema'), ('Vendedor', 'Encargado de atenciones y ventas');
@@ -329,6 +407,17 @@ VALUES ('0', 'Consumidor', 'Final', NULL, NULL, '0000000', 'Sin Dirección', 'Co
        ('6543210', 'Pedro', 'Guzman', 'Vargas', NULL, '72345678', 'Av. Las Américas #12', 'Minorista'),
        ('5432109012', NULL, NULL, NULL, 'Servicios Técnicos Celular Express', '71234567', 'Calle España #210', 'Técnico Mayorista');
 
+INSERT INTO Sucursal (nombre, ciudad, direccion, telefono)
+VALUES ('Sucursal Central', 'Sucre', 'Calle Junin N. 120', '76123456'), 
+       ('Sucursal Norte', 'Potosi', 'Av. Litoral N. 250', '76234567'), 
+       ('Sucursal Sur', 'Oruro', 'Calle Bolivar N. 80', '76345678');
+
+INSERT INTO Inventario
+(idSucursal, idPantalla, stockActual, stockMinimo)
+VALUES(1, 1, 20, 5),
+      (2, 2, 3, 8), 
+      (3, 3, 0, 5);
+
 
 SELECT * FROM Rol;
 SELECT * FROM Empleado;
@@ -337,3 +426,5 @@ SELECT * FROM Marca;
 SELECT * FROM Modelo;
 SELECT * FROM Pantalla;
 SELECT * FROM Inventario;
+SELECT * FROM Sucursal;
+

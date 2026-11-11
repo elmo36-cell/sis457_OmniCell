@@ -70,11 +70,6 @@
             this.ribbonButton121 = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup18 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton111 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab6 = new C1.Win.C1Ribbon.RibbonTab();
-            this.ribbonGroup6 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton13 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup19 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton14 = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab7 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup7 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton21 = new C1.Win.C1Ribbon.RibbonButton();
@@ -90,12 +85,16 @@
             this.ribbonGroup23 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton16 = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup24 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonTab9 = new C1.Win.C1Ribbon.RibbonTab();
-            this.ribbonTopToolBar1 = new C1.Win.C1Ribbon.RibbonTopToolBar();
-            this.label2 = new System.Windows.Forms.Label();
             this.ribbonButton17 = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonTab9 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup9 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton18 = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonTopToolBar1 = new C1.Win.C1Ribbon.RibbonTopToolBar();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ribbonGroup19 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.ribbonButton14 = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonGroup6 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.ribbonButton13 = new C1.Win.C1Ribbon.RibbonButton();
             this.gbxBuscador.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.c1TextBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnBuscar)).BeginInit();
@@ -153,7 +152,6 @@
             this.c1Ribbon1.Tabs.Add(this.ribbonTab3);
             this.c1Ribbon1.Tabs.Add(this.ribbonTab4);
             this.c1Ribbon1.Tabs.Add(this.ribbonTab5);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab6);
             this.c1Ribbon1.Tabs.Add(this.ribbonTab7);
             this.c1Ribbon1.Tabs.Add(this.ribbonTab8);
             this.c1Ribbon1.Tabs.Add(this.ribbonTab9);
@@ -273,14 +271,14 @@
             // 
             this.ribbonGroup3.Items.Add(this.ribbonButton6);
             this.ribbonGroup3.Name = "ribbonGroup3";
-            this.ribbonGroup3.Text = "Productos";
+            this.ribbonGroup3.Text = "Pantallas";
             // 
             // ribbonButton6
             // 
             this.ribbonButton6.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.LargeImage")));
             this.ribbonButton6.Name = "ribbonButton6";
             this.ribbonButton6.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.SmallImage")));
-            this.ribbonButton6.Text = "Productos";
+            this.ribbonButton6.Text = "Pantallas";
             // 
             // ribbonGroup13
             // 
@@ -396,37 +394,6 @@
             this.ribbonButton111.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton111.SmallImage")));
             this.ribbonButton111.Text = "Nuevo Proveedor";
             // 
-            // ribbonTab6
-            // 
-            this.ribbonTab6.Groups.Add(this.ribbonGroup6);
-            this.ribbonTab6.Groups.Add(this.ribbonGroup19);
-            this.ribbonTab6.Name = "ribbonTab6";
-            this.ribbonTab6.Text = "PERSONAL";
-            // 
-            // ribbonGroup6
-            // 
-            this.ribbonGroup6.Items.Add(this.ribbonButton13);
-            this.ribbonGroup6.Name = "ribbonGroup6";
-            // 
-            // ribbonButton13
-            // 
-            this.ribbonButton13.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton13.LargeImage")));
-            this.ribbonButton13.Name = "ribbonButton13";
-            this.ribbonButton13.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton13.SmallImage")));
-            this.ribbonButton13.Text = "Empleados";
-            // 
-            // ribbonGroup19
-            // 
-            this.ribbonGroup19.Items.Add(this.ribbonButton14);
-            this.ribbonGroup19.Name = "ribbonGroup19";
-            // 
-            // ribbonButton14
-            // 
-            this.ribbonButton14.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton14.LargeImage")));
-            this.ribbonButton14.Name = "ribbonButton14";
-            this.ribbonButton14.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton14.SmallImage")));
-            this.ribbonButton14.Text = "Cargos";
-            // 
             // ribbonTab7
             // 
             this.ribbonTab7.Groups.Add(this.ribbonGroup7);
@@ -489,8 +456,10 @@
             this.ribbonTab8.Groups.Add(this.ribbonGroup8);
             this.ribbonTab8.Groups.Add(this.ribbonGroup23);
             this.ribbonTab8.Groups.Add(this.ribbonGroup24);
+            this.ribbonTab8.Groups.Add(this.ribbonGroup19);
+            this.ribbonTab8.Groups.Add(this.ribbonGroup6);
             this.ribbonTab8.Name = "ribbonTab8";
-            this.ribbonTab8.Text = "USUARIOS";
+            this.ribbonTab8.Text = "PERSONAL";
             // 
             // ribbonGroup8
             // 
@@ -521,11 +490,32 @@
             this.ribbonGroup24.Items.Add(this.ribbonButton17);
             this.ribbonGroup24.Name = "ribbonGroup24";
             // 
+            // ribbonButton17
+            // 
+            this.ribbonButton17.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton17.LargeImage")));
+            this.ribbonButton17.Name = "ribbonButton17";
+            this.ribbonButton17.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton17.SmallImage")));
+            this.ribbonButton17.Text = "Permisos";
+            // 
             // ribbonTab9
             // 
             this.ribbonTab9.Groups.Add(this.ribbonGroup9);
             this.ribbonTab9.Name = "ribbonTab9";
             this.ribbonTab9.Text = "CERRAR SESION";
+            // 
+            // ribbonGroup9
+            // 
+            this.ribbonGroup9.Items.Add(this.ribbonButton18);
+            this.ribbonGroup9.Name = "ribbonGroup9";
+            this.ribbonGroup9.Text = "Salir";
+            // 
+            // ribbonButton18
+            // 
+            this.ribbonButton18.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.LargeImage")));
+            this.ribbonButton18.Name = "ribbonButton18";
+            this.ribbonButton18.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.SmallImage")));
+            this.ribbonButton18.Text = "Cerrar Sesion";
+            this.ribbonButton18.Click += new System.EventHandler(this.ribbonButton18_Click);
             // 
             // ribbonTopToolBar1
             // 
@@ -543,26 +533,29 @@
             this.label2.TabIndex = 34;
             this.label2.Text = "Omnicell";
             // 
-            // ribbonButton17
+            // ribbonGroup19
             // 
-            this.ribbonButton17.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton17.LargeImage")));
-            this.ribbonButton17.Name = "ribbonButton17";
-            this.ribbonButton17.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton17.SmallImage")));
-            this.ribbonButton17.Text = "Permisos";
+            this.ribbonGroup19.Items.Add(this.ribbonButton14);
+            this.ribbonGroup19.Name = "ribbonGroup19";
             // 
-            // ribbonGroup9
+            // ribbonButton14
             // 
-            this.ribbonGroup9.Items.Add(this.ribbonButton18);
-            this.ribbonGroup9.Name = "ribbonGroup9";
-            this.ribbonGroup9.Text = "Salir";
+            this.ribbonButton14.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton14.LargeImage")));
+            this.ribbonButton14.Name = "ribbonButton14";
+            this.ribbonButton14.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton14.SmallImage")));
+            this.ribbonButton14.Text = "Cargos";
             // 
-            // ribbonButton18
+            // ribbonGroup6
             // 
-            this.ribbonButton18.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.LargeImage")));
-            this.ribbonButton18.Name = "ribbonButton18";
-            this.ribbonButton18.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.SmallImage")));
-            this.ribbonButton18.Text = "Cerrar Sesion";
-            this.ribbonButton18.Click += new System.EventHandler(this.ribbonButton18_Click);
+            this.ribbonGroup6.Items.Add(this.ribbonButton13);
+            this.ribbonGroup6.Name = "ribbonGroup6";
+            // 
+            // ribbonButton13
+            // 
+            this.ribbonButton13.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton13.LargeImage")));
+            this.ribbonButton13.Name = "ribbonButton13";
+            this.ribbonButton13.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton13.SmallImage")));
+            this.ribbonButton13.Text = "Empleados";
             // 
             // FrmMenuVendedor
             // 
@@ -608,8 +601,6 @@
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup4;
         private C1.Win.C1Ribbon.RibbonTab ribbonTab5;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup5;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab6;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup6;
         private C1.Win.C1Ribbon.RibbonTab ribbonTab7;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup7;
         private C1.Win.C1Ribbon.RibbonTab ribbonTab8;
@@ -638,9 +629,6 @@
         private C1.Win.C1Ribbon.RibbonButton ribbonButton121;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup18;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton111;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton13;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup19;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton14;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton21;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup20;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup21;
@@ -655,5 +643,9 @@
         private C1.Win.C1Ribbon.RibbonButton ribbonButton17;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup9;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton18;
+        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup19;
+        private C1.Win.C1Ribbon.RibbonButton ribbonButton14;
+        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup6;
+        private C1.Win.C1Ribbon.RibbonButton ribbonButton13;
     }
 }

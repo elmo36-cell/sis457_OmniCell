@@ -52,6 +52,15 @@ namespace CadOmnicell
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paClienteListar_Result>("paClienteListar", parametroParameter);
         }
     
+        public virtual ObjectResult<paCompraListar_Result> paCompraListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paCompraListar_Result>("paCompraListar", parametroParameter);
+        }
+    
         public virtual ObjectResult<paEmpleadoListar_Result> paEmpleadoListar(string parametro)
         {
             var parametroParameter = parametro != null ?
@@ -59,6 +68,20 @@ namespace CadOmnicell
                 new ObjectParameter("parametro", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paEmpleadoListar_Result>("paEmpleadoListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paInventarioListar_Result> paInventarioListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paInventarioListar_Result>("paInventarioListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paInventarioStockBajo_Result> paInventarioStockBajo()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paInventarioStockBajo_Result>("paInventarioStockBajo");
         }
     
         public virtual ObjectResult<paMarcaListar_Result> paMarcaListar(string parametro)
@@ -113,6 +136,15 @@ namespace CadOmnicell
                 new ObjectParameter("parametro", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paUsuarioListar_Result>("paUsuarioListar", parametroParameter);
+        }
+    
+        public virtual ObjectResult<paVentaListar_Result> paVentaListar(string parametro)
+        {
+            var parametroParameter = parametro != null ?
+                new ObjectParameter("parametro", parametro) :
+                new ObjectParameter("parametro", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<paVentaListar_Result>("paVentaListar", parametroParameter);
         }
     }
 }
