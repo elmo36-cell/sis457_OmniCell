@@ -67,5 +67,13 @@ namespace ClnOmnicell
                 return context.Compra.Where(x => x.estado == 1).OrderByDescending(x => x.fechaCompra).ToList();
             }
         }
+
+        public static List<paCompraListar_Result> listarCompras(string parametro)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.paCompraListar(parametro.Trim()).ToList();
+            }
+        }
     }
 }

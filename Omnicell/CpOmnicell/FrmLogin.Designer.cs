@@ -28,20 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
             this.tbFondo = new System.Windows.Forms.PictureBox();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblContraseña = new System.Windows.Forms.Label();
             this.lblInicioSesion = new System.Windows.Forms.Label();
             this.txtUsuarios = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtClave = new System.Windows.Forms.TextBox();
             this.btnInicioSesion = new System.Windows.Forms.Button();
             this.lblTilOmnicell = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnSalir = new System.Windows.Forms.Button();
             this.btnInicioCliente = new System.Windows.Forms.Button();
+            this.erpUsuario = new System.Windows.Forms.ErrorProvider(this.components);
+            this.erpClave = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.tbFondo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpUsuario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpClave)).BeginInit();
             this.SuspendLayout();
             // 
             // tbFondo
@@ -90,15 +95,17 @@
             this.txtUsuarios.Name = "txtUsuarios";
             this.txtUsuarios.Size = new System.Drawing.Size(258, 20);
             this.txtUsuarios.TabIndex = 13;
+            this.txtUsuarios.TextChanged += new System.EventHandler(this.txtUsuarios_TextChanged);
             // 
-            // textBox1
+            // txtClave
             // 
-            this.textBox1.BackColor = System.Drawing.Color.SteelBlue;
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(489, 200);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(258, 20);
-            this.textBox1.TabIndex = 14;
+            this.txtClave.BackColor = System.Drawing.Color.SteelBlue;
+            this.txtClave.ForeColor = System.Drawing.Color.White;
+            this.txtClave.Location = new System.Drawing.Point(489, 200);
+            this.txtClave.Name = "txtClave";
+            this.txtClave.Size = new System.Drawing.Size(258, 20);
+            this.txtClave.TabIndex = 14;
+            this.txtClave.TextChanged += new System.EventHandler(this.txtClave_TextChanged);
             // 
             // btnInicioSesion
             // 
@@ -118,7 +125,7 @@
             // lblTilOmnicell
             // 
             this.lblTilOmnicell.AutoSize = true;
-            this.lblTilOmnicell.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.lblTilOmnicell.BackColor = System.Drawing.Color.RoyalBlue;
             this.lblTilOmnicell.Font = new System.Drawing.Font("Microsoft YaHei", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTilOmnicell.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.lblTilOmnicell.Location = new System.Drawing.Point(54, 68);
@@ -170,6 +177,14 @@
             this.btnInicioCliente.UseVisualStyleBackColor = false;
             this.btnInicioCliente.Click += new System.EventHandler(this.btnInicioCliente_Click);
             // 
+            // erpUsuario
+            // 
+            this.erpUsuario.ContainerControl = this;
+            // 
+            // erpClave
+            // 
+            this.erpClave.ContainerControl = this;
+            // 
             // FrmLogin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -181,7 +196,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblTilOmnicell);
             this.Controls.Add(this.btnInicioSesion);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtClave);
             this.Controls.Add(this.txtUsuarios);
             this.Controls.Add(this.lblInicioSesion);
             this.Controls.Add(this.lblContraseña);
@@ -194,6 +209,8 @@
             this.Load += new System.EventHandler(this.FrmLogin_Load);
             ((System.ComponentModel.ISupportInitialize)(this.tbFondo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpUsuario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpClave)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -208,11 +225,13 @@
         private System.Windows.Forms.Label lblContraseña;
         private System.Windows.Forms.Label lblInicioSesion;
         private System.Windows.Forms.TextBox txtUsuarios;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtClave;
         private System.Windows.Forms.Button btnInicioSesion;
         private System.Windows.Forms.Label lblTilOmnicell;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.Button btnInicioCliente;
+        private System.Windows.Forms.ErrorProvider erpUsuario;
+        private System.Windows.Forms.ErrorProvider erpClave;
     }
 }

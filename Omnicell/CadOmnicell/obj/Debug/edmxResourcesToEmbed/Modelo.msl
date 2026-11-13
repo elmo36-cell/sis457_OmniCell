@@ -235,6 +235,19 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="paCompraListar" FunctionName="LabOmnicellModel.Store.paCompraListar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LabOmnicellModel.paCompraListar_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fechaCompra" ColumnName="fechaCompra" />
+          <ScalarProperty Name="proveedor" ColumnName="proveedor" />
+          <ScalarProperty Name="pais" ColumnName="pais" />
+          <ScalarProperty Name="empleado" ColumnName="empleado" />
+          <ScalarProperty Name="factura" ColumnName="factura" />
+          <ScalarProperty Name="costoTotal" ColumnName="costoTotal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="paEmpleadoListar" FunctionName="LabOmnicellModel.Store.paEmpleadoListar">
       <ResultMapping>
         <ComplexTypeMapping TypeName="LabOmnicellModel.paEmpleadoListar_Result">
@@ -249,6 +262,34 @@
           <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
           <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
           <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="paInventarioListar" FunctionName="LabOmnicellModel.Store.paInventarioListar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LabOmnicellModel.paInventarioListar_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+          <ScalarProperty Name="sku" ColumnName="sku" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="calidad" ColumnName="calidad" />
+          <ScalarProperty Name="tecnologia" ColumnName="tecnologia" />
+          <ScalarProperty Name="stockActual" ColumnName="stockActual" />
+          <ScalarProperty Name="stockMinimo" ColumnName="stockMinimo" />
+          <ScalarProperty Name="precioVenta" ColumnName="precioVenta" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="paInventarioStockBajo" FunctionName="LabOmnicellModel.Store.paInventarioStockBajo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LabOmnicellModel.paInventarioStockBajo_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+          <ScalarProperty Name="sku" ColumnName="sku" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="calidad" ColumnName="calidad" />
+          <ScalarProperty Name="stockActual" ColumnName="stockActual" />
+          <ScalarProperty Name="stockMinimo" ColumnName="stockMinimo" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -267,12 +308,8 @@
       <ResultMapping>
         <ComplexTypeMapping TypeName="LabOmnicellModel.paModeloListar_Result">
           <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="idMarca" ColumnName="idMarca" />
-          <ScalarProperty Name="modelo" ColumnName="modelo" />
           <ScalarProperty Name="marca" ColumnName="marca" />
-          <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-          <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="modelo" ColumnName="modelo" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -330,6 +367,20 @@
           <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
           <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
           <ScalarProperty Name="estado" ColumnName="estado" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="paVentaListar" FunctionName="LabOmnicellModel.Store.paVentaListar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="LabOmnicellModel.paVentaListar_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="fechaVenta" ColumnName="fechaVenta" />
+          <ScalarProperty Name="cliente" ColumnName="cliente" />
+          <ScalarProperty Name="nitCi" ColumnName="nitCi" />
+          <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+          <ScalarProperty Name="sucursal" ColumnName="sucursal" />
+          <ScalarProperty Name="tipoPago" ColumnName="tipoPago" />
+          <ScalarProperty Name="montoTotal" ColumnName="montoTotal" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

@@ -302,19 +302,30 @@ EXEC paModeloListar 'iPhone';
 GO
 
 GO
-DROP PROC IF EXISTS paVentaListar;
+DROP PROC IF EXISTS dbo.paVentaListar;
 GO
-CREATE PROC paVentaListar @parametro VARCHAR(50) AS BEGIN
-  SELECT v.id, v.fechaVenta, CONCAT(c.nombres, ' ', c.primerApellido) AS cliente, c.nitCi, CONCAT(e.nombres, ' ', e.primerApellido) AS vendedor, s.nombre AS sucursal, v.tipoPago, v.montoTotal
+CREATE PROC dbo.paVentaListar @parametro VARCHAR(50) AS BEGIN
+    SELECT v.id, v.fechaVenta, CONCAT(c.nombres, ' ', c.primerApellido) AS cliente, c.nitCi, CONCAT(e.nombres, ' ', e.primerApellido) AS vendedor, s.nombre AS sucursal, v.tipoPago, v.montoTotal
     FROM Venta v
     INNER JOIN Cliente c ON v.idCliente = c.id
     INNER JOIN Empleado e ON v.idEmpleado = e.id
     INNER JOIN Sucursal s ON v.idSucursal = s.id
-    WHERE CONCAT( v.id, ' ', c.nitCi, ' ', c.nombres, ' ', c.primerApellido, ' ', e.nombres, ' ', e.primerApellido, ' ', s.nombre, ' ', v.tipoPago ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE
+        v.estado = 1
+        AND CONCAT(
+            v.id, ' ',
+            c.nitCi, ' ',
+            c.nombres, ' ',
+            c.primerApellido, ' ',
+            e.nombres, ' ',
+            e.primerApellido, ' ',
+            s.nombre, ' ',
+            v.tipoPago
+        ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
     ORDER BY v.id DESC;
 END;
 GO
-EXEC paVentaListar '';
+EXEC dbo.paVentaListar '';
 GO
 
 GO
@@ -325,7 +336,7 @@ CREATE PROC paCompraListar @parametro VARCHAR(50) AS BEGIN
     FROM Compra c
     INNER JOIN Proveedor p ON c.idProveedor = p.id
     INNER JOIN Empleado e ON c.idEmpleado = e.id
-    WHERE CONCAT( c.id, ' ', p.razonSocial, ' ', p.pais, ' ', e.nombres, ' ', e.primerApellido, ' ', c.factura ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE c.estado = 1 AND CONCAT( c.id, ' ', p.razonSocial, ' ', p.pais, ' ', e.nombres, ' ', e.primerApellido, ' ', c.factura ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
     ORDER BY c.id DESC;
 END;
 GO
@@ -341,7 +352,7 @@ CREATE PROC paInventarioListar @parametro VARCHAR(50) AS BEGIN
     FROM Inventario i
     INNER JOIN Sucursal s ON i.idSucursal = s.id
     INNER JOIN Pantalla p ON i.idPantalla = p.id
-    WHERE CONCAT( s.nombre, ' ', p.sku, ' ', p.descripcion, ' ', p.calidad, ' ', p.tecnologia ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE i.estado = 1 AND CONCAT( s.nombre, ' ', p.sku, ' ', p.descripcion, ' ', p.calidad, ' ', p.tecnologia ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
     ORDER BY s.nombre, p.descripcion;
 END;
 GO
@@ -356,7 +367,7 @@ CREATE PROC paInventarioStockBajo AS BEGIN
     FROM Inventario i
     INNER JOIN Sucursal s ON i.idSucursal = s.id
     INNER JOIN Pantalla p ON i.idPantalla = p.id
-    WHERE i.stockActual <= i.stockMinimo
+    WHERE i.estado = 1 AND i.stockActual <= i.stockMinimo
     ORDER BY i.stockActual ASC;
 END;
 GO
@@ -370,7 +381,7 @@ CREATE PROC paModeloListar @parametro VARCHAR(50) AS BEGIN
   SELECT m.id, ma.nombre AS marca, m.nombre AS modelo
     FROM Modelo m
     INNER JOIN Marca ma ON m.idMarca = ma.id
-    WHERE CONCAT(ma.nombre, ' ', m.nombre) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE m.estado = 1 AND CONCAT(ma.nombre, ' ', m.nombre) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
     ORDER BY ma.nombre, m.nombre;
 END;
 GO
@@ -385,38 +396,83 @@ VALUES ('Administrador', 'Control total del sistema'), ('Vendedor', 'Encargado d
 
 INSERT INTO Empleado (nombres, primerApellido, segundoApellido, ci, celular, direccion, cargo)
 VALUES ('Carlos', 'Mendoza', 'Rojas', '8976543', 70012345, 'Av. 6 de Agosto #450', 'Gerente General'),
-       ('Tifany', 'Perez', 'Motalvo', '6543281', 71234567, 'Av. Emilio Hoschamn #123', 'Vendedor');
+       ('Tifany', 'Perez', 'Motalvo', '6543281', 71234567, 'Av. Emilio Hoschamn #123', 'Vendedor'),
+       ('Fredy', 'Rios', 'Perez', '1534556', 78524174, 'Av. 5 de Junio #150', 'Administrador'),
+       ('María Elena', 'Quispe', 'Mamani', '6543210', 71598765, 'Calle Comercio #123', 'Contadora'),
+       ('Jorge Luis', 'Vargas', 'Fernández', '9876541', 72045678, 'Av. El Prado #890', 'Jefe de Sistemas'),
+       ('Ana Sofía', 'Chávez', 'Flores', '5432198', 76543210, 'Zona Sopocachi, Calle 20 #55', 'Recepcionista');
 
 INSERT INTO Usuario (idEmpleado, idRol, nombreUsuario, clave)
 VALUES (1, 1, 'admin', 'Q04sp73uUzMPFuEBS5xNLg=='),
        (2, 2, 'tperez', 'Q04sp73uUzMPFuEBS5xNLg==');
 
 INSERT INTO Marca (nombre)
-VALUES ('Apple'), ('Samsung'), ('Xiaomi'), ('Tecno'), ('Infinix');
+VALUES ('Apple'), ('Samsung'), ('Xiaomi'), ('Tecno'), ('Infinix'), ('Sony'), ('Nokia'), ('ZTE'), ('Asus'), ('Lenovo');
 
 INSERT INTO Modelo (idMarca, nombre)
-VALUES (1, 'iPhone 13 Pro'), (2, 'Galaxy S22'), (3, 'Note 10 Pro'), (4, 'Spark Go 1'), (5, 'Note 30 Pro');
+VALUES (1, 'iPhone 13 Pro'), (2, 'Galaxy S22'), (3, 'Note 10 Pro'), (4, 'Spark Go 1'), (5, 'Note 30 Pro'), (6, 'Moto G84'), (7, 'P60 Pro'), (8, 'Reno 10'), (9, 'Realme 11 Pro'), (10, 'Honor 90');
 
 INSERT INTO Pantalla (sku, descripcion, calidad, tecnologia, precioVenta, stockTotal)
 VALUES ('IP13PRO-OL', 'Pantalla OLED Original para iPhone 13 Pro', 'OLED Original', 'Capacitiva', 850.00, 10),
        ('SGS22-INC', 'Pantalla Incell para Samsung Galaxy S22', 'Incell', 'OGS', 300.00, 15),
-       ('XMN10PR-OLED', 'Pantalla LCD para Xiaomi Note 10 Pro', 'OLED', 'Capacitiva', 350.00, 15);
+       ('XMN10PR-OLED', 'Pantalla LCD para Xiaomi Note 10 Pro', 'OLED', 'Capacitiva', 350.00, 15),
+       ('TCSG1-IPS', 'Pantalla IPS LCD para Tecno Spark Go 1', 'Original', 'IPS', 180.00, 20),
+       ('IFN30PR-AM', 'Pantalla AMOLED para Infinix Note 30 Pro', 'Original', 'AMOLED', 320.00, 12),
+       ('MTG84-OL', 'Pantalla pOLED para Motorola Moto G84', 'OLED', 'Capacitiva', 340.00, 8),
+       ('HWP60PR-OL', 'Pantalla OLED Curva para Huawei P60 Pro', 'OLED Original', 'LTPO', 780.00, 5),
+       ('OPR10-AM', 'Pantalla AMOLED para Oppo Reno 10', 'OLED', 'Capacitiva', 360.00, 10),
+       ('RL11PR-INC', 'Pantalla Incell para Realme 11 Pro', 'Incell', 'OGS', 220.00, 18),
+       ('HN90-OL', 'Pantalla OLED Curva para Honor 90', 'OLED Original', 'AMOLED', 450.00, 7);
 
 INSERT INTO Cliente (nitCi, nombres, primerApellido, segundoApellido, razonSocial, telefono, direccion, tipoCliente) 
 VALUES ('0', 'Consumidor', 'Final', NULL, NULL, '0000000', 'Sin Dirección', 'Consumidor Final'),
        ('6543210', 'Pedro', 'Guzman', 'Vargas', NULL, '72345678', 'Av. Las Américas #12', 'Minorista'),
-       ('5432109012', NULL, NULL, NULL, 'Servicios Técnicos Celular Express', '71234567', 'Calle España #210', 'Técnico Mayorista');
+       ('5432109012', NULL, NULL, NULL, 'Servicios Técnicos Celular Express', '71234567', 'Calle España #210', 'Técnico Mayorista'),
+       ('7894561', 'Laura', 'Paredes', 'Salazar', 'Laura Paredes', '76541230', 'Calle Ayacucho #45', 'Minorista'),
+       ('1029384015', 'Empresa', 'Representante', 'Legal', 'Importadora Móvil Bolivia S.R.L.', '70112233', 'Av. Camacho #1150', 'Técnico Mayorista'),
+       ('4561239', 'Roberto', 'Condori', 'Choque', 'Roberto Condori', '73098765', 'Zona 16 de Julio, Calle 3 #88', 'Minorista'),
+       ('8877665019', 'Empresa', 'Representante', 'Legal', 'Centro de Reparaciones TechFix', '75432198', 'Av. Blanco Galindo Km 4', 'Técnico Mayorista'),
+       ('3216548', 'Valeria', 'Montaño', 'Ríos', 'Valeria Montaño', '79876543', 'Calle Sucre #310', 'Minorista'),
+       ('9988776', 'Diego', 'Fernández', 'Alarcón', 'Diego Fernández', '71987654', 'Av. Ballivián #720', 'Minorista'),
+       ('2030405011', 'Empresa', 'Representante', 'Legal', 'Mundo Digital y Repuestos', '74125896', 'Calle Huyustus #540', 'Técnico Mayorista');
 
 INSERT INTO Sucursal (nombre, ciudad, direccion, telefono)
 VALUES ('Sucursal Central', 'Sucre', 'Calle Junin N. 120', '76123456'), 
        ('Sucursal Norte', 'Potosi', 'Av. Litoral N. 250', '76234567'), 
-       ('Sucursal Sur', 'Oruro', 'Calle Bolivar N. 80', '76345678');
+       ('Sucursal Sur', 'Oruro', 'Calle Bolivar N. 80', '76345678'),
+       ('Sucursal Centro', 'La Paz', 'Av. Mariscal Santa Cruz N. 1050', '76456789'),
+       ('Sucursal El Alto', 'El Alto', 'Av. 6 de Marzo N. 420', '76567890'),
+       ('Sucursal Valle', 'Cochabamba', 'Av. Heroinas N. 310', '76678901'),
+       ('Sucursal Oriente', 'Santa Cruz', 'Av. Monseñor Rivero N. 515', '76789012'),
+       ('Sucursal Chapaco', 'Tarija', 'Calle La Madrid N. 190', '76890123'),
+       ('Sucursal Beni', 'Trinidad', 'Av. 6 de Agosto N. 280', '76901234'),
+       ('Sucursal Pando', 'Cobija', 'Av. Fernandez Molina N. 140', '76012345');
 
 INSERT INTO Inventario
 (idSucursal, idPantalla, stockActual, stockMinimo)
 VALUES(1, 1, 20, 5),
       (2, 2, 3, 8), 
-      (3, 3, 0, 5);
+      (3, 3, 0, 5),
+      (4, 4, 15, 5),
+      (5, 5, 10, 4),
+      (6, 6, 2, 6),
+      (7, 7, 8, 3),
+      (8, 8, 12, 5),
+      (9, 9, 4, 5),
+      (10, 10, 18, 6);
+
+INSERT INTO Venta
+(idCliente, idEmpleado, idSucursal, fechaVenta, tipoPago, montoTotal)
+VALUES (1, 1, 1, '2026-11-10', 'Efectivo', 450.00),
+       (2, 1, 2, '2026-11-11', 'QR', 550.00),
+       (3, 2, 3, '2026-11-12', 'Transferencia', 850.00),
+       (4, 2, 4, '2026-11-12', 'Efectivo', 180.00),
+       (5, 3, 5, '2026-11-13', 'QR', 640.00),
+       (6, 3, 6, '2026-11-13', 'Transferencia', 340.00),
+       (7, 4, 7, '2026-11-14', 'Efectivo', 780.00),
+       (8, 4, 8, '2026-11-14', 'QR', 360.00),
+       (9, 1, 9, '2026-11-15', 'Efectivo', 440.00),
+       (10, 2, 10, '2026-11-15', 'Transferencia', 900.00);
 
 
 SELECT * FROM Rol;
@@ -427,4 +483,5 @@ SELECT * FROM Modelo;
 SELECT * FROM Pantalla;
 SELECT * FROM Inventario;
 SELECT * FROM Sucursal;
-
+SELECT * FROM Cliente;
+SELECT * FROM Venta;
