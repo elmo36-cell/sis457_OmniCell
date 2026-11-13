@@ -37,7 +37,6 @@ namespace ClnOmnicell
                 existe.telefono = cliente.telefono;
                 existe.direccion = cliente.direccion;
                 existe.tipoCliente = cliente.tipoCliente;
-                existe.usuarioRegistro = cliente.usuarioRegistro;
 
                 return context.SaveChanges();
             }
@@ -74,11 +73,24 @@ namespace ClnOmnicell
             }
         }
 
-        public static List<paClienteListar_Result> listarPa(string parametro)
+        public static List<paClienteListar_Result> listarClientes(string parametro)
         {
             using (var context = new LabOmnicellEntities())
             {
                 return context.paClienteListar(parametro != null ? parametro.Trim() : "").ToList();
+            }
+        }
+
+        public static List<string> listarTiposClienteCombo()
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Cliente
+                    .Where(x => x.estado == 1 && x.tipoCliente != null && x.tipoCliente != "")
+                    .Select(x => x.tipoCliente)
+                    .Distinct()
+                    .OrderBy(x => x)
+                    .ToList();
             }
         }
     }

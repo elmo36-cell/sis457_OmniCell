@@ -31,7 +31,6 @@ namespace ClnOmnicell
                 existe.fechaCompra = compra.fechaCompra;
                 existe.factura = compra.factura;
                 existe.costoTotal = compra.costoTotal;
-                existe.usuarioRegistro = compra.usuarioRegistro;
 
                 return context.SaveChanges();
             }
@@ -73,6 +72,28 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 return context.paCompraListar(parametro.Trim()).ToList();
+            }
+        }
+
+        public static List<Proveedor> listarProveedoresCombo()
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Proveedor
+                    .Where(x => x.estado == 1)
+                    .OrderBy(x => x.razonSocial)
+                    .ToList();
+            }
+        }
+
+        public static List<Empleado> listarEmpleadosCombo()
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Empleado
+                    .Where(x => x.estado == 1)
+                    .OrderBy(x => x.nombres)
+                    .ToList();
             }
         }
     }

@@ -224,7 +224,7 @@ CREATE PROC paClienteListar @parametro VARCHAR(50) AS
   )
   ORDER BY nitCi;
 GO
-EXEC paClienteListar 'Guzman';
+EXEC paClienteListar '';
 GO
 
 GO
@@ -336,11 +336,12 @@ CREATE PROC paCompraListar @parametro VARCHAR(50) AS BEGIN
     FROM Compra c
     INNER JOIN Proveedor p ON c.idProveedor = p.id
     INNER JOIN Empleado e ON c.idEmpleado = e.id
-    WHERE c.estado = 1 AND CONCAT( c.id, ' ', p.razonSocial, ' ', p.pais, ' ', e.nombres, ' ', e.primerApellido, ' ', c.factura ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    WHERE c.estado = 1 
+    AND CONCAT( c.id, ' ', p.razonSocial, ' ', p.pais, ' ', e.nombres, ' ', e.primerApellido, ' ', c.factura ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
     ORDER BY c.id DESC;
 END;
 GO
-EXEC paCompraListar '';
+EXEC paCompraListar 'Perú';
 GO
 
 
@@ -400,7 +401,11 @@ VALUES ('Carlos', 'Mendoza', 'Rojas', '8976543', 70012345, 'Av. 6 de Agosto #450
        ('Fredy', 'Rios', 'Perez', '1534556', 78524174, 'Av. 5 de Junio #150', 'Administrador'),
        ('María Elena', 'Quispe', 'Mamani', '6543210', 71598765, 'Calle Comercio #123', 'Contadora'),
        ('Jorge Luis', 'Vargas', 'Fernández', '9876541', 72045678, 'Av. El Prado #890', 'Jefe de Sistemas'),
-       ('Ana Sofía', 'Chávez', 'Flores', '5432198', 76543210, 'Zona Sopocachi, Calle 20 #55', 'Recepcionista');
+       ('Ana Sofía', 'Chávez', 'Flores', '5432198', 76543210, 'Zona Sopocachi, Calle 20 #55', 'Recepcionista'),
+       ('Rodrigo', 'Flores', 'Calani', '7123458', 71239876, 'Calle Murillo #320', 'Técnico'),
+       ('Carla', 'Salazar', 'Mendoza', '4512390', 73456789, 'Av. Arce #2100', 'Vendedor'),
+       ('Miguel', 'Ticona', 'Choque', '6234512', 71829340, 'Zona Villa Fatima, Calle 2 #45', 'Almacenero'),
+       ('Lucía', 'Mamani', 'Poma', '3987652', 76543890, 'El Alto, Ceja, Av. 6 de Marzo #100', 'Asistente Administrativo');
 
 INSERT INTO Usuario (idEmpleado, idRol, nombreUsuario, clave)
 VALUES (1, 1, 'admin', 'Q04sp73uUzMPFuEBS5xNLg=='),
@@ -435,6 +440,30 @@ VALUES ('0', 'Consumidor', 'Final', NULL, NULL, '0000000', 'Sin Dirección', 'Co
        ('3216548', 'Valeria', 'Montaño', 'Ríos', 'Valeria Montaño', '79876543', 'Calle Sucre #310', 'Minorista'),
        ('9988776', 'Diego', 'Fernández', 'Alarcón', 'Diego Fernández', '71987654', 'Av. Ballivián #720', 'Minorista'),
        ('2030405011', 'Empresa', 'Representante', 'Legal', 'Mundo Digital y Repuestos', '74125896', 'Calle Huyustus #540', 'Técnico Mayorista');
+
+INSERT INTO Proveedor (razonSocial, pais, contactoPersona, telefono)
+VALUES ('Shenzhen Mobile Parts Co., Ltd.', 'China', 'Wei Chen', '+86 755 8321 4567'),
+       ('Global Tech Screens S.A.', 'Estados Unidos', 'Michael Carter', '+1 305 555 0192'),
+       ('Importadora Repuestos Andinos S.R.L.', 'Bolivia', 'Carlos Torrico', '+591 71543210'),
+       ('Guangzhou OLED Display Ltd.', 'China', 'Li Na', '+86 20 8765 1234'),
+       ('Distribuidora Móvil del Sur', 'Chile', 'Javier Soto', '+56 9 8765 4321'),
+       ('Panamá Electronics Wholesale Corp.', 'Panamá', 'Sofía Morales', '+507 6234 5678'),
+       ('TechSupply Hong Kong Limited', 'Hong Kong', 'Kevin Wong', '+852 2345 6789'),
+       ('Insumos Celulares Pacífico S.A.C.', 'Perú', 'Andrés Quispe', '+51 987 654 321'),
+       ('Korea Display Solutions Inc.', 'Corea del Sur', 'Min-ho Park', '+82 2 3456 7890'),
+       ('Comercializadora Digital Mercosur', 'Brasil', 'Lucas Silva', '+55 11 98765 4321');
+
+INSERT INTO Compra (idProveedor, idEmpleado, fechaCompra, factura, costoTotal)
+VALUES (1, 4, '2026-11-13', 'FAC-2001', 4100.00),
+       (2, 5, '2026-11-13', 'FAC-2002', 3200.50),
+       (3, 6, '2026-11-14', 'FAC-2003', 1500.00),
+       (4, 7, '2026-11-14', 'FAC-2004', 5300.25),
+       (5, 8, '2026-11-15', 'FAC-2005', 2800.00),
+       (6, 9, '2026-11-15', 'FAC-2006', 3900.75),
+       (7, 10, '2026-11-16', 'FAC-2007', 4600.00),
+       (8, 1, '2026-11-16', 'FAC-2008', 2100.50),
+       (9, 2, '2026-11-17', 'FAC-2009', 6200.00),
+       (10, 3, '2026-11-17', 'FAC-2010', 3100.25);
 
 INSERT INTO Sucursal (nombre, ciudad, direccion, telefono)
 VALUES ('Sucursal Central', 'Sucre', 'Calle Junin N. 120', '76123456'), 

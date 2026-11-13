@@ -61,3 +61,5 @@ E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Deb
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmVentas.resources
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\bin\Debug\C1.Win.C1Command.2.dll
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\bin\Debug\C1.Win.C1Command.2.xml
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmCompras.resources
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmClientes.resources
