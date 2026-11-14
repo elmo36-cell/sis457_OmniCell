@@ -642,8 +642,9 @@
   </ComplexType>
   <ComplexType Name="paUsuarioListar_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
-    <Property Type="Int32" Name="idEmpleado" Nullable="false" />
-    <Property Type="Int32" Name="idRol" Nullable="false" />
+    <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="nombreUsuario" Nullable="false" MaxLength="20" />
     <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
     <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />

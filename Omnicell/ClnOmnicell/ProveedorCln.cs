@@ -27,13 +27,21 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 var existe = context.Proveedor.Find(proveedor.id);
-                if (existe == null) throw new Exception($"El proveedor con id {proveedor.id} no existe");
+
+                if (existe == null)
+                    throw new Exception($"El proveedor con id {proveedor.id} no existe");
+
+                var duplicado = context.Proveedor
+                    .FirstOrDefault(x => x.razonSocial == proveedor.razonSocial
+                                      && x.id != proveedor.id);
+
+                if (duplicado != null)
+                    throw new Exception($"El proveedor {proveedor.razonSocial} ya existe");
 
                 existe.razonSocial = proveedor.razonSocial;
                 existe.pais = proveedor.pais;
                 existe.contactoPersona = proveedor.contactoPersona;
                 existe.telefono = proveedor.telefono;
-                existe.usuarioRegistro = proveedor.usuarioRegistro;
 
                 return context.SaveChanges();
             }
@@ -67,6 +75,14 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 return context.Proveedor.Where(x => x.estado == 1).OrderBy(x => x.razonSocial).ToList();
+            }
+        }
+
+        public static List<paProveedorListar_Result> listarProveedores(string parametro)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.paProveedorListar(parametro.Trim()).ToList();
             }
         }
     }

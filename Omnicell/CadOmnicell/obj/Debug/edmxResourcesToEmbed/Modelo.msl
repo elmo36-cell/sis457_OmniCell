@@ -361,8 +361,9 @@
       <ResultMapping>
         <ComplexTypeMapping TypeName="LabOmnicellModel.paUsuarioListar_Result">
           <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
-          <ScalarProperty Name="idRol" ColumnName="idRol" />
+          <ScalarProperty Name="nombres" ColumnName="nombres" />
+          <ScalarProperty Name="cargo" ColumnName="cargo" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
           <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
           <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />

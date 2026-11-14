@@ -243,13 +243,14 @@ GO
 DROP PROC IF EXISTS paUsuarioListar;
 GO
 CREATE PROC paUsuarioListar @parametro VARCHAR(50) AS
-  SELECT u.id, u.idEmpleado, u.idRol, u.nombreUsuario, u.usuarioRegistro, u.fechaRegistro, u.estado
+  SELECT u.id, e.nombres, e.cargo, r.nombre, u.nombreUsuario, u.usuarioRegistro, u.fechaRegistro, u.estado
   FROM Usuario u
   INNER JOIN Empleado e ON u.idEmpleado = e.id
+  INNER JOIN Rol r ON u.idRol = r.id
   WHERE u.estado = 1 AND (u.nombreUsuario + e.nombres + e.primerApellido LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY u.nombreUsuario;
 GO
-EXEC paUsuarioListar 'admin';
+EXEC paUsuarioListar '';
 GO
 
 GO

@@ -36,9 +36,12 @@ namespace CpOmnicell
             listarVentas();
             listarCompras();
             listarClientes();
+            listarProveedores();
             gbxVentas.Visible = false;
             gbxCompras.Visible = false;
             gbxClientes.Visible = false;
+            gbxProveedores.Visible = false;
+            gbxUsuarios.Visible = false;
         }
 
 
@@ -48,6 +51,8 @@ namespace CpOmnicell
         {
             gbxCompras.Visible = false;
             gbxClientes.Visible = false;
+            gbxProveedores.Visible = false;
+            gbxUsuarios.Visible = false;
             gbxVentas.Visible = true;
 
             gbxVentas.BringToFront();
@@ -179,6 +184,8 @@ namespace CpOmnicell
         {
             gbxVentas.Visible = false;
             gbxClientes.Visible = false;
+            gbxProveedores.Visible = false;
+            gbxUsuarios.Visible = false;
             gbxCompras.Visible = true;
 
             gbxCompras.BringToFront();
@@ -195,7 +202,7 @@ namespace CpOmnicell
         //lista de compras
         private void listarCompras()
         {
-            dgvListaCompras.DataSource = CompraCln.listarCompras(txtParametro.Text.Trim());
+            dgvListaCompras.DataSource = CompraCln.listarCompras(txtBuscarCompras.Text.Trim());
 
             if (!dgvListaCompras.Columns.Contains("colNumero"))
             {
@@ -213,7 +220,7 @@ namespace CpOmnicell
             }
 
             dgvListaCompras.Columns["id"].HeaderText = "ID De Compra";
-            dgvListaCompras.Columns["fechaCompra"].HeaderText = "Fecha";
+            dgvListaCompras.Columns["fechaCompra"].HeaderText = "Fecha de Compra";
             dgvListaCompras.Columns["proveedor"].HeaderText = "Proveedor";
             dgvListaCompras.Columns["pais"].HeaderText = "País";
             dgvListaCompras.Columns["empleado"].HeaderText = "Empleado";
@@ -310,6 +317,8 @@ namespace CpOmnicell
         {
             gbxCompras.Visible = false;
             gbxVentas.Visible = false;
+            gbxProveedores.Visible = false;
+            gbxUsuarios.Visible = false;
             gbxClientes.Visible = true;
 
             gbxClientes.BringToFront();
@@ -346,12 +355,16 @@ namespace CpOmnicell
 
             dgvListaClientes.Columns["id"].HeaderText = "ID De Cliente";
             dgvListaClientes.Columns["nombres"].HeaderText = "Nombre";
+            dgvListaClientes.Columns["nitCi"].HeaderText = "CI/NIT";
             dgvListaClientes.Columns["primerApellido"].HeaderText = "Primer Apellido";
             dgvListaClientes.Columns["segundoApellido"].HeaderText = "Segundo Apellido";
             dgvListaClientes.Columns["razonSocial"].HeaderText = "Razón Social";
             dgvListaClientes.Columns["telefono"].HeaderText = "Teléfono";
             dgvListaClientes.Columns["direccion"].HeaderText = "Dirección";
             dgvListaClientes.Columns["tipoCliente"].HeaderText = "Tipo de Cliente";
+
+            dgvListaClientes.Columns["usuarioRegistro"].HeaderText = "Usuario de Registro";
+            dgvListaClientes.Columns["fechaRegistro"].HeaderText = "Fecha de Registro";
 
             int numero = 1;
 
@@ -441,5 +454,309 @@ namespace CpOmnicell
         {
             if (e.KeyChar == (char)Keys.Enter) listarVentas();
         }
+
+        // SECCION PROVEEDORES
+
+        private void btnProveedores_Click(object sender, EventArgs e)
+        {
+            gbxCompras.Visible = false;
+            gbxVentas.Visible = false;
+            gbxClientes.Visible = false;
+            gbxUsuarios.Visible = false;
+            gbxProveedores.Visible = true;
+
+            gbxProveedores.BringToFront();
+            listarProveedores();
+        }
+
+        private void btnNuevoProveedor_Click(object sender, EventArgs e)
+        {
+            FrmProveedores frmProveedores = new FrmProveedores();
+            frmProveedores.ShowDialog();
+
+            listarProveedores();
+        }
+
+        //lista de proveedores
+        private void listarProveedores()
+        {
+            dgvListaProveedores.DataSource = ProveedorCln.listarProveedores(txtBuscarProveedores.Text.Trim());
+
+            if (!dgvListaProveedores.Columns.Contains("colNumero"))
+            {
+                DataGridViewTextBoxColumn columnaNumero = new DataGridViewTextBoxColumn();
+
+                columnaNumero.Name = "colNumero";
+                columnaNumero.HeaderText = "N.º de Proveedor";
+                columnaNumero.ReadOnly = true;
+                columnaNumero.Width = 50;
+                columnaNumero.SortMode = DataGridViewColumnSortMode.NotSortable;
+                columnaNumero.DefaultCellStyle.Alignment =
+                    DataGridViewContentAlignment.MiddleCenter;
+
+                dgvListaProveedores.Columns.Insert(0, columnaNumero);
+            }
+
+            dgvListaProveedores.Columns["id"].HeaderText = "ID De Proveedor";
+            dgvListaProveedores.Columns["razonSocial"].HeaderText = "Razón Social";
+            dgvListaProveedores.Columns["pais"].HeaderText = "País";
+            dgvListaProveedores.Columns["contactoPersona"].HeaderText = "Contacto";
+            dgvListaProveedores.Columns["telefono"].HeaderText = "Teléfono";
+
+            int numero = 1;
+
+            foreach (DataGridViewRow fila in dgvListaProveedores.Rows)
+            {
+                if (!fila.IsNewRow)
+                {
+                    fila.Cells["colNumero"].Value = numero;
+                    numero++;
+                }
+            }
+        }
+
+        private void btnEditarProveedores_Click(object sender, EventArgs e)
+        {
+            if (dgvListaProveedores.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un proveedor para editar.");
+                return;
+            }
+
+            int id = Convert.ToInt32(
+                dgvListaProveedores.CurrentRow.Cells["id"].Value
+            );
+
+            FrmProveedores formulario = new FrmProveedores(id);
+            formulario.ShowDialog();
+
+            listarProveedores();
+        }
+        private void btnEliminarProveedores_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvListaProveedores.CurrentRow == null ||
+                    dgvListaProveedores.CurrentRow.IsNewRow)
+                {
+                    MessageBox.Show("Seleccione un proveedor.");
+                    return;
+                }
+
+                int id = Convert.ToInt32(
+                    dgvListaProveedores.CurrentRow.Cells["id"].Value
+                );
+
+                DialogResult dialog = MessageBox.Show(
+                    $"¿Está seguro que desea dar de baja al proveedor con ID {id}?",
+                    "::: Confirmación - OmniCell :::",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (dialog == DialogResult.Yes)
+                {
+                    if (Util.usuario == null)
+                    {
+                        MessageBox.Show("No se encontró el usuario de sesión.");
+                        return;
+                    }
+
+                    ProveedorCln.eliminar(id, Util.usuario.nombreUsuario);
+
+                    MessageBox.Show("Proveedor eliminado correctamente.");
+
+                    listarProveedores();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al eliminar el proveedor:\n\n" + ex.ToString(),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+        private void btnBuscarProveedores_Click(object sender, EventArgs e)
+        {
+            listarProveedores();
+        }
+
+        private void txtBuscarProveedores_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter) listarProveedores();
+        }
+
+
+        // SECCION  PERSONAL
+
+        // Opcion Usuarios
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            gbxCompras.Visible = false;
+            gbxVentas.Visible = false;
+            gbxClientes.Visible = false;
+            gbxProveedores.Visible = false;
+            gbxUsuarios.Visible = true;
+
+            gbxUsuarios.BringToFront();
+            listarUsuarios();
+        }
+
+        private void btnNuevoUsuario_Click(object sender, EventArgs e)
+        {
+            FrmUsuarios frmUsuario = new FrmUsuarios();
+            frmUsuario.ShowDialog();
+
+            listarUsuarios();
+        }
+        //lista de usuarios
+
+        private void listarUsuarios()
+        {
+            try
+            {
+                dgvListaUsuarios.DataSource = UsuarioCln.listarUsuarios(
+                    txtBuscarUsuario.Text.Trim()
+                );
+
+                if (!dgvListaUsuarios.Columns.Contains("colNumero"))
+                {
+                    DataGridViewTextBoxColumn columnaNumero =
+                        new DataGridViewTextBoxColumn();
+
+                    columnaNumero.Name = "colNumero";
+                    columnaNumero.HeaderText = "N.º";
+                    columnaNumero.ReadOnly = true;
+                    columnaNumero.Width = 50;
+                    columnaNumero.SortMode =
+                        DataGridViewColumnSortMode.NotSortable;
+
+                    columnaNumero.DefaultCellStyle.Alignment =
+                        DataGridViewContentAlignment.MiddleCenter;
+
+                    dgvListaUsuarios.Columns.Insert(0, columnaNumero);
+                }
+
+                // Configurar encabezados solamente si existen
+                if (dgvListaUsuarios.Columns.Contains("id"))
+                    dgvListaUsuarios.Columns["id"].HeaderText = "ID de Usuario";
+
+                if (dgvListaUsuarios.Columns.Contains("nombres"))
+                    dgvListaUsuarios.Columns["nombres"].HeaderText = "Nombre";
+
+                if (dgvListaUsuarios.Columns.Contains("cargo"))
+                    dgvListaUsuarios.Columns["cargo"].HeaderText = "Cargo";
+
+                if (dgvListaUsuarios.Columns.Contains("nombre"))
+                    dgvListaUsuarios.Columns["nombre"].HeaderText = "Rol";
+
+                if (dgvListaUsuarios.Columns.Contains("nombreUsuario"))
+                    dgvListaUsuarios.Columns["nombreUsuario"].HeaderText = "Usuario";
+
+                if (dgvListaUsuarios.Columns.Contains("usuarioRegistro"))
+                    dgvListaUsuarios.Columns["usuarioRegistro"].HeaderText =
+                        "Usuario de Registro";
+
+                if (dgvListaUsuarios.Columns.Contains("fechaRegistro"))
+                    dgvListaUsuarios.Columns["fechaRegistro"].HeaderText =
+                        "Fecha de Registro";
+
+                int numero = 1;
+
+                foreach (DataGridViewRow fila in dgvListaUsuarios.Rows)
+                {
+                    if (!fila.IsNewRow)
+                    {
+                        fila.Cells["colNumero"].Value = numero;
+                        numero++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.ToString(),
+                    "Error al listar usuarios",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+        private void btnEditarUsuario_Click(object sender, EventArgs e)
+        {
+            if (dgvListaUsuarios.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un usuario para editar.");
+                return;
+            }
+
+            int id = Convert.ToInt32(
+                dgvListaUsuarios.CurrentRow.Cells["id"].Value
+            );
+
+            FrmUsuarios formulario = new FrmUsuarios(id);
+            formulario.ShowDialog();
+
+            listarUsuarios();
+        }
+        private void btnEliminarUsuarios_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvListaUsuarios.CurrentRow == null ||
+                    dgvListaUsuarios.CurrentRow.IsNewRow)
+                {
+                    MessageBox.Show("Seleccione un usuario.");
+                    return;
+                }
+
+                int id = Convert.ToInt32(
+                    dgvListaUsuarios.CurrentRow.Cells["id"].Value
+                );
+
+                DialogResult dialog = MessageBox.Show(
+                    $"¿Está seguro que desea dar de baja al usuario con ID {id}?",
+                    "::: Confirmación - OmniCell :::",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (dialog == DialogResult.Yes)
+                {
+                    if (Util.usuario == null)
+                    {
+                        MessageBox.Show("No se encontró el usuario de sesión.");
+                        return;
+                    }
+
+                    UsuarioCln.eliminar(id, Util.usuario.nombreUsuario);
+
+                    MessageBox.Show("Usuario eliminado correctamente.");
+
+                    listarUsuarios();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al eliminar el usuario:\n\n" + ex.ToString(),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+        private void btnBuscarUsuario_Click(object sender, EventArgs e)
+        {
+            listarUsuarios();
+        }
+        private void txtBuscarUsuario_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter) listarUsuarios();
+        }
+
     }
 }

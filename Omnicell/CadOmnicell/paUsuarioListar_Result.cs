@@ -14,8 +14,9 @@ namespace CadOmnicell
     public partial class paUsuarioListar_Result
     {
         public int id { get; set; }
-        public int idEmpleado { get; set; }
-        public int idRol { get; set; }
+        public string nombres { get; set; }
+        public string cargo { get; set; }
+        public string nombre { get; set; }
         public string nombreUsuario { get; set; }
         public string usuarioRegistro { get; set; }
         public System.DateTime fechaRegistro { get; set; }

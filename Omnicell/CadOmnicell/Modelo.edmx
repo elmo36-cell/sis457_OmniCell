@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LabOmnicellModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LabOmnicellModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cliente">
           <Key>
             <PropertyRef Name="id" />
@@ -513,7 +513,8 @@
             <End Role="VentaDetalle" EntitySet="VentaDetalle" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LabOmnicellModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -1023,38 +1024,38 @@
             <End Role="VentaDetalle" EntitySet="VentaDetalle" />
           </AssociationSet>
           <FunctionImport Name="paClienteListar" ReturnType="Collection(LabOmnicellModel.paClienteListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paCompraListar" ReturnType="Collection(LabOmnicellModel.paCompraListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paEmpleadoListar" ReturnType="Collection(LabOmnicellModel.paEmpleadoListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paInventarioListar" ReturnType="Collection(LabOmnicellModel.paInventarioListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paInventarioStockBajo" ReturnType="Collection(LabOmnicellModel.paInventarioStockBajo_Result)" />
           <FunctionImport Name="paMarcaListar" ReturnType="Collection(LabOmnicellModel.paMarcaListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paModeloListar" ReturnType="Collection(LabOmnicellModel.paModeloListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paPantallaListar" ReturnType="Collection(LabOmnicellModel.paPantallaListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paProveedorListar" ReturnType="Collection(LabOmnicellModel.paProveedorListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paSucursalListar" ReturnType="Collection(LabOmnicellModel.paSucursalListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paUsuarioListar" ReturnType="Collection(LabOmnicellModel.paUsuarioListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paVentaListar" ReturnType="Collection(LabOmnicellModel.paVentaListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="paClienteListar_Result">
@@ -1159,8 +1160,9 @@
         </ComplexType>
         <ComplexType Name="paUsuarioListar_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="Int32" Name="idEmpleado" Nullable="false" />
-          <Property Type="Int32" Name="idRol" Nullable="false" />
+          <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="nombreUsuario" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
           <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
@@ -1542,8 +1544,9 @@
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paUsuarioListar_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="idEmpleado" ColumnName="idEmpleado" />
-                <ScalarProperty Name="idRol" ColumnName="idRol" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="cargo" ColumnName="cargo" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
                 <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />

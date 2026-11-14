@@ -3,27 +3,27 @@
   "WorkspaceRootPath": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\cpomnicell\\frmmenuvendedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmmenuvendedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\cpomnicell\\frmmenuvendedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmmenuvendedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\cpomnicell\\frmclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DC1CFE43-4843-4902-A261-4A8ED154944E}|ClnOmnicell\\ClnOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\clnomnicell\\clientecln.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{DC1CFE43-4843-4902-A261-4A8ED154944E}|ClnOmnicell\\ClnOmnicell.csproj|solutionrelative:clnomnicell\\clientecln.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\cpomnicell\\frmclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmclientes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\cpomnicell\\frmmenuvendedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmmenuvendedor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\ddl_dml_labomnicell.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DC1CFE43-4843-4902-A261-4A8ED154944E}|ClnOmnicell\\ClnOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\clnomnicell\\usuariocln.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DC1CFE43-4843-4902-A261-4A8ED154944E}|ClnOmnicell\\ClnOmnicell.csproj|solutionrelative:clnomnicell\\usuariocln.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\cpomnicell\\frmusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\cpomnicell\\frmusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmusuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\ddl_dml_labomnicell.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
@@ -39,11 +39,49 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "FrmUsuarios.cs",
+              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmUsuarios.cs",
+              "RelativeDocumentMoniker": "CpOmnicell\\FrmUsuarios.cs",
+              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmUsuarios.cs",
+              "RelativeToolTip": "CpOmnicell\\FrmUsuarios.cs",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAMEAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T02:14:51.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FrmUsuarios.cs [Dise\u00F1o]",
+              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmUsuarios.cs",
+              "RelativeDocumentMoniker": "CpOmnicell\\FrmUsuarios.cs",
+              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmUsuarios.cs [Dise\u00F1o]",
+              "RelativeToolTip": "CpOmnicell\\FrmUsuarios.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T01:56:51.003Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "UsuarioCln.cs",
+              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\ClnOmnicell\\UsuarioCln.cs",
+              "RelativeDocumentMoniker": "ClnOmnicell\\UsuarioCln.cs",
+              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\ClnOmnicell\\UsuarioCln.cs",
+              "RelativeToolTip": "ClnOmnicell\\UsuarioCln.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAADwvyQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-14T01:51:49.83Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "ddl_dml_labomnicell.sql ",
               "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\ddl_dml_labomnicell.sql",
               "RelativeDocumentMoniker": "..\\ddl_dml_labomnicell.sql",
@@ -54,45 +92,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FrmClientes.cs [Dise\u00F1o]",
-              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmClientes.cs",
-              "RelativeDocumentMoniker": "CpOmnicell\\FrmClientes.cs",
-              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmClientes.cs [Dise\u00F1o]",
-              "RelativeToolTip": "CpOmnicell\\FrmClientes.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-13T22:28:00.056Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FrmClientes.cs",
-              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmClientes.cs",
-              "RelativeDocumentMoniker": "CpOmnicell\\FrmClientes.cs",
-              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmClientes.cs",
-              "RelativeToolTip": "CpOmnicell\\FrmClientes.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAwIcAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-13T23:02:46.42Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ClienteCln.cs",
-              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\ClnOmnicell\\ClienteCln.cs",
-              "RelativeDocumentMoniker": "ClnOmnicell\\ClienteCln.cs",
-              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\ClnOmnicell\\ClienteCln.cs",
-              "RelativeToolTip": "ClnOmnicell\\ClienteCln.cs",
-              "ViewState": "AgIAACgAAAAAAAAAAAAiwCQAAAAzAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-13T23:01:20.846Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "FrmMenuVendedor.cs [Dise\u00F1o]",
               "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmMenuVendedor.cs",
               "RelativeDocumentMoniker": "CpOmnicell\\FrmMenuVendedor.cs",
@@ -104,13 +104,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "FrmMenuVendedor.cs",
               "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmMenuVendedor.cs",
               "RelativeDocumentMoniker": "CpOmnicell\\FrmMenuVendedor.cs",
               "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmMenuVendedor.cs",
               "RelativeToolTip": "CpOmnicell\\FrmMenuVendedor.cs",
-              "ViewState": "AgIAAIwBAAAAAAAAAAApwJcBAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAL4CAAAAAAAAAAAqwMoCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-11-13T14:20:37.326Z",
               "EditorCaption": ""

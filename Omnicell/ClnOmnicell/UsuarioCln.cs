@@ -27,13 +27,26 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 var existe = context.Usuario.Find(usuario.id);
-                if (existe == null) throw new Exception($"El usuario con id {usuario.id} no existe");
+
+                if (existe == null)
+                    throw new Exception($"El usuario con id {usuario.id} no existe");
+
+                var duplicado = context.Usuario.FirstOrDefault(x =>
+                    x.nombreUsuario == usuario.nombreUsuario &&
+                    x.id != usuario.id);
+
+                if (duplicado != null)
+                    throw new Exception($"El usuario {usuario.nombreUsuario} ya existe");
 
                 existe.idEmpleado = usuario.idEmpleado;
                 existe.idRol = usuario.idRol;
                 existe.nombreUsuario = usuario.nombreUsuario;
-                existe.clave = usuario.clave;
-                existe.usuarioRegistro = usuario.usuarioRegistro;
+
+                // Actualizar contraseña solamente si se introdujo una nueva.
+                if (!string.IsNullOrWhiteSpace(usuario.clave))
+                {
+                    existe.clave = usuario.clave;
+                }
 
                 return context.SaveChanges();
             }
@@ -88,6 +101,35 @@ namespace ClnOmnicell
                 return context.Usuario.Where(x => x.estado == 1).OrderBy(x => x.nombreUsuario).ToList();
             }
         }
+
+        public static List<paUsuarioListar_Result> listarUsuarios(string parametro)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.paUsuarioListar(parametro.Trim()).ToList();
+            }
+        }
+        public static List<Empleado> listarEmpleadosCombo()
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Empleado
+                    .Where(x => x.estado == 1)
+                    .OrderBy(x => x.nombres)
+                    .ToList();
+            }
+        }
+        public static List<Rol> listarRolesCombo()
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Rol
+                    .Where(x => x.estado == 1)
+                    .OrderBy(x => x.nombre)
+                    .ToList();
+            }
+        }
+
 
 
 

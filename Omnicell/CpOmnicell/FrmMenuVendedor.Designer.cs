@@ -62,10 +62,8 @@ namespace CpOmnicell
             this.ribbonGroup17 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnClientes = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab5 = new C1.Win.C1Ribbon.RibbonTab();
-            this.ribbonGroup5 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton121 = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup18 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton111 = new C1.Win.C1Ribbon.RibbonButton();
+            this.btnNuevoProveedor = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab7 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup7 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton21 = new C1.Win.C1Ribbon.RibbonButton();
@@ -77,15 +75,7 @@ namespace CpOmnicell
             this.ribbonButton101 = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab8 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup8 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton15 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup23 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton16 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup24 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton17 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup19 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton14 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup6 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton13 = new C1.Win.C1Ribbon.RibbonButton();
+            this.btnUsuarios = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab9 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup9 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton18 = new C1.Win.C1Ribbon.RibbonButton();
@@ -117,6 +107,30 @@ namespace CpOmnicell
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnEditarCliente = new C1.Win.C1Input.C1Button();
             this.btnEliminarCliente = new C1.Win.C1Input.C1Button();
+            this.ribbonGroup5 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.btnProveedores = new C1.Win.C1Ribbon.RibbonButton();
+            this.gbxProveedores = new System.Windows.Forms.GroupBox();
+            this.dgvListaProveedores = new System.Windows.Forms.DataGridView();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnBuscarProveedores = new System.Windows.Forms.Button();
+            this.txtBuscarProveedores = new System.Windows.Forms.TextBox();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.btnEditarProveedores = new C1.Win.C1Input.C1Button();
+            this.btnEliminarProveedores = new C1.Win.C1Input.C1Button();
+            this.ribbonGroup11 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.ribbonGroup6 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.btnEmpleado = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonGroup19 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.btnNuevoUsuario = new C1.Win.C1Ribbon.RibbonButton();
+            this.btnNuevoEmpleado = new C1.Win.C1Ribbon.RibbonButton();
+            this.gbxUsuarios = new System.Windows.Forms.GroupBox();
+            this.dgvListaUsuarios = new System.Windows.Forms.DataGridView();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.btnBuscarUsuario = new System.Windows.Forms.Button();
+            this.txtBuscarUsuario = new System.Windows.Forms.TextBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.btnEditarUsuario = new C1.Win.C1Input.C1Button();
+            this.btnEliminarUsuarios = new C1.Win.C1Input.C1Button();
             ((System.ComponentModel.ISupportInitialize)(this.c1Ribbon1)).BeginInit();
             this.gbxVentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaVentas)).BeginInit();
@@ -138,6 +152,18 @@ namespace CpOmnicell
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarCliente)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEliminarCliente)).BeginInit();
+            this.gbxProveedores.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaProveedores)).BeginInit();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarProveedores)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarProveedores)).BeginInit();
+            this.gbxUsuarios.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaUsuarios)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarUsuario)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarUsuarios)).BeginInit();
             this.SuspendLayout();
             // 
             // c1Ribbon1
@@ -360,34 +386,23 @@ namespace CpOmnicell
             // 
             // ribbonTab5
             // 
-            this.ribbonTab5.Groups.Add(this.ribbonGroup5);
             this.ribbonTab5.Groups.Add(this.ribbonGroup18);
+            this.ribbonTab5.Groups.Add(this.ribbonGroup5);
             this.ribbonTab5.Name = "ribbonTab5";
             this.ribbonTab5.Text = "PROVEEDORES";
             // 
-            // ribbonGroup5
-            // 
-            this.ribbonGroup5.Items.Add(this.ribbonButton121);
-            this.ribbonGroup5.Name = "ribbonGroup5";
-            // 
-            // ribbonButton121
-            // 
-            this.ribbonButton121.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton121.LargeImage")));
-            this.ribbonButton121.Name = "ribbonButton121";
-            this.ribbonButton121.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton121.SmallImage")));
-            this.ribbonButton121.Text = "Proveedores";
-            // 
             // ribbonGroup18
             // 
-            this.ribbonGroup18.Items.Add(this.ribbonButton111);
+            this.ribbonGroup18.Items.Add(this.btnNuevoProveedor);
             this.ribbonGroup18.Name = "ribbonGroup18";
             // 
-            // ribbonButton111
+            // btnNuevoProveedor
             // 
-            this.ribbonButton111.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton111.LargeImage")));
-            this.ribbonButton111.Name = "ribbonButton111";
-            this.ribbonButton111.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton111.SmallImage")));
-            this.ribbonButton111.Text = "Nuevo Proveedor";
+            this.btnNuevoProveedor.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoProveedor.LargeImage")));
+            this.btnNuevoProveedor.Name = "btnNuevoProveedor";
+            this.btnNuevoProveedor.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoProveedor.SmallImage")));
+            this.btnNuevoProveedor.Text = "Nuevo Proveedor";
+            this.btnNuevoProveedor.Click += new System.EventHandler(this.btnNuevoProveedor_Click);
             // 
             // ribbonTab7
             // 
@@ -449,72 +464,24 @@ namespace CpOmnicell
             // ribbonTab8
             // 
             this.ribbonTab8.Groups.Add(this.ribbonGroup8);
-            this.ribbonTab8.Groups.Add(this.ribbonGroup23);
-            this.ribbonTab8.Groups.Add(this.ribbonGroup24);
-            this.ribbonTab8.Groups.Add(this.ribbonGroup19);
+            this.ribbonTab8.Groups.Add(this.ribbonGroup11);
             this.ribbonTab8.Groups.Add(this.ribbonGroup6);
+            this.ribbonTab8.Groups.Add(this.ribbonGroup19);
             this.ribbonTab8.Name = "ribbonTab8";
             this.ribbonTab8.Text = "PERSONAL";
             // 
             // ribbonGroup8
             // 
-            this.ribbonGroup8.Items.Add(this.ribbonButton15);
+            this.ribbonGroup8.Items.Add(this.btnUsuarios);
             this.ribbonGroup8.Name = "ribbonGroup8";
             // 
-            // ribbonButton15
+            // btnUsuarios
             // 
-            this.ribbonButton15.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton15.LargeImage")));
-            this.ribbonButton15.Name = "ribbonButton15";
-            this.ribbonButton15.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton15.SmallImage")));
-            this.ribbonButton15.Text = "Usuarios";
-            // 
-            // ribbonGroup23
-            // 
-            this.ribbonGroup23.Items.Add(this.ribbonButton16);
-            this.ribbonGroup23.Name = "ribbonGroup23";
-            // 
-            // ribbonButton16
-            // 
-            this.ribbonButton16.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton16.LargeImage")));
-            this.ribbonButton16.Name = "ribbonButton16";
-            this.ribbonButton16.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton16.SmallImage")));
-            this.ribbonButton16.Text = "Roles";
-            // 
-            // ribbonGroup24
-            // 
-            this.ribbonGroup24.Items.Add(this.ribbonButton17);
-            this.ribbonGroup24.Name = "ribbonGroup24";
-            // 
-            // ribbonButton17
-            // 
-            this.ribbonButton17.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton17.LargeImage")));
-            this.ribbonButton17.Name = "ribbonButton17";
-            this.ribbonButton17.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton17.SmallImage")));
-            this.ribbonButton17.Text = "Permisos";
-            // 
-            // ribbonGroup19
-            // 
-            this.ribbonGroup19.Items.Add(this.ribbonButton14);
-            this.ribbonGroup19.Name = "ribbonGroup19";
-            // 
-            // ribbonButton14
-            // 
-            this.ribbonButton14.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton14.LargeImage")));
-            this.ribbonButton14.Name = "ribbonButton14";
-            this.ribbonButton14.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton14.SmallImage")));
-            this.ribbonButton14.Text = "Cargos";
-            // 
-            // ribbonGroup6
-            // 
-            this.ribbonGroup6.Items.Add(this.ribbonButton13);
-            this.ribbonGroup6.Name = "ribbonGroup6";
-            // 
-            // ribbonButton13
-            // 
-            this.ribbonButton13.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton13.LargeImage")));
-            this.ribbonButton13.Name = "ribbonButton13";
-            this.ribbonButton13.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton13.SmallImage")));
-            this.ribbonButton13.Text = "Empleados";
+            this.btnUsuarios.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.LargeImage")));
+            this.btnUsuarios.Name = "btnUsuarios";
+            this.btnUsuarios.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.SmallImage")));
+            this.btnUsuarios.Text = "Usuarios";
+            this.btnUsuarios.Click += new System.EventHandler(this.btnUsuarios_Click);
             // 
             // ribbonTab9
             // 
@@ -942,12 +909,304 @@ namespace CpOmnicell
             this.btnEliminarCliente.UseVisualStyleBackColor = false;
             this.btnEliminarCliente.Click += new System.EventHandler(this.btnEliminarCliente_Click);
             // 
+            // ribbonGroup5
+            // 
+            this.ribbonGroup5.Items.Add(this.btnProveedores);
+            this.ribbonGroup5.Name = "ribbonGroup5";
+            // 
+            // btnProveedores
+            // 
+            this.btnProveedores.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnProveedores.LargeImage")));
+            this.btnProveedores.Name = "btnProveedores";
+            this.btnProveedores.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnProveedores.SmallImage")));
+            this.btnProveedores.Text = "Proveedores";
+            this.btnProveedores.Click += new System.EventHandler(this.btnProveedores_Click);
+            // 
+            // gbxProveedores
+            // 
+            this.gbxProveedores.Controls.Add(this.dgvListaProveedores);
+            this.gbxProveedores.Controls.Add(this.groupBox6);
+            this.gbxProveedores.Controls.Add(this.groupBox7);
+            this.gbxProveedores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbxProveedores.Location = new System.Drawing.Point(0, 156);
+            this.gbxProveedores.Name = "gbxProveedores";
+            this.gbxProveedores.Size = new System.Drawing.Size(1234, 346);
+            this.gbxProveedores.TabIndex = 39;
+            this.gbxProveedores.TabStop = false;
+            this.gbxProveedores.Text = "Proveedores";
+            // 
+            // dgvListaProveedores
+            // 
+            this.dgvListaProveedores.AllowUserToAddRows = false;
+            this.dgvListaProveedores.AllowUserToDeleteRows = false;
+            this.dgvListaProveedores.AllowUserToResizeColumns = false;
+            this.dgvListaProveedores.AllowUserToResizeRows = false;
+            this.dgvListaProveedores.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvListaProveedores.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvListaProveedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListaProveedores.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvListaProveedores.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvListaProveedores.Location = new System.Drawing.Point(3, 61);
+            this.dgvListaProveedores.MultiSelect = false;
+            this.dgvListaProveedores.Name = "dgvListaProveedores";
+            this.dgvListaProveedores.ReadOnly = true;
+            this.dgvListaProveedores.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvListaProveedores.Size = new System.Drawing.Size(1228, 230);
+            this.dgvListaProveedores.TabIndex = 0;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnBuscarProveedores);
+            this.groupBox6.Controls.Add(this.txtBuscarProveedores);
+            this.groupBox6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox6.Location = new System.Drawing.Point(3, 16);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(1228, 45);
+            this.groupBox6.TabIndex = 8;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Buscar";
+            // 
+            // btnBuscarProveedores
+            // 
+            this.btnBuscarProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBuscarProveedores.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnBuscarProveedores.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscarProveedores.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBuscarProveedores.Location = new System.Drawing.Point(1120, 15);
+            this.btnBuscarProveedores.Name = "btnBuscarProveedores";
+            this.btnBuscarProveedores.Size = new System.Drawing.Size(94, 21);
+            this.btnBuscarProveedores.TabIndex = 7;
+            this.btnBuscarProveedores.Text = "Buscar";
+            this.btnBuscarProveedores.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBuscarProveedores.UseVisualStyleBackColor = false;
+            this.btnBuscarProveedores.Click += new System.EventHandler(this.btnBuscarProveedores_Click);
+            // 
+            // txtBuscarProveedores
+            // 
+            this.txtBuscarProveedores.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBuscarProveedores.Location = new System.Drawing.Point(9, 16);
+            this.txtBuscarProveedores.MaxLength = 50;
+            this.txtBuscarProveedores.Name = "txtBuscarProveedores";
+            this.txtBuscarProveedores.Size = new System.Drawing.Size(1105, 20);
+            this.txtBuscarProveedores.TabIndex = 6;
+            this.txtBuscarProveedores.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarProveedores_KeyPress);
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.btnEditarProveedores);
+            this.groupBox7.Controls.Add(this.btnEliminarProveedores);
+            this.groupBox7.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox7.Location = new System.Drawing.Point(3, 291);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(1228, 52);
+            this.groupBox7.TabIndex = 7;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Opciones";
+            // 
+            // btnEditarProveedores
+            // 
+            this.btnEditarProveedores.BackColor = System.Drawing.Color.Orange;
+            this.btnEditarProveedores.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnEditarProveedores.FlatAppearance.BorderSize = 10;
+            this.btnEditarProveedores.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnEditarProveedores.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnEditarProveedores.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEditarProveedores.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditarProveedores.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEditarProveedores.Location = new System.Drawing.Point(9, 18);
+            this.btnEditarProveedores.Name = "btnEditarProveedores";
+            this.btnEditarProveedores.Size = new System.Drawing.Size(75, 23);
+            this.btnEditarProveedores.TabIndex = 6;
+            this.btnEditarProveedores.Text = "Editar";
+            this.btnEditarProveedores.UseVisualStyleBackColor = false;
+            this.btnEditarProveedores.Click += new System.EventHandler(this.btnEditarProveedores_Click);
+            // 
+            // btnEliminarProveedores
+            // 
+            this.btnEliminarProveedores.BackColor = System.Drawing.Color.Red;
+            this.btnEliminarProveedores.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnEliminarProveedores.FlatAppearance.BorderSize = 10;
+            this.btnEliminarProveedores.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnEliminarProveedores.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnEliminarProveedores.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEliminarProveedores.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarProveedores.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEliminarProveedores.Location = new System.Drawing.Point(90, 18);
+            this.btnEliminarProveedores.Name = "btnEliminarProveedores";
+            this.btnEliminarProveedores.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminarProveedores.TabIndex = 5;
+            this.btnEliminarProveedores.Text = "Eliminar";
+            this.btnEliminarProveedores.UseVisualStyleBackColor = false;
+            this.btnEliminarProveedores.Click += new System.EventHandler(this.btnEliminarProveedores_Click);
+            // 
+            // ribbonGroup11
+            // 
+            this.ribbonGroup11.Items.Add(this.btnNuevoUsuario);
+            this.ribbonGroup11.Name = "ribbonGroup11";
+            // 
+            // ribbonGroup6
+            // 
+            this.ribbonGroup6.Items.Add(this.btnEmpleado);
+            this.ribbonGroup6.Name = "ribbonGroup6";
+            // 
+            // btnEmpleado
+            // 
+            this.btnEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.LargeImage")));
+            this.btnEmpleado.Name = "btnEmpleado";
+            this.btnEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.SmallImage")));
+            this.btnEmpleado.Text = "Empleados";
+            // 
+            // ribbonGroup19
+            // 
+            this.ribbonGroup19.Items.Add(this.btnNuevoEmpleado);
+            this.ribbonGroup19.Name = "ribbonGroup19";
+            // 
+            // btnNuevoUsuario
+            // 
+            this.btnNuevoUsuario.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoUsuario.LargeImage")));
+            this.btnNuevoUsuario.Name = "btnNuevoUsuario";
+            this.btnNuevoUsuario.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoUsuario.SmallImage")));
+            this.btnNuevoUsuario.Text = "Nuevo Usuario";
+            this.btnNuevoUsuario.Click += new System.EventHandler(this.btnNuevoUsuario_Click);
+            // 
+            // btnNuevoEmpleado
+            // 
+            this.btnNuevoEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.LargeImage")));
+            this.btnNuevoEmpleado.Name = "btnNuevoEmpleado";
+            this.btnNuevoEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.SmallImage")));
+            this.btnNuevoEmpleado.Text = "Nuevo Empleado";
+            // 
+            // gbxUsuarios
+            // 
+            this.gbxUsuarios.Controls.Add(this.dgvListaUsuarios);
+            this.gbxUsuarios.Controls.Add(this.groupBox8);
+            this.gbxUsuarios.Controls.Add(this.groupBox9);
+            this.gbxUsuarios.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbxUsuarios.Location = new System.Drawing.Point(0, 156);
+            this.gbxUsuarios.Name = "gbxUsuarios";
+            this.gbxUsuarios.Size = new System.Drawing.Size(1234, 346);
+            this.gbxUsuarios.TabIndex = 40;
+            this.gbxUsuarios.TabStop = false;
+            this.gbxUsuarios.Text = "Usuarios";
+            // 
+            // dgvListaUsuarios
+            // 
+            this.dgvListaUsuarios.AllowUserToAddRows = false;
+            this.dgvListaUsuarios.AllowUserToDeleteRows = false;
+            this.dgvListaUsuarios.AllowUserToResizeColumns = false;
+            this.dgvListaUsuarios.AllowUserToResizeRows = false;
+            this.dgvListaUsuarios.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvListaUsuarios.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvListaUsuarios.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListaUsuarios.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvListaUsuarios.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvListaUsuarios.Location = new System.Drawing.Point(3, 61);
+            this.dgvListaUsuarios.MultiSelect = false;
+            this.dgvListaUsuarios.Name = "dgvListaUsuarios";
+            this.dgvListaUsuarios.ReadOnly = true;
+            this.dgvListaUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvListaUsuarios.Size = new System.Drawing.Size(1228, 230);
+            this.dgvListaUsuarios.TabIndex = 0;
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.btnBuscarUsuario);
+            this.groupBox8.Controls.Add(this.txtBuscarUsuario);
+            this.groupBox8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox8.Location = new System.Drawing.Point(3, 16);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(1228, 45);
+            this.groupBox8.TabIndex = 8;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Buscar";
+            // 
+            // btnBuscarUsuario
+            // 
+            this.btnBuscarUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBuscarUsuario.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnBuscarUsuario.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscarUsuario.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBuscarUsuario.Location = new System.Drawing.Point(1120, 15);
+            this.btnBuscarUsuario.Name = "btnBuscarUsuario";
+            this.btnBuscarUsuario.Size = new System.Drawing.Size(94, 21);
+            this.btnBuscarUsuario.TabIndex = 7;
+            this.btnBuscarUsuario.Text = "Buscar";
+            this.btnBuscarUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBuscarUsuario.UseVisualStyleBackColor = false;
+            this.btnBuscarUsuario.Click += new System.EventHandler(this.btnBuscarUsuario_Click);
+            // 
+            // txtBuscarUsuario
+            // 
+            this.txtBuscarUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBuscarUsuario.Location = new System.Drawing.Point(9, 16);
+            this.txtBuscarUsuario.MaxLength = 50;
+            this.txtBuscarUsuario.Name = "txtBuscarUsuario";
+            this.txtBuscarUsuario.Size = new System.Drawing.Size(1105, 20);
+            this.txtBuscarUsuario.TabIndex = 6;
+            this.txtBuscarUsuario.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarUsuario_KeyPress);
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.btnEditarUsuario);
+            this.groupBox9.Controls.Add(this.btnEliminarUsuarios);
+            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox9.Location = new System.Drawing.Point(3, 291);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(1228, 52);
+            this.groupBox9.TabIndex = 7;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Opciones";
+            // 
+            // btnEditarUsuario
+            // 
+            this.btnEditarUsuario.BackColor = System.Drawing.Color.Orange;
+            this.btnEditarUsuario.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnEditarUsuario.FlatAppearance.BorderSize = 10;
+            this.btnEditarUsuario.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnEditarUsuario.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnEditarUsuario.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEditarUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditarUsuario.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEditarUsuario.Location = new System.Drawing.Point(9, 18);
+            this.btnEditarUsuario.Name = "btnEditarUsuario";
+            this.btnEditarUsuario.Size = new System.Drawing.Size(75, 23);
+            this.btnEditarUsuario.TabIndex = 6;
+            this.btnEditarUsuario.Text = "Editar";
+            this.btnEditarUsuario.UseVisualStyleBackColor = false;
+            this.btnEditarUsuario.Click += new System.EventHandler(this.btnEditarUsuario_Click);
+            // 
+            // btnEliminarUsuarios
+            // 
+            this.btnEliminarUsuarios.BackColor = System.Drawing.Color.Red;
+            this.btnEliminarUsuarios.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnEliminarUsuarios.FlatAppearance.BorderSize = 10;
+            this.btnEliminarUsuarios.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnEliminarUsuarios.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnEliminarUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEliminarUsuarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarUsuarios.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEliminarUsuarios.Location = new System.Drawing.Point(90, 18);
+            this.btnEliminarUsuarios.Name = "btnEliminarUsuarios";
+            this.btnEliminarUsuarios.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminarUsuarios.TabIndex = 5;
+            this.btnEliminarUsuarios.Text = "Eliminar";
+            this.btnEliminarUsuarios.UseVisualStyleBackColor = false;
+            this.btnEliminarUsuarios.Click += new System.EventHandler(this.btnEliminarUsuarios_Click);
+            // 
             // FrmMenuVendedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(1234, 502);
+            this.Controls.Add(this.gbxUsuarios);
+            this.Controls.Add(this.gbxProveedores);
             this.Controls.Add(this.gbxClientes);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
@@ -981,6 +1240,20 @@ namespace CpOmnicell
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarCliente)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEliminarCliente)).EndInit();
+            this.gbxProveedores.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaProveedores)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarProveedores)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarProveedores)).EndInit();
+            this.gbxUsuarios.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaUsuarios)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarUsuario)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarUsuarios)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1003,7 +1276,6 @@ namespace CpOmnicell
         private C1.Win.C1Ribbon.RibbonTab ribbonTab4;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup4;
         private C1.Win.C1Ribbon.RibbonTab ribbonTab5;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup5;
         private C1.Win.C1Ribbon.RibbonTab ribbonTab7;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup7;
         private C1.Win.C1Ribbon.RibbonTab ribbonTab8;
@@ -1027,9 +1299,8 @@ namespace CpOmnicell
         private C1.Win.C1Ribbon.RibbonButton btnNuevoCliente;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup17;
         private C1.Win.C1Ribbon.RibbonButton btnClientes;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton121;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup18;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton111;
+        private C1.Win.C1Ribbon.RibbonButton btnNuevoProveedor;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton21;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup20;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup21;
@@ -1037,17 +1308,9 @@ namespace CpOmnicell
         private C1.Win.C1Ribbon.RibbonButton ribbonButton71;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup22;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton101;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton15;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup23;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton16;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup24;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton17;
+        private C1.Win.C1Ribbon.RibbonButton btnUsuarios;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup9;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton18;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup19;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton14;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup6;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton13;
         private System.Windows.Forms.GroupBox gbxVentas;
         private System.Windows.Forms.DataGridView dgvListaVentas;
         private C1Button btnEditar;
@@ -1074,5 +1337,29 @@ namespace CpOmnicell
         private System.Windows.Forms.GroupBox groupBox5;
         private C1Button btnEditarCliente;
         private C1Button btnEliminarCliente;
+        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup5;
+        private C1.Win.C1Ribbon.RibbonButton btnProveedores;
+        private System.Windows.Forms.GroupBox gbxProveedores;
+        private System.Windows.Forms.DataGridView dgvListaProveedores;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button btnBuscarProveedores;
+        private System.Windows.Forms.TextBox txtBuscarProveedores;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private C1Button btnEditarProveedores;
+        private C1Button btnEliminarProveedores;
+        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup11;
+        private C1.Win.C1Ribbon.RibbonButton btnNuevoUsuario;
+        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup6;
+        private C1.Win.C1Ribbon.RibbonButton btnEmpleado;
+        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup19;
+        private C1.Win.C1Ribbon.RibbonButton btnNuevoEmpleado;
+        private System.Windows.Forms.GroupBox gbxUsuarios;
+        private System.Windows.Forms.DataGridView dgvListaUsuarios;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Button btnBuscarUsuario;
+        private System.Windows.Forms.TextBox txtBuscarUsuario;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private C1Button btnEditarUsuario;
+        private C1Button btnEliminarUsuarios;
     }
 }
