@@ -4,6 +4,7 @@ GO
 -- Eliminar la base de datos
 DROP DATABASE LabOmnicell;
 GO
+ALTER DATABASE LabOmnicell SET ONLINE;
 -- Eliminar el inicio de sesión del servidor
 DROP LOGIN usromnicell;
 GO
