@@ -48,12 +48,6 @@ namespace CpOmnicell
             this.ribbonTab3 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup3 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton6 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup13 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton7 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup14 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton8 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup15 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton9 = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup16 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton10 = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab4 = new C1.Win.C1Ribbon.RibbonTab();
@@ -64,6 +58,8 @@ namespace CpOmnicell
             this.ribbonTab5 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup18 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnNuevoProveedor = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonGroup5 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.btnProveedores = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab7 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup7 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton21 = new C1.Win.C1Ribbon.RibbonButton();
@@ -76,6 +72,12 @@ namespace CpOmnicell
             this.ribbonTab8 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup8 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnUsuarios = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonGroup11 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.btnNuevoUsuario = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonGroup6 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.btnEmpleado = new C1.Win.C1Ribbon.RibbonButton();
+            this.ribbonGroup19 = new C1.Win.C1Ribbon.RibbonGroup();
+            this.btnNuevoEmpleado = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab9 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup9 = new C1.Win.C1Ribbon.RibbonGroup();
             this.ribbonButton18 = new C1.Win.C1Ribbon.RibbonButton();
@@ -107,8 +109,6 @@ namespace CpOmnicell
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.btnEditarCliente = new C1.Win.C1Input.C1Button();
             this.btnEliminarCliente = new C1.Win.C1Input.C1Button();
-            this.ribbonGroup5 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.btnProveedores = new C1.Win.C1Ribbon.RibbonButton();
             this.gbxProveedores = new System.Windows.Forms.GroupBox();
             this.dgvListaProveedores = new System.Windows.Forms.DataGridView();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -117,12 +117,6 @@ namespace CpOmnicell
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.btnEditarProveedores = new C1.Win.C1Input.C1Button();
             this.btnEliminarProveedores = new C1.Win.C1Input.C1Button();
-            this.ribbonGroup11 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonGroup6 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.btnEmpleado = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup19 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.btnNuevoUsuario = new C1.Win.C1Ribbon.RibbonButton();
-            this.btnNuevoEmpleado = new C1.Win.C1Ribbon.RibbonButton();
             this.gbxUsuarios = new System.Windows.Forms.GroupBox();
             this.dgvListaUsuarios = new System.Windows.Forms.DataGridView();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
@@ -279,9 +273,6 @@ namespace CpOmnicell
             // ribbonTab3
             // 
             this.ribbonTab3.Groups.Add(this.ribbonGroup3);
-            this.ribbonTab3.Groups.Add(this.ribbonGroup13);
-            this.ribbonTab3.Groups.Add(this.ribbonGroup14);
-            this.ribbonTab3.Groups.Add(this.ribbonGroup15);
             this.ribbonTab3.Groups.Add(this.ribbonGroup16);
             this.ribbonTab3.Name = "ribbonTab3";
             this.ribbonTab3.Text = "INVENTARIO";
@@ -298,45 +289,6 @@ namespace CpOmnicell
             this.ribbonButton6.Name = "ribbonButton6";
             this.ribbonButton6.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.SmallImage")));
             this.ribbonButton6.Text = "Pantallas";
-            // 
-            // ribbonGroup13
-            // 
-            this.ribbonGroup13.Items.Add(this.ribbonButton7);
-            this.ribbonGroup13.Name = "ribbonGroup13";
-            this.ribbonGroup13.Text = "Marcas";
-            // 
-            // ribbonButton7
-            // 
-            this.ribbonButton7.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton7.LargeImage")));
-            this.ribbonButton7.Name = "ribbonButton7";
-            this.ribbonButton7.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton7.SmallImage")));
-            this.ribbonButton7.Text = "Marcas";
-            // 
-            // ribbonGroup14
-            // 
-            this.ribbonGroup14.Items.Add(this.ribbonButton8);
-            this.ribbonGroup14.Name = "ribbonGroup14";
-            this.ribbonGroup14.Text = "Modelos";
-            // 
-            // ribbonButton8
-            // 
-            this.ribbonButton8.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton8.LargeImage")));
-            this.ribbonButton8.Name = "ribbonButton8";
-            this.ribbonButton8.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton8.SmallImage")));
-            this.ribbonButton8.Text = "Modelos";
-            // 
-            // ribbonGroup15
-            // 
-            this.ribbonGroup15.Items.Add(this.ribbonButton9);
-            this.ribbonGroup15.Name = "ribbonGroup15";
-            this.ribbonGroup15.Text = "Compatibilidad";
-            // 
-            // ribbonButton9
-            // 
-            this.ribbonButton9.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton9.LargeImage")));
-            this.ribbonButton9.Name = "ribbonButton9";
-            this.ribbonButton9.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton9.SmallImage")));
-            this.ribbonButton9.Text = "Compatibilidad";
             // 
             // ribbonGroup16
             // 
@@ -404,6 +356,19 @@ namespace CpOmnicell
             this.btnNuevoProveedor.Text = "Nuevo Proveedor";
             this.btnNuevoProveedor.Click += new System.EventHandler(this.btnNuevoProveedor_Click);
             // 
+            // ribbonGroup5
+            // 
+            this.ribbonGroup5.Items.Add(this.btnProveedores);
+            this.ribbonGroup5.Name = "ribbonGroup5";
+            // 
+            // btnProveedores
+            // 
+            this.btnProveedores.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnProveedores.LargeImage")));
+            this.btnProveedores.Name = "btnProveedores";
+            this.btnProveedores.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnProveedores.SmallImage")));
+            this.btnProveedores.Text = "Proveedores";
+            this.btnProveedores.Click += new System.EventHandler(this.btnProveedores_Click);
+            // 
             // ribbonTab7
             // 
             this.ribbonTab7.Groups.Add(this.ribbonGroup7);
@@ -417,49 +382,49 @@ namespace CpOmnicell
             // 
             this.ribbonGroup7.Items.Add(this.ribbonButton21);
             this.ribbonGroup7.Name = "ribbonGroup7";
+            this.ribbonGroup7.Text = "Ventas";
             // 
             // ribbonButton21
             // 
             this.ribbonButton21.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton21.LargeImage")));
             this.ribbonButton21.Name = "ribbonButton21";
             this.ribbonButton21.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton21.SmallImage")));
-            this.ribbonButton21.Text = "Ventas";
             // 
             // ribbonGroup20
             // 
             this.ribbonGroup20.Items.Add(this.ribbonButton51);
             this.ribbonGroup20.Name = "ribbonGroup20";
+            this.ribbonGroup20.Text = "Historial de Compras";
             // 
             // ribbonButton51
             // 
             this.ribbonButton51.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton51.LargeImage")));
             this.ribbonButton51.Name = "ribbonButton51";
             this.ribbonButton51.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton51.SmallImage")));
-            this.ribbonButton51.Text = "Historial de Compras";
             // 
             // ribbonGroup21
             // 
             this.ribbonGroup21.Items.Add(this.ribbonButton71);
             this.ribbonGroup21.Name = "ribbonGroup21";
+            this.ribbonGroup21.Text = "Inventario";
             // 
             // ribbonButton71
             // 
             this.ribbonButton71.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton71.LargeImage")));
             this.ribbonButton71.Name = "ribbonButton71";
             this.ribbonButton71.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton71.SmallImage")));
-            this.ribbonButton71.Text = "Inventario";
             // 
             // ribbonGroup22
             // 
             this.ribbonGroup22.Items.Add(this.ribbonButton101);
             this.ribbonGroup22.Name = "ribbonGroup22";
+            this.ribbonGroup22.Text = "Stock Bajo";
             // 
             // ribbonButton101
             // 
             this.ribbonButton101.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton101.LargeImage")));
             this.ribbonButton101.Name = "ribbonButton101";
             this.ribbonButton101.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton101.SmallImage")));
-            this.ribbonButton101.Text = "Stock Bajo";
             // 
             // ribbonTab8
             // 
@@ -474,14 +439,51 @@ namespace CpOmnicell
             // 
             this.ribbonGroup8.Items.Add(this.btnUsuarios);
             this.ribbonGroup8.Name = "ribbonGroup8";
+            this.ribbonGroup8.Text = "Usuarios";
             // 
             // btnUsuarios
             // 
             this.btnUsuarios.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.LargeImage")));
             this.btnUsuarios.Name = "btnUsuarios";
             this.btnUsuarios.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnUsuarios.SmallImage")));
-            this.btnUsuarios.Text = "Usuarios";
             this.btnUsuarios.Click += new System.EventHandler(this.btnUsuarios_Click);
+            // 
+            // ribbonGroup11
+            // 
+            this.ribbonGroup11.Items.Add(this.btnNuevoUsuario);
+            this.ribbonGroup11.Name = "ribbonGroup11";
+            this.ribbonGroup11.Text = "Nuevo Usuario";
+            // 
+            // btnNuevoUsuario
+            // 
+            this.btnNuevoUsuario.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoUsuario.LargeImage")));
+            this.btnNuevoUsuario.Name = "btnNuevoUsuario";
+            this.btnNuevoUsuario.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoUsuario.SmallImage")));
+            this.btnNuevoUsuario.Click += new System.EventHandler(this.btnNuevoUsuario_Click);
+            // 
+            // ribbonGroup6
+            // 
+            this.ribbonGroup6.Items.Add(this.btnEmpleado);
+            this.ribbonGroup6.Name = "ribbonGroup6";
+            this.ribbonGroup6.Text = "Empleados";
+            // 
+            // btnEmpleado
+            // 
+            this.btnEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.LargeImage")));
+            this.btnEmpleado.Name = "btnEmpleado";
+            this.btnEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.SmallImage")));
+            // 
+            // ribbonGroup19
+            // 
+            this.ribbonGroup19.Items.Add(this.btnNuevoEmpleado);
+            this.ribbonGroup19.Name = "ribbonGroup19";
+            this.ribbonGroup19.Text = "Nuevo Empleado";
+            // 
+            // btnNuevoEmpleado
+            // 
+            this.btnNuevoEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.LargeImage")));
+            this.btnNuevoEmpleado.Name = "btnNuevoEmpleado";
+            this.btnNuevoEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.SmallImage")));
             // 
             // ribbonTab9
             // 
@@ -500,7 +502,6 @@ namespace CpOmnicell
             this.ribbonButton18.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.LargeImage")));
             this.ribbonButton18.Name = "ribbonButton18";
             this.ribbonButton18.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.SmallImage")));
-            this.ribbonButton18.Text = "Cerrar Sesion";
             this.ribbonButton18.Click += new System.EventHandler(this.ribbonButton18_Click);
             // 
             // ribbonTopToolBar1
@@ -569,10 +570,11 @@ namespace CpOmnicell
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuscar.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscar.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscar.Image")));
             this.btnBuscar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscar.Location = new System.Drawing.Point(1118, 15);
+            this.btnBuscar.Location = new System.Drawing.Point(1118, 9);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(94, 21);
+            this.btnBuscar.Size = new System.Drawing.Size(94, 33);
             this.btnBuscar.TabIndex = 7;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -614,11 +616,14 @@ namespace CpOmnicell
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditar.Location = new System.Drawing.Point(9, 18);
+            this.btnEditar.Image = ((System.Drawing.Image)(resources.GetObject("btnEditar.Image")));
+            this.btnEditar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditar.Location = new System.Drawing.Point(9, 14);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(75, 23);
+            this.btnEditar.Size = new System.Drawing.Size(93, 35);
             this.btnEditar.TabIndex = 6;
             this.btnEditar.Text = "Editar";
+            this.btnEditar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditar.UseVisualStyleBackColor = false;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
@@ -651,11 +656,14 @@ namespace CpOmnicell
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminar.Location = new System.Drawing.Point(90, 18);
+            this.btnEliminar.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminar.Image")));
+            this.btnEliminar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminar.Location = new System.Drawing.Point(108, 14);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminar.Size = new System.Drawing.Size(100, 35);
             this.btnEliminar.TabIndex = 5;
             this.btnEliminar.Text = "Eliminar";
+            this.btnEliminar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEliminar.UseVisualStyleBackColor = false;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
@@ -665,7 +673,7 @@ namespace CpOmnicell
             this.gbxCompras.Controls.Add(this.groupBox2);
             this.gbxCompras.Controls.Add(this.groupBox3);
             this.gbxCompras.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbxCompras.Location = new System.Drawing.Point(0, 0);
+            this.gbxCompras.Location = new System.Drawing.Point(0, 156);
             this.gbxCompras.Name = "gbxCompras";
             this.gbxCompras.Size = new System.Drawing.Size(1234, 346);
             this.gbxCompras.TabIndex = 37;
@@ -709,10 +717,11 @@ namespace CpOmnicell
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuscarCompras.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnBuscarCompras.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscarCompras.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscarCompras.Image")));
             this.btnBuscarCompras.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscarCompras.Location = new System.Drawing.Point(1120, 15);
+            this.btnBuscarCompras.Location = new System.Drawing.Point(1120, 8);
             this.btnBuscarCompras.Name = "btnBuscarCompras";
-            this.btnBuscarCompras.Size = new System.Drawing.Size(94, 21);
+            this.btnBuscarCompras.Size = new System.Drawing.Size(94, 33);
             this.btnBuscarCompras.TabIndex = 7;
             this.btnBuscarCompras.Text = "Buscar";
             this.btnBuscarCompras.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -753,11 +762,14 @@ namespace CpOmnicell
             this.btnEditarCompras.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditarCompras.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarCompras.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditarCompras.Location = new System.Drawing.Point(9, 18);
+            this.btnEditarCompras.Image = ((System.Drawing.Image)(resources.GetObject("btnEditarCompras.Image")));
+            this.btnEditarCompras.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditarCompras.Location = new System.Drawing.Point(9, 14);
             this.btnEditarCompras.Name = "btnEditarCompras";
-            this.btnEditarCompras.Size = new System.Drawing.Size(75, 23);
+            this.btnEditarCompras.Size = new System.Drawing.Size(90, 35);
             this.btnEditarCompras.TabIndex = 6;
             this.btnEditarCompras.Text = "Editar";
+            this.btnEditarCompras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditarCompras.UseVisualStyleBackColor = false;
             this.btnEditarCompras.Click += new System.EventHandler(this.btnEditarCompras_Click);
             // 
@@ -771,17 +783,19 @@ namespace CpOmnicell
             this.btnEliminarCompra.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminarCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarCompra.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminarCompra.Location = new System.Drawing.Point(90, 18);
+            this.btnEliminarCompra.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarCompra.Image")));
+            this.btnEliminarCompra.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarCompra.Location = new System.Drawing.Point(105, 14);
             this.btnEliminarCompra.Name = "btnEliminarCompra";
-            this.btnEliminarCompra.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminarCompra.Size = new System.Drawing.Size(103, 35);
             this.btnEliminarCompra.TabIndex = 5;
             this.btnEliminarCompra.Text = "Eliminar";
+            this.btnEliminarCompra.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEliminarCompra.UseVisualStyleBackColor = false;
             this.btnEliminarCompra.Click += new System.EventHandler(this.btnEliminarCompra_Click);
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.gbxCompras);
             this.panel1.Controls.Add(this.gbxVentas);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 156);
@@ -839,10 +853,11 @@ namespace CpOmnicell
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuscarCliente.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnBuscarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscarCliente.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscarCliente.Image")));
             this.btnBuscarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscarCliente.Location = new System.Drawing.Point(1120, 15);
+            this.btnBuscarCliente.Location = new System.Drawing.Point(1120, 9);
             this.btnBuscarCliente.Name = "btnBuscarCliente";
-            this.btnBuscarCliente.Size = new System.Drawing.Size(94, 21);
+            this.btnBuscarCliente.Size = new System.Drawing.Size(94, 33);
             this.btnBuscarCliente.TabIndex = 7;
             this.btnBuscarCliente.Text = "Buscar";
             this.btnBuscarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -883,11 +898,14 @@ namespace CpOmnicell
             this.btnEditarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditarCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarCliente.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditarCliente.Location = new System.Drawing.Point(9, 18);
+            this.btnEditarCliente.Image = ((System.Drawing.Image)(resources.GetObject("btnEditarCliente.Image")));
+            this.btnEditarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditarCliente.Location = new System.Drawing.Point(8, 14);
             this.btnEditarCliente.Name = "btnEditarCliente";
-            this.btnEditarCliente.Size = new System.Drawing.Size(75, 23);
+            this.btnEditarCliente.Size = new System.Drawing.Size(90, 35);
             this.btnEditarCliente.TabIndex = 6;
             this.btnEditarCliente.Text = "Editar";
+            this.btnEditarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditarCliente.UseVisualStyleBackColor = false;
             this.btnEditarCliente.Click += new System.EventHandler(this.btnEditarCliente_Click);
             // 
@@ -901,26 +919,16 @@ namespace CpOmnicell
             this.btnEliminarCliente.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminarCliente.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarCliente.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminarCliente.Location = new System.Drawing.Point(90, 18);
+            this.btnEliminarCliente.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarCliente.Image")));
+            this.btnEliminarCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarCliente.Location = new System.Drawing.Point(105, 14);
             this.btnEliminarCliente.Name = "btnEliminarCliente";
-            this.btnEliminarCliente.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminarCliente.Size = new System.Drawing.Size(104, 35);
             this.btnEliminarCliente.TabIndex = 5;
             this.btnEliminarCliente.Text = "Eliminar";
+            this.btnEliminarCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEliminarCliente.UseVisualStyleBackColor = false;
             this.btnEliminarCliente.Click += new System.EventHandler(this.btnEliminarCliente_Click);
-            // 
-            // ribbonGroup5
-            // 
-            this.ribbonGroup5.Items.Add(this.btnProveedores);
-            this.ribbonGroup5.Name = "ribbonGroup5";
-            // 
-            // btnProveedores
-            // 
-            this.btnProveedores.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnProveedores.LargeImage")));
-            this.btnProveedores.Name = "btnProveedores";
-            this.btnProveedores.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnProveedores.SmallImage")));
-            this.btnProveedores.Text = "Proveedores";
-            this.btnProveedores.Click += new System.EventHandler(this.btnProveedores_Click);
             // 
             // gbxProveedores
             // 
@@ -972,10 +980,11 @@ namespace CpOmnicell
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuscarProveedores.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnBuscarProveedores.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscarProveedores.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscarProveedores.Image")));
             this.btnBuscarProveedores.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscarProveedores.Location = new System.Drawing.Point(1120, 15);
+            this.btnBuscarProveedores.Location = new System.Drawing.Point(1120, 8);
             this.btnBuscarProveedores.Name = "btnBuscarProveedores";
-            this.btnBuscarProveedores.Size = new System.Drawing.Size(94, 21);
+            this.btnBuscarProveedores.Size = new System.Drawing.Size(94, 33);
             this.btnBuscarProveedores.TabIndex = 7;
             this.btnBuscarProveedores.Text = "Buscar";
             this.btnBuscarProveedores.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1016,11 +1025,14 @@ namespace CpOmnicell
             this.btnEditarProveedores.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditarProveedores.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarProveedores.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditarProveedores.Location = new System.Drawing.Point(9, 18);
+            this.btnEditarProveedores.Image = ((System.Drawing.Image)(resources.GetObject("btnEditarProveedores.Image")));
+            this.btnEditarProveedores.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditarProveedores.Location = new System.Drawing.Point(9, 13);
             this.btnEditarProveedores.Name = "btnEditarProveedores";
-            this.btnEditarProveedores.Size = new System.Drawing.Size(75, 23);
+            this.btnEditarProveedores.Size = new System.Drawing.Size(88, 35);
             this.btnEditarProveedores.TabIndex = 6;
             this.btnEditarProveedores.Text = "Editar";
+            this.btnEditarProveedores.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditarProveedores.UseVisualStyleBackColor = false;
             this.btnEditarProveedores.Click += new System.EventHandler(this.btnEditarProveedores_Click);
             // 
@@ -1034,50 +1046,16 @@ namespace CpOmnicell
             this.btnEliminarProveedores.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminarProveedores.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarProveedores.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminarProveedores.Location = new System.Drawing.Point(90, 18);
+            this.btnEliminarProveedores.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarProveedores.Image")));
+            this.btnEliminarProveedores.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarProveedores.Location = new System.Drawing.Point(101, 13);
             this.btnEliminarProveedores.Name = "btnEliminarProveedores";
-            this.btnEliminarProveedores.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminarProveedores.Size = new System.Drawing.Size(106, 36);
             this.btnEliminarProveedores.TabIndex = 5;
             this.btnEliminarProveedores.Text = "Eliminar";
+            this.btnEliminarProveedores.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEliminarProveedores.UseVisualStyleBackColor = false;
             this.btnEliminarProveedores.Click += new System.EventHandler(this.btnEliminarProveedores_Click);
-            // 
-            // ribbonGroup11
-            // 
-            this.ribbonGroup11.Items.Add(this.btnNuevoUsuario);
-            this.ribbonGroup11.Name = "ribbonGroup11";
-            // 
-            // ribbonGroup6
-            // 
-            this.ribbonGroup6.Items.Add(this.btnEmpleado);
-            this.ribbonGroup6.Name = "ribbonGroup6";
-            // 
-            // btnEmpleado
-            // 
-            this.btnEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.LargeImage")));
-            this.btnEmpleado.Name = "btnEmpleado";
-            this.btnEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.SmallImage")));
-            this.btnEmpleado.Text = "Empleados";
-            // 
-            // ribbonGroup19
-            // 
-            this.ribbonGroup19.Items.Add(this.btnNuevoEmpleado);
-            this.ribbonGroup19.Name = "ribbonGroup19";
-            // 
-            // btnNuevoUsuario
-            // 
-            this.btnNuevoUsuario.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoUsuario.LargeImage")));
-            this.btnNuevoUsuario.Name = "btnNuevoUsuario";
-            this.btnNuevoUsuario.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoUsuario.SmallImage")));
-            this.btnNuevoUsuario.Text = "Nuevo Usuario";
-            this.btnNuevoUsuario.Click += new System.EventHandler(this.btnNuevoUsuario_Click);
-            // 
-            // btnNuevoEmpleado
-            // 
-            this.btnNuevoEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.LargeImage")));
-            this.btnNuevoEmpleado.Name = "btnNuevoEmpleado";
-            this.btnNuevoEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.SmallImage")));
-            this.btnNuevoEmpleado.Text = "Nuevo Empleado";
             // 
             // gbxUsuarios
             // 
@@ -1129,10 +1107,11 @@ namespace CpOmnicell
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnBuscarUsuario.BackColor = System.Drawing.Color.DeepSkyBlue;
             this.btnBuscarUsuario.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscarUsuario.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscarUsuario.Image")));
             this.btnBuscarUsuario.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnBuscarUsuario.Location = new System.Drawing.Point(1120, 15);
+            this.btnBuscarUsuario.Location = new System.Drawing.Point(1126, 9);
             this.btnBuscarUsuario.Name = "btnBuscarUsuario";
-            this.btnBuscarUsuario.Size = new System.Drawing.Size(94, 21);
+            this.btnBuscarUsuario.Size = new System.Drawing.Size(94, 33);
             this.btnBuscarUsuario.TabIndex = 7;
             this.btnBuscarUsuario.Text = "Buscar";
             this.btnBuscarUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -1166,6 +1145,7 @@ namespace CpOmnicell
             // btnEditarUsuario
             // 
             this.btnEditarUsuario.BackColor = System.Drawing.Color.Orange;
+            this.btnEditarUsuario.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnEditarUsuario.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
             this.btnEditarUsuario.FlatAppearance.BorderSize = 10;
             this.btnEditarUsuario.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
@@ -1173,11 +1153,14 @@ namespace CpOmnicell
             this.btnEditarUsuario.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditarUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditarUsuario.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditarUsuario.Location = new System.Drawing.Point(9, 18);
+            this.btnEditarUsuario.Image = ((System.Drawing.Image)(resources.GetObject("btnEditarUsuario.Image")));
+            this.btnEditarUsuario.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditarUsuario.Location = new System.Drawing.Point(9, 14);
             this.btnEditarUsuario.Name = "btnEditarUsuario";
-            this.btnEditarUsuario.Size = new System.Drawing.Size(75, 23);
+            this.btnEditarUsuario.Size = new System.Drawing.Size(90, 35);
             this.btnEditarUsuario.TabIndex = 6;
             this.btnEditarUsuario.Text = "Editar";
+            this.btnEditarUsuario.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEditarUsuario.UseVisualStyleBackColor = false;
             this.btnEditarUsuario.Click += new System.EventHandler(this.btnEditarUsuario_Click);
             // 
@@ -1191,11 +1174,14 @@ namespace CpOmnicell
             this.btnEliminarUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminarUsuarios.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarUsuarios.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminarUsuarios.Location = new System.Drawing.Point(90, 18);
+            this.btnEliminarUsuarios.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarUsuarios.Image")));
+            this.btnEliminarUsuarios.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarUsuarios.Location = new System.Drawing.Point(106, 14);
             this.btnEliminarUsuarios.Name = "btnEliminarUsuarios";
-            this.btnEliminarUsuarios.Size = new System.Drawing.Size(75, 23);
+            this.btnEliminarUsuarios.Size = new System.Drawing.Size(98, 35);
             this.btnEliminarUsuarios.TabIndex = 5;
             this.btnEliminarUsuarios.Text = "Eliminar";
+            this.btnEliminarUsuarios.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEliminarUsuarios.UseVisualStyleBackColor = false;
             this.btnEliminarUsuarios.Click += new System.EventHandler(this.btnEliminarUsuarios_Click);
             // 
@@ -1206,8 +1192,9 @@ namespace CpOmnicell
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(1234, 502);
             this.Controls.Add(this.gbxUsuarios);
-            this.Controls.Add(this.gbxProveedores);
             this.Controls.Add(this.gbxClientes);
+            this.Controls.Add(this.gbxProveedores);
+            this.Controls.Add(this.gbxCompras);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.c1Ribbon1);
@@ -1288,12 +1275,6 @@ namespace CpOmnicell
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup12;
         private C1.Win.C1Ribbon.RibbonButton btnHCompras;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton6;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup13;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton7;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup14;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton8;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup15;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton9;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup16;
         private C1.Win.C1Ribbon.RibbonButton ribbonButton10;
         private C1.Win.C1Ribbon.RibbonButton btnNuevoCliente;

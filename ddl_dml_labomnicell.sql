@@ -184,6 +184,55 @@ CREATE TABLE VentaDetalle (
     CONSTRAINT fk_VentaDetalle_Pantalla FOREIGN KEY (idPantalla) REFERENCES Pantalla(id)
 );
 
+ALTER TABLE Empleado
+ADD idSucursal INT NULL;
+
+ALTER TABLE Empleado
+ADD CONSTRAINT fk_Empleado_Sucursal
+FOREIGN KEY (idSucursal) REFERENCES Sucursal(id);
+
+
+UPDATE Empleado
+SET idSucursal = 1
+WHERE id = 1;
+
+UPDATE Empleado
+SET idSucursal = 2
+WHERE id = 2;
+
+UPDATE Empleado
+SET idSucursal = 3
+WHERE id = 3;
+
+UPDATE Empleado
+SET idSucursal = 4
+WHERE id = 4;
+
+UPDATE Empleado
+SET idSucursal = 5
+WHERE id = 5;
+
+UPDATE Empleado
+SET idSucursal = 6
+WHERE id = 6;
+
+UPDATE Empleado
+SET idSucursal = 7
+WHERE id = 7;
+
+UPDATE Empleado
+SET idSucursal = 8
+WHERE id = 8;
+
+UPDATE Empleado
+SET idSucursal = 9
+WHERE id = 9;
+
+UPDATE Empleado
+SET idSucursal = 10
+WHERE id = 10;
+
+
 ALTER TABLE Empleado ADD usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(), fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(), estado SMALLINT NOT NULL DEFAULT 1;
 ALTER TABLE Rol ADD usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(), fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(), estado SMALLINT NOT NULL DEFAULT 1;
 ALTER TABLE Usuario ADD usuarioRegistro VARCHAR(50) NOT NULL DEFAULT SUSER_NAME(), fechaRegistro DATETIME NOT NULL DEFAULT GETDATE(), estado SMALLINT NOT NULL DEFAULT 1;
@@ -288,19 +337,6 @@ CREATE PROC paMarcaListar @parametro VARCHAR(50) AS
   ORDER BY nombre;
 GO
 EXEC paMarcaListar 'Apple';
-GO
-
-GO
-DROP PROC IF EXISTS paModeloListar;
-GO
-CREATE PROC paModeloListar @parametro VARCHAR(50) AS
-  SELECT m.id, m.idMarca, m.nombre AS modelo, ma.nombre AS marca, m.usuarioRegistro, m.fechaRegistro, m.estado
-  FROM Modelo m
-  INNER JOIN Marca ma ON m.idMarca = ma.id
-  WHERE m.estado = 1 AND (m.nombre + ma.nombre LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
-  ORDER BY ma.nombre, m.nombre;
-GO
-EXEC paModeloListar 'iPhone';
 GO
 
 GO
