@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 
+
 namespace ClnOmnicell
 {
     public class VentaCln
@@ -19,6 +20,95 @@ namespace ClnOmnicell
                 return venta.id;
             }
         }
+
+
+        public static int registrarVenta(Venta venta, List<VentaDetalle> detalles)
+        {
+            if (venta == null)
+                throw new Exception("Los datos de la venta son incorrectos.");
+
+            if (detalles == null || detalles.Count == 0)
+                throw new Exception("Debe agregar al menos un producto.");
+
+            using (var context = new LabOmnicellEntities())
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Agrupar productos para validar el stock total por pantalla.
+                    var productosAgrupados = detalles
+                        .GroupBy(d => d.idPantalla)
+                        .Select(g => new
+                        {
+                            idPantalla = g.Key,
+                            cantidad = g.Sum(d => d.cantidad)
+                        })
+                        .ToList();
+
+                    // Validar y recalcular los subtotales.
+                    foreach (var detalle in detalles)
+                    {
+                        if (detalle.cantidad <= 0)
+                            throw new Exception("La cantidad debe ser mayor a cero.");
+
+                        if (detalle.precioUnitario < 0)
+                            throw new Exception("El precio no puede ser negativo.");
+
+                        detalle.subtotal = detalle.cantidad * detalle.precioUnitario;
+                    }
+
+                    // Verificar y descontar el inventario.
+                    foreach (var producto in productosAgrupados)
+                    {
+                        var inventario = context.Inventario.FirstOrDefault(i =>
+                            i.idSucursal == venta.idSucursal &&
+                            i.idPantalla == producto.idPantalla &&
+                            i.estado == 1);
+
+                        if (inventario == null)
+                            throw new Exception(
+                                "No existe inventario para uno de los productos.");
+
+                        if (inventario.stockActual < producto.cantidad)
+                            throw new Exception(
+                                "Stock insuficiente para uno de los productos.");
+
+                        inventario.stockActual -= producto.cantidad;
+                    }
+
+                    // Calcular el total de la venta.
+                    venta.montoTotal = detalles.Sum(d => d.subtotal);
+
+                    // Registrar la cabecera.
+                    context.Venta.Add(venta);
+                    context.SaveChanges();
+
+                    // Registrar los detalles.
+                    foreach (var detalle in detalles)
+                    {
+                        detalle.idVenta = venta.id;
+                        detalle.usuarioRegistro = venta.usuarioRegistro;
+                        detalle.fechaRegistro = venta.fechaRegistro;
+                        detalle.estado = 1;
+
+                        context.VentaDetalle.Add(detalle);
+                    }
+
+                    context.SaveChanges();
+
+                    // Confirmar todas las operaciones.
+                    transaction.Commit();
+
+                    return venta.id;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
+        }
+
 
         public static int actualizar(Venta venta)
         {
@@ -162,6 +252,5 @@ namespace ClnOmnicell
                 return context.Sucursal.OrderBy(x => x.nombre).ToList();
             }
         }
-
     }
 }

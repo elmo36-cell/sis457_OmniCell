@@ -79,7 +79,9 @@
     <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="estado" Type="Int16" Nullable="false" />
+    <Property Name="idSucursal" Type="Int32" />
     <NavigationProperty Name="Compra" Relationship="Self.fk_Compra_Empleado" FromRole="Empleado" ToRole="Compra" />
+    <NavigationProperty Name="Sucursal" Relationship="Self.fk_Empleado_Sucursal" FromRole="Empleado" ToRole="Sucursal" />
     <NavigationProperty Name="Usuario" Relationship="Self.fk_Usuario_Empleado" FromRole="Empleado" ToRole="Usuario" />
     <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Empleado" FromRole="Empleado" ToRole="Venta" />
   </EntityType>
@@ -179,6 +181,7 @@
     <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="estado" Type="Int16" Nullable="false" />
+    <NavigationProperty Name="Empleado" Relationship="Self.fk_Empleado_Sucursal" FromRole="Sucursal" ToRole="Empleado" />
     <NavigationProperty Name="Inventario" Relationship="Self.fk_Inventario_Sucursal" FromRole="Sucursal" ToRole="Inventario" />
     <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Sucursal" FromRole="Sucursal" ToRole="Venta" />
   </EntityType>
@@ -314,6 +317,18 @@
       </Principal>
       <Dependent Role="CompraDetalle">
         <PropertyRef Name="idPantalla" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Empleado_Sucursal">
+    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="0..1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sucursal">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="idSucursal" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -469,6 +484,10 @@
       <End Role="Pantalla" EntitySet="Pantalla" />
       <End Role="CompraDetalle" EntitySet="CompraDetalle" />
     </AssociationSet>
+    <AssociationSet Name="fk_Empleado_Sucursal" Association="Self.fk_Empleado_Sucursal">
+      <End Role="Sucursal" EntitySet="Sucursal" />
+      <End Role="Empleado" EntitySet="Empleado" />
+    </AssociationSet>
     <AssociationSet Name="fk_Usuario_Empleado" Association="Self.fk_Usuario_Empleado">
       <End Role="Empleado" EntitySet="Empleado" />
       <End Role="Usuario" EntitySet="Usuario" />
@@ -527,6 +546,10 @@
     <FunctionImport Name="paPantallaListar" ReturnType="Collection(LabOmnicellModel.paPantallaListar_Result)">
       <Parameter Name="parametro" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="paPantallaListarPorSucursal" ReturnType="Collection(LabOmnicellModel.paPantallaListarPorSucursal_Result)">
+      <Parameter Name="idSucursal" Mode="In" Type="Int32" />
+      <Parameter Name="parametro" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="paProveedorListar" ReturnType="Collection(LabOmnicellModel.paProveedorListar_Result)">
       <Parameter Name="parametro" Mode="In" Type="String" />
     </FunctionImport>
@@ -541,7 +564,6 @@
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="paClienteListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />
     <Property Type="String" Name="nombres" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="primerApellido" Nullable="true" MaxLength="30" />
@@ -551,8 +573,6 @@
     <Property Type="String" Name="direccion" Nullable="true" MaxLength="150" />
     <Property Type="String" Name="tipoCliente" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
   </ComplexType>
   <ComplexType Name="paCompraListar_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
@@ -564,7 +584,6 @@
     <Property Type="Decimal" Name="costoTotal" Nullable="false" Precision="10" Scale="2" />
   </ComplexType>
   <ComplexType Name="paEmpleadoListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="primerApellido" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="segundoApellido" Nullable="true" MaxLength="30" />
@@ -572,9 +591,6 @@
     <Property Type="Int64" Name="celular" Nullable="false" />
     <Property Type="String" Name="direccion" Nullable="false" MaxLength="150" />
     <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
   </ComplexType>
   <ComplexType Name="paInventarioListar_Result">
     <Property Type="Int32" Name="id" Nullable="false" />
@@ -597,7 +613,6 @@
     <Property Type="Decimal" Name="stockMinimo" Nullable="false" Precision="10" Scale="2" />
   </ComplexType>
   <ComplexType Name="paMarcaListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
     <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
@@ -609,49 +624,41 @@
     <Property Type="String" Name="modelo" Nullable="false" MaxLength="60" />
   </ComplexType>
   <ComplexType Name="paPantallaListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="sku" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
     <Property Type="String" Name="calidad" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="tecnologia" Nullable="false" MaxLength="30" />
     <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="10" Scale="2" />
     <Property Type="Decimal" Name="stockTotal" Nullable="false" Precision="10" Scale="2" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="paPantallaListarPorSucursal_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="sku" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
+    <Property Type="String" Name="calidad" Nullable="false" MaxLength="30" />
+    <Property Type="String" Name="tecnologia" Nullable="false" MaxLength="30" />
+    <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="Decimal" Name="stockActual" Nullable="false" Precision="10" Scale="2" />
   </ComplexType>
   <ComplexType Name="paProveedorListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="razonSocial" Nullable="false" MaxLength="100" />
     <Property Type="String" Name="pais" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="contactoPersona" Nullable="false" MaxLength="60" />
     <Property Type="String" Name="telefono" Nullable="false" MaxLength="25" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
   </ComplexType>
   <ComplexType Name="paSucursalListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nombre" Nullable="false" MaxLength="80" />
     <Property Type="String" Name="ciudad" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="direccion" Nullable="false" MaxLength="150" />
     <Property Type="String" Name="telefono" Nullable="false" MaxLength="20" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
   </ComplexType>
   <ComplexType Name="paUsuarioListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="nombreUsuario" Nullable="false" MaxLength="20" />
-    <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-    <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-    <Property Type="Int16" Name="estado" Nullable="false" />
   </ComplexType>
   <ComplexType Name="paVentaListar_Result">
-    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="DateTime" Name="fechaVenta" Nullable="false" />
     <Property Type="String" Name="cliente" Nullable="false" MaxLength="81" />
     <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />

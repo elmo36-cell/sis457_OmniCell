@@ -47,9 +47,9 @@ namespace CpOmnicell
             this.btnHCompras = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab3 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup3 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton6 = new C1.Win.C1Ribbon.RibbonButton();
+            this.btnPantallas = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup16 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton10 = new C1.Win.C1Ribbon.RibbonButton();
+            this.btnStockBajo = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTab4 = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup4 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnNuevoCliente = new C1.Win.C1Ribbon.RibbonButton();
@@ -89,17 +89,14 @@ namespace CpOmnicell
             this.btnBuscar = new System.Windows.Forms.Button();
             this.txtParametro = new System.Windows.Forms.TextBox();
             this.gbxFunciones = new System.Windows.Forms.GroupBox();
-            this.btnEditar = new C1.Win.C1Input.C1Button();
-            this.btnGuardar1 = new C1.Win.C1Input.C1Button();
-            this.btnEliminar = new C1.Win.C1Input.C1Button();
+            this.btnDetalleVenta = new C1.Win.C1Input.C1Button();
             this.gbxCompras = new System.Windows.Forms.GroupBox();
             this.dgvListaCompras = new System.Windows.Forms.DataGridView();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnBuscarCompras = new System.Windows.Forms.Button();
             this.txtBuscarCompras = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.btnEditarCompras = new C1.Win.C1Input.C1Button();
-            this.btnEliminarCompra = new C1.Win.C1Input.C1Button();
+            this.btnDetalleCompras = new C1.Win.C1Input.C1Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbxClientes = new System.Windows.Forms.GroupBox();
             this.dgvListaClientes = new System.Windows.Forms.DataGridView();
@@ -125,20 +122,25 @@ namespace CpOmnicell
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.btnEditarUsuario = new C1.Win.C1Input.C1Button();
             this.btnEliminarUsuarios = new C1.Win.C1Input.C1Button();
+            this.gbxPantallas = new System.Windows.Forms.GroupBox();
+            this.dgvListaPantallas = new System.Windows.Forms.DataGridView();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.btnBuscarPantalla = new System.Windows.Forms.Button();
+            this.txtBuscarPantalla = new System.Windows.Forms.TextBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.btnAñadirPantalla = new C1.Win.C1Input.C1Button();
+            this.btnEliminarPantalla = new C1.Win.C1Input.C1Button();
             ((System.ComponentModel.ISupportInitialize)(this.c1Ribbon1)).BeginInit();
             this.gbxVentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaVentas)).BeginInit();
             this.gbxBuscar.SuspendLayout();
             this.gbxFunciones.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEditar)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnGuardar1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEliminar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDetalleVenta)).BeginInit();
             this.gbxCompras.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaCompras)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEditarCompras)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarCompra)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDetalleCompras)).BeginInit();
             this.panel1.SuspendLayout();
             this.gbxClientes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaClientes)).BeginInit();
@@ -158,6 +160,12 @@ namespace CpOmnicell
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarUsuario)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEliminarUsuarios)).BeginInit();
+            this.gbxPantallas.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaPantallas)).BeginInit();
+            this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnAñadirPantalla)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarPantalla)).BeginInit();
             this.SuspendLayout();
             // 
             // c1Ribbon1
@@ -279,29 +287,28 @@ namespace CpOmnicell
             // 
             // ribbonGroup3
             // 
-            this.ribbonGroup3.Items.Add(this.ribbonButton6);
+            this.ribbonGroup3.Items.Add(this.btnPantallas);
             this.ribbonGroup3.Name = "ribbonGroup3";
             this.ribbonGroup3.Text = "Pantallas";
             // 
-            // ribbonButton6
+            // btnPantallas
             // 
-            this.ribbonButton6.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.LargeImage")));
-            this.ribbonButton6.Name = "ribbonButton6";
-            this.ribbonButton6.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton6.SmallImage")));
-            this.ribbonButton6.Text = "Pantallas";
+            this.btnPantallas.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnPantallas.LargeImage")));
+            this.btnPantallas.Name = "btnPantallas";
+            this.btnPantallas.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnPantallas.SmallImage")));
+            this.btnPantallas.Click += new System.EventHandler(this.btnPantallas_Click);
             // 
             // ribbonGroup16
             // 
-            this.ribbonGroup16.Items.Add(this.ribbonButton10);
+            this.ribbonGroup16.Items.Add(this.btnStockBajo);
             this.ribbonGroup16.Name = "ribbonGroup16";
             this.ribbonGroup16.Text = "Stock Bajo";
             // 
-            // ribbonButton10
+            // btnStockBajo
             // 
-            this.ribbonButton10.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton10.LargeImage")));
-            this.ribbonButton10.Name = "ribbonButton10";
-            this.ribbonButton10.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton10.SmallImage")));
-            this.ribbonButton10.Text = "Stock Bajo";
+            this.btnStockBajo.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnStockBajo.LargeImage")));
+            this.btnStockBajo.Name = "btnStockBajo";
+            this.btnStockBajo.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnStockBajo.SmallImage")));
             // 
             // ribbonTab4
             // 
@@ -595,9 +602,7 @@ namespace CpOmnicell
             // 
             // gbxFunciones
             // 
-            this.gbxFunciones.Controls.Add(this.btnEditar);
-            this.gbxFunciones.Controls.Add(this.btnGuardar1);
-            this.gbxFunciones.Controls.Add(this.btnEliminar);
+            this.gbxFunciones.Controls.Add(this.btnDetalleVenta);
             this.gbxFunciones.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.gbxFunciones.Location = new System.Drawing.Point(3, 291);
             this.gbxFunciones.Name = "gbxFunciones";
@@ -606,66 +611,26 @@ namespace CpOmnicell
             this.gbxFunciones.TabStop = false;
             this.gbxFunciones.Text = "Opciones";
             // 
-            // btnEditar
+            // btnDetalleVenta
             // 
-            this.btnEditar.BackColor = System.Drawing.Color.Orange;
-            this.btnEditar.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnEditar.FlatAppearance.BorderSize = 10;
-            this.btnEditar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnEditar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEditar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditar.Image = ((System.Drawing.Image)(resources.GetObject("btnEditar.Image")));
-            this.btnEditar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEditar.Location = new System.Drawing.Point(9, 14);
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(93, 35);
-            this.btnEditar.TabIndex = 6;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditar.UseVisualStyleBackColor = false;
-            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
-            // 
-            // btnGuardar1
-            // 
-            this.btnGuardar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnGuardar1.BackColor = System.Drawing.Color.LimeGreen;
-            this.btnGuardar1.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnGuardar1.FlatAppearance.BorderSize = 10;
-            this.btnGuardar1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnGuardar1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.btnGuardar1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnGuardar1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar1.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnGuardar1.Location = new System.Drawing.Point(1137, 18);
-            this.btnGuardar1.Name = "btnGuardar1";
-            this.btnGuardar1.Size = new System.Drawing.Size(75, 26);
-            this.btnGuardar1.TabIndex = 4;
-            this.btnGuardar1.Text = "Guardar";
-            this.btnGuardar1.UseVisualStyleBackColor = false;
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.BackColor = System.Drawing.Color.Red;
-            this.btnEliminar.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnEliminar.FlatAppearance.BorderSize = 10;
-            this.btnEliminar.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnEliminar.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEliminar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminar.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminar.Image")));
-            this.btnEliminar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEliminar.Location = new System.Drawing.Point(108, 14);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(100, 35);
-            this.btnEliminar.TabIndex = 5;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEliminar.UseVisualStyleBackColor = false;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            this.btnDetalleVenta.BackColor = System.Drawing.Color.Orange;
+            this.btnDetalleVenta.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnDetalleVenta.FlatAppearance.BorderSize = 10;
+            this.btnDetalleVenta.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnDetalleVenta.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnDetalleVenta.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnDetalleVenta.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDetalleVenta.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnDetalleVenta.Image = ((System.Drawing.Image)(resources.GetObject("btnDetalleVenta.Image")));
+            this.btnDetalleVenta.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDetalleVenta.Location = new System.Drawing.Point(9, 14);
+            this.btnDetalleVenta.Name = "btnDetalleVenta";
+            this.btnDetalleVenta.Size = new System.Drawing.Size(113, 35);
+            this.btnDetalleVenta.TabIndex = 6;
+            this.btnDetalleVenta.Text = "Detalles";
+            this.btnDetalleVenta.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDetalleVenta.UseVisualStyleBackColor = false;
+            this.btnDetalleVenta.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // gbxCompras
             // 
@@ -742,8 +707,7 @@ namespace CpOmnicell
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.btnEditarCompras);
-            this.groupBox3.Controls.Add(this.btnEliminarCompra);
+            this.groupBox3.Controls.Add(this.btnDetalleCompras);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox3.Location = new System.Drawing.Point(3, 291);
             this.groupBox3.Name = "groupBox3";
@@ -752,47 +716,26 @@ namespace CpOmnicell
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Opciones";
             // 
-            // btnEditarCompras
+            // btnDetalleCompras
             // 
-            this.btnEditarCompras.BackColor = System.Drawing.Color.Orange;
-            this.btnEditarCompras.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnEditarCompras.FlatAppearance.BorderSize = 10;
-            this.btnEditarCompras.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnEditarCompras.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.btnEditarCompras.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEditarCompras.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditarCompras.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditarCompras.Image = ((System.Drawing.Image)(resources.GetObject("btnEditarCompras.Image")));
-            this.btnEditarCompras.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEditarCompras.Location = new System.Drawing.Point(9, 14);
-            this.btnEditarCompras.Name = "btnEditarCompras";
-            this.btnEditarCompras.Size = new System.Drawing.Size(90, 35);
-            this.btnEditarCompras.TabIndex = 6;
-            this.btnEditarCompras.Text = "Editar";
-            this.btnEditarCompras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEditarCompras.UseVisualStyleBackColor = false;
-            this.btnEditarCompras.Click += new System.EventHandler(this.btnEditarCompras_Click);
-            // 
-            // btnEliminarCompra
-            // 
-            this.btnEliminarCompra.BackColor = System.Drawing.Color.Red;
-            this.btnEliminarCompra.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
-            this.btnEliminarCompra.FlatAppearance.BorderSize = 10;
-            this.btnEliminarCompra.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.btnEliminarCompra.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
-            this.btnEliminarCompra.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEliminarCompra.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminarCompra.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminarCompra.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarCompra.Image")));
-            this.btnEliminarCompra.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEliminarCompra.Location = new System.Drawing.Point(105, 14);
-            this.btnEliminarCompra.Name = "btnEliminarCompra";
-            this.btnEliminarCompra.Size = new System.Drawing.Size(103, 35);
-            this.btnEliminarCompra.TabIndex = 5;
-            this.btnEliminarCompra.Text = "Eliminar";
-            this.btnEliminarCompra.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEliminarCompra.UseVisualStyleBackColor = false;
-            this.btnEliminarCompra.Click += new System.EventHandler(this.btnEliminarCompra_Click);
+            this.btnDetalleCompras.BackColor = System.Drawing.Color.Orange;
+            this.btnDetalleCompras.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnDetalleCompras.FlatAppearance.BorderSize = 10;
+            this.btnDetalleCompras.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnDetalleCompras.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnDetalleCompras.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnDetalleCompras.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDetalleCompras.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnDetalleCompras.Image = ((System.Drawing.Image)(resources.GetObject("btnDetalleCompras.Image")));
+            this.btnDetalleCompras.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDetalleCompras.Location = new System.Drawing.Point(9, 14);
+            this.btnDetalleCompras.Name = "btnDetalleCompras";
+            this.btnDetalleCompras.Size = new System.Drawing.Size(110, 35);
+            this.btnDetalleCompras.TabIndex = 6;
+            this.btnDetalleCompras.Text = "Detalles";
+            this.btnDetalleCompras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDetalleCompras.UseVisualStyleBackColor = false;
+            this.btnDetalleCompras.Click += new System.EventHandler(this.btnEditarCompras_Click);
             // 
             // panel1
             // 
@@ -1185,12 +1128,137 @@ namespace CpOmnicell
             this.btnEliminarUsuarios.UseVisualStyleBackColor = false;
             this.btnEliminarUsuarios.Click += new System.EventHandler(this.btnEliminarUsuarios_Click);
             // 
+            // gbxPantallas
+            // 
+            this.gbxPantallas.Controls.Add(this.dgvListaPantallas);
+            this.gbxPantallas.Controls.Add(this.groupBox10);
+            this.gbxPantallas.Controls.Add(this.groupBox11);
+            this.gbxPantallas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbxPantallas.Location = new System.Drawing.Point(0, 156);
+            this.gbxPantallas.Name = "gbxPantallas";
+            this.gbxPantallas.Size = new System.Drawing.Size(1234, 346);
+            this.gbxPantallas.TabIndex = 41;
+            this.gbxPantallas.TabStop = false;
+            this.gbxPantallas.Text = "Lista Pantallas";
+            // 
+            // dgvListaPantallas
+            // 
+            this.dgvListaPantallas.AllowUserToAddRows = false;
+            this.dgvListaPantallas.AllowUserToDeleteRows = false;
+            this.dgvListaPantallas.AllowUserToResizeColumns = false;
+            this.dgvListaPantallas.AllowUserToResizeRows = false;
+            this.dgvListaPantallas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvListaPantallas.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvListaPantallas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListaPantallas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvListaPantallas.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvListaPantallas.Location = new System.Drawing.Point(3, 61);
+            this.dgvListaPantallas.MultiSelect = false;
+            this.dgvListaPantallas.Name = "dgvListaPantallas";
+            this.dgvListaPantallas.ReadOnly = true;
+            this.dgvListaPantallas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvListaPantallas.Size = new System.Drawing.Size(1228, 230);
+            this.dgvListaPantallas.TabIndex = 0;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.txtBuscarPantalla);
+            this.groupBox10.Controls.Add(this.btnBuscarPantalla);
+            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox10.Location = new System.Drawing.Point(3, 16);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(1228, 45);
+            this.groupBox10.TabIndex = 8;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Buscar";
+            // 
+            // btnBuscarPantalla
+            // 
+            this.btnBuscarPantalla.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBuscarPantalla.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnBuscarPantalla.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnBuscarPantalla.Image = ((System.Drawing.Image)(resources.GetObject("btnBuscarPantalla.Image")));
+            this.btnBuscarPantalla.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnBuscarPantalla.Location = new System.Drawing.Point(1126, 9);
+            this.btnBuscarPantalla.Name = "btnBuscarPantalla";
+            this.btnBuscarPantalla.Size = new System.Drawing.Size(94, 33);
+            this.btnBuscarPantalla.TabIndex = 7;
+            this.btnBuscarPantalla.Text = "Buscar";
+            this.btnBuscarPantalla.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnBuscarPantalla.UseVisualStyleBackColor = false;
+            // 
+            // txtBuscarPantalla
+            // 
+            this.txtBuscarPantalla.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBuscarPantalla.Location = new System.Drawing.Point(9, 16);
+            this.txtBuscarPantalla.MaxLength = 50;
+            this.txtBuscarPantalla.Name = "txtBuscarPantalla";
+            this.txtBuscarPantalla.Size = new System.Drawing.Size(1105, 20);
+            this.txtBuscarPantalla.TabIndex = 6;
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.btnAñadirPantalla);
+            this.groupBox11.Controls.Add(this.btnEliminarPantalla);
+            this.groupBox11.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox11.Location = new System.Drawing.Point(3, 291);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(1228, 52);
+            this.groupBox11.TabIndex = 7;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Opciones";
+            // 
+            // btnAñadirPantalla
+            // 
+            this.btnAñadirPantalla.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnAñadirPantalla.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnAñadirPantalla.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnAñadirPantalla.FlatAppearance.BorderSize = 10;
+            this.btnAñadirPantalla.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnAñadirPantalla.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnAñadirPantalla.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnAñadirPantalla.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAñadirPantalla.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnAñadirPantalla.Image = ((System.Drawing.Image)(resources.GetObject("btnAñadirPantalla.Image")));
+            this.btnAñadirPantalla.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnAñadirPantalla.Location = new System.Drawing.Point(9, 14);
+            this.btnAñadirPantalla.Name = "btnAñadirPantalla";
+            this.btnAñadirPantalla.Size = new System.Drawing.Size(103, 35);
+            this.btnAñadirPantalla.TabIndex = 6;
+            this.btnAñadirPantalla.Text = "Añadir";
+            this.btnAñadirPantalla.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAñadirPantalla.UseVisualStyleBackColor = false;
+            // 
+            // btnEliminarPantalla
+            // 
+            this.btnEliminarPantalla.BackColor = System.Drawing.Color.Red;
+            this.btnEliminarPantalla.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnEliminarPantalla.FlatAppearance.BorderSize = 10;
+            this.btnEliminarPantalla.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnEliminarPantalla.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnEliminarPantalla.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEliminarPantalla.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarPantalla.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEliminarPantalla.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarPantalla.Image")));
+            this.btnEliminarPantalla.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarPantalla.Location = new System.Drawing.Point(118, 14);
+            this.btnEliminarPantalla.Name = "btnEliminarPantalla";
+            this.btnEliminarPantalla.Size = new System.Drawing.Size(98, 35);
+            this.btnEliminarPantalla.TabIndex = 5;
+            this.btnEliminarPantalla.Text = "Eliminar";
+            this.btnEliminarPantalla.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEliminarPantalla.UseVisualStyleBackColor = false;
+            // 
             // FrmMenuVendedor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(1234, 502);
+            this.Controls.Add(this.gbxPantallas);
             this.Controls.Add(this.gbxUsuarios);
             this.Controls.Add(this.gbxClientes);
             this.Controls.Add(this.gbxProveedores);
@@ -1209,16 +1277,13 @@ namespace CpOmnicell
             this.gbxBuscar.ResumeLayout(false);
             this.gbxBuscar.PerformLayout();
             this.gbxFunciones.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.btnEditar)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnGuardar1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEliminar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDetalleVenta)).EndInit();
             this.gbxCompras.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaCompras)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.btnEditarCompras)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarCompra)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnDetalleCompras)).EndInit();
             this.panel1.ResumeLayout(false);
             this.gbxClientes.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaClientes)).EndInit();
@@ -1241,6 +1306,13 @@ namespace CpOmnicell
             this.groupBox9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnEditarUsuario)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEliminarUsuarios)).EndInit();
+            this.gbxPantallas.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaPantallas)).EndInit();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnAñadirPantalla)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarPantalla)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1274,9 +1346,9 @@ namespace CpOmnicell
         private C1.Win.C1Ribbon.RibbonButton btnNuevaCompra;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup12;
         private C1.Win.C1Ribbon.RibbonButton btnHCompras;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton6;
+        private C1.Win.C1Ribbon.RibbonButton btnPantallas;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup16;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton10;
+        private C1.Win.C1Ribbon.RibbonButton btnStockBajo;
         private C1.Win.C1Ribbon.RibbonButton btnNuevoCliente;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup17;
         private C1.Win.C1Ribbon.RibbonButton btnClientes;
@@ -1294,9 +1366,7 @@ namespace CpOmnicell
         private C1.Win.C1Ribbon.RibbonButton ribbonButton18;
         private System.Windows.Forms.GroupBox gbxVentas;
         private System.Windows.Forms.DataGridView dgvListaVentas;
-        private C1Button btnEditar;
-        private C1Button btnEliminar;
-        private C1Button btnGuardar1;
+        private C1Button btnDetalleVenta;
         private System.Windows.Forms.GroupBox gbxFunciones;
         private System.Windows.Forms.GroupBox gbxBuscar;
         private System.Windows.Forms.Button btnBuscar;
@@ -1307,8 +1377,7 @@ namespace CpOmnicell
         private System.Windows.Forms.Button btnBuscarCompras;
         private System.Windows.Forms.TextBox txtBuscarCompras;
         private System.Windows.Forms.GroupBox groupBox3;
-        private C1Button btnEditarCompras;
-        private C1Button btnEliminarCompra;
+        private C1Button btnDetalleCompras;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox gbxClientes;
         private System.Windows.Forms.DataGridView dgvListaClientes;
@@ -1342,5 +1411,13 @@ namespace CpOmnicell
         private System.Windows.Forms.GroupBox groupBox9;
         private C1Button btnEditarUsuario;
         private C1Button btnEliminarUsuarios;
+        private System.Windows.Forms.GroupBox gbxPantallas;
+        private System.Windows.Forms.DataGridView dgvListaPantallas;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.TextBox txtBuscarPantalla;
+        private System.Windows.Forms.Button btnBuscarPantalla;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private C1Button btnAñadirPantalla;
+        private C1Button btnEliminarPantalla;
     }
 }

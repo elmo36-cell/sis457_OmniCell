@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="LabOmnicellModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="LabOmnicellModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Cliente">
           <Key>
             <PropertyRef Name="id" />
@@ -433,6 +433,10 @@
         <Function Name="paPantallaListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="parametro" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="paPantallaListarPorSucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idSucursal" Type="int" Mode="In" />
+          <Parameter Name="parametro" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="paProveedorListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="parametro" Type="varchar" Mode="In" />
         </Function>
@@ -530,7 +534,8 @@
             <End Role="VentaDetalle" EntitySet="VentaDetalle" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="LabOmnicellModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -578,9 +583,9 @@
           <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="estado" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="Self.fk_Compra_Empleado" FromRole="Compra" ToRole="Empleado" />
           <NavigationProperty Name="Proveedor" Relationship="Self.fk_Compra_Proveedor" FromRole="Compra" ToRole="Proveedor" />
           <NavigationProperty Name="CompraDetalle" Relationship="Self.fk_CompraDetalle_Compra" FromRole="Compra" ToRole="CompraDetalle" />
-          <NavigationProperty Name="Empleado" Relationship="LabOmnicellModel.fk_Compra_Empleado" FromRole="Compra" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="CompraDetalle">
           <Key>
@@ -597,6 +602,27 @@
           <Property Name="estado" Type="Int16" Nullable="false" />
           <NavigationProperty Name="Compra" Relationship="Self.fk_CompraDetalle_Compra" FromRole="CompraDetalle" ToRole="Compra" />
           <NavigationProperty Name="Pantalla" Relationship="Self.fk_CompraDetalle_Pantalla" FromRole="CompraDetalle" ToRole="Pantalla" />
+        </EntityType>
+        <EntityType Name="Empleado">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="primerApellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="segundoApellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="ci" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="celular" Type="Int64" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cargo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="Int16" Nullable="false" />
+          <Property Name="idSucursal" Type="Int32" />
+          <NavigationProperty Name="Compra" Relationship="Self.fk_Compra_Empleado" FromRole="Empleado" ToRole="Compra" />
+          <NavigationProperty Name="Sucursal" Relationship="Self.fk_Empleado_Sucursal" FromRole="Empleado" ToRole="Sucursal" />
+          <NavigationProperty Name="Usuario" Relationship="Self.fk_Usuario_Empleado" FromRole="Empleado" ToRole="Usuario" />
+          <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Empleado" FromRole="Empleado" ToRole="Venta" />
         </EntityType>
         <EntityType Name="Inventario">
           <Key>
@@ -694,9 +720,9 @@
           <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="estado" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="Self.fk_Empleado_Sucursal" FromRole="Sucursal" ToRole="Empleado" />
           <NavigationProperty Name="Inventario" Relationship="Self.fk_Inventario_Sucursal" FromRole="Sucursal" ToRole="Inventario" />
           <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Sucursal" FromRole="Sucursal" ToRole="Venta" />
-          <NavigationProperty Name="Empleado" Relationship="LabOmnicellModel.fk_Empleado_Sucursal" FromRole="Sucursal" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -710,8 +736,8 @@
           <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="estado" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Empleado" Relationship="Self.fk_Usuario_Empleado" FromRole="Usuario" ToRole="Empleado" />
           <NavigationProperty Name="Rol" Relationship="Self.fk_Usuario_Rol" FromRole="Usuario" ToRole="Rol" />
-          <NavigationProperty Name="Empleado" Relationship="LabOmnicellModel.fk_Usuario_Empleado" FromRole="Usuario" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="Venta">
           <Key>
@@ -728,9 +754,9 @@
           <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="estado" Type="Int16" Nullable="false" />
           <NavigationProperty Name="Cliente" Relationship="Self.fk_Venta_Cliente" FromRole="Venta" ToRole="Cliente" />
+          <NavigationProperty Name="Empleado" Relationship="Self.fk_Venta_Empleado" FromRole="Venta" ToRole="Empleado" />
           <NavigationProperty Name="Sucursal" Relationship="Self.fk_Venta_Sucursal" FromRole="Venta" ToRole="Sucursal" />
           <NavigationProperty Name="VentaDetalle" Relationship="Self.fk_VentaDetalle_Venta" FromRole="Venta" ToRole="VentaDetalle" />
-          <NavigationProperty Name="Empleado" Relationship="LabOmnicellModel.fk_Venta_Empleado" FromRole="Venta" ToRole="Empleado" />
         </EntityType>
         <EntityType Name="VentaDetalle">
           <Key>
@@ -785,6 +811,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_Compra_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Compra">
+              <PropertyRef Name="idEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Compra_Proveedor">
           <End Role="Proveedor" Type="Self.Proveedor" Multiplicity="1" />
           <End Role="Compra" Type="Self.Compra" Multiplicity="*" />
@@ -818,6 +856,42 @@
             </Principal>
             <Dependent Role="CompraDetalle">
               <PropertyRef Name="idPantalla" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Empleado_Sucursal">
+          <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="0..1" />
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sucursal">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Empleado">
+              <PropertyRef Name="idSucursal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Usuario_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="idEmpleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Venta_Empleado">
+          <End Role="Empleado" Type="Self.Empleado" Multiplicity="1" />
+          <End Role="Venta" Type="Self.Venta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleado">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Venta">
+              <PropertyRef Name="idEmpleado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -910,6 +984,7 @@
           <EntitySet Name="Compatibilidad" EntityType="Self.Compatibilidad" />
           <EntitySet Name="Compra" EntityType="Self.Compra" />
           <EntitySet Name="CompraDetalle" EntityType="Self.CompraDetalle" />
+          <EntitySet Name="Empleado" EntityType="Self.Empleado" />
           <EntitySet Name="Inventario" EntityType="Self.Inventario" />
           <EntitySet Name="Marca" EntityType="Self.Marca" />
           <EntitySet Name="Modelo" EntityType="Self.Modelo" />
@@ -932,6 +1007,10 @@
             <End Role="Pantalla" EntitySet="Pantalla" />
             <End Role="Compatibilidad" EntitySet="Compatibilidad" />
           </AssociationSet>
+          <AssociationSet Name="fk_Compra_Empleado" Association="Self.fk_Compra_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Compra" EntitySet="Compra" />
+          </AssociationSet>
           <AssociationSet Name="fk_Compra_Proveedor" Association="Self.fk_Compra_Proveedor">
             <End Role="Proveedor" EntitySet="Proveedor" />
             <End Role="Compra" EntitySet="Compra" />
@@ -943,6 +1022,18 @@
           <AssociationSet Name="fk_CompraDetalle_Pantalla" Association="Self.fk_CompraDetalle_Pantalla">
             <End Role="Pantalla" EntitySet="Pantalla" />
             <End Role="CompraDetalle" EntitySet="CompraDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Empleado_Sucursal" Association="Self.fk_Empleado_Sucursal">
+            <End Role="Sucursal" EntitySet="Sucursal" />
+            <End Role="Empleado" EntitySet="Empleado" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Usuario_Empleado" Association="Self.fk_Usuario_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Venta_Empleado" Association="Self.fk_Venta_Empleado">
+            <End Role="Empleado" EntitySet="Empleado" />
+            <End Role="Venta" EntitySet="Venta" />
           </AssociationSet>
           <AssociationSet Name="fk_Inventario_Pantalla" Association="Self.fk_Inventario_Pantalla">
             <End Role="Pantalla" EntitySet="Pantalla" />
@@ -973,59 +1064,45 @@
             <End Role="VentaDetalle" EntitySet="VentaDetalle" />
           </AssociationSet>
           <FunctionImport Name="paClienteListar" ReturnType="Collection(LabOmnicellModel.paClienteListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paCompraListar" ReturnType="Collection(LabOmnicellModel.paCompraListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paEmpleadoListar" ReturnType="Collection(LabOmnicellModel.paEmpleadoListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paInventarioListar" ReturnType="Collection(LabOmnicellModel.paInventarioListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paInventarioStockBajo" ReturnType="Collection(LabOmnicellModel.paInventarioStockBajo_Result)" />
           <FunctionImport Name="paMarcaListar" ReturnType="Collection(LabOmnicellModel.paMarcaListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paModeloListar" ReturnType="Collection(LabOmnicellModel.paModeloListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paPantallaListar" ReturnType="Collection(LabOmnicellModel.paPantallaListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="paPantallaListarPorSucursal" ReturnType="Collection(LabOmnicellModel.paPantallaListarPorSucursal_Result)">
+            <Parameter Name="idSucursal" Mode="In" Type="Int32" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paProveedorListar" ReturnType="Collection(LabOmnicellModel.paProveedorListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paSucursalListar" ReturnType="Collection(LabOmnicellModel.paSucursalListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paUsuarioListar" ReturnType="Collection(LabOmnicellModel.paUsuarioListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="paVentaListar" ReturnType="Collection(LabOmnicellModel.paVentaListar_Result)">
-          <Parameter Name="parametro" Mode="In" Type="String" />
+            <Parameter Name="parametro" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Empleado" EntityType="LabOmnicellModel.Empleado" />
-          <AssociationSet Name="fk_Compra_Empleado" Association="LabOmnicellModel.fk_Compra_Empleado">
-            <End Role="Empleado" EntitySet="Empleado" />
-            <End Role="Compra" EntitySet="Compra" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Empleado_Sucursal" Association="LabOmnicellModel.fk_Empleado_Sucursal">
-            <End Role="Sucursal" EntitySet="Sucursal" />
-            <End Role="Empleado" EntitySet="Empleado" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Usuario_Empleado" Association="LabOmnicellModel.fk_Usuario_Empleado">
-            <End Role="Empleado" EntitySet="Empleado" />
-            <End Role="Usuario" EntitySet="Usuario" />
-          </AssociationSet>
-          <AssociationSet Name="fk_Venta_Empleado" Association="LabOmnicellModel.fk_Venta_Empleado">
-            <End Role="Empleado" EntitySet="Empleado" />
-            <End Role="Venta" EntitySet="Venta" />
-          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="paClienteListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />
           <Property Type="String" Name="nombres" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="primerApellido" Nullable="true" MaxLength="30" />
@@ -1035,8 +1112,6 @@
           <Property Type="String" Name="direccion" Nullable="true" MaxLength="150" />
           <Property Type="String" Name="tipoCliente" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-          <Property Type="Int16" Name="estado" Nullable="false" />
         </ComplexType>
         <ComplexType Name="paCompraListar_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1048,7 +1123,6 @@
           <Property Type="Decimal" Name="costoTotal" Nullable="false" Precision="10" Scale="2" />
         </ComplexType>
         <ComplexType Name="paEmpleadoListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="primerApellido" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="segundoApellido" Nullable="true" MaxLength="30" />
@@ -1056,9 +1130,6 @@
           <Property Type="Int64" Name="celular" Nullable="false" />
           <Property Type="String" Name="direccion" Nullable="false" MaxLength="150" />
           <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-          <Property Type="Int16" Name="estado" Nullable="false" />
         </ComplexType>
         <ComplexType Name="paInventarioListar_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1081,7 +1152,6 @@
           <Property Type="Decimal" Name="stockMinimo" Nullable="false" Precision="10" Scale="2" />
         </ComplexType>
         <ComplexType Name="paMarcaListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
           <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
@@ -1093,49 +1163,41 @@
           <Property Type="String" Name="modelo" Nullable="false" MaxLength="60" />
         </ComplexType>
         <ComplexType Name="paPantallaListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="sku" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
           <Property Type="String" Name="calidad" Nullable="false" MaxLength="30" />
           <Property Type="String" Name="tecnologia" Nullable="false" MaxLength="30" />
           <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="10" Scale="2" />
           <Property Type="Decimal" Name="stockTotal" Nullable="false" Precision="10" Scale="2" />
-          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-          <Property Type="Int16" Name="estado" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="paPantallaListarPorSucursal_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="sku" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
+          <Property Type="String" Name="calidad" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="tecnologia" Nullable="false" MaxLength="30" />
+          <Property Type="Decimal" Name="precioVenta" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Decimal" Name="stockActual" Nullable="false" Precision="10" Scale="2" />
         </ComplexType>
         <ComplexType Name="paProveedorListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="razonSocial" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="pais" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="contactoPersona" Nullable="false" MaxLength="60" />
           <Property Type="String" Name="telefono" Nullable="false" MaxLength="25" />
-          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-          <Property Type="Int16" Name="estado" Nullable="false" />
         </ComplexType>
         <ComplexType Name="paSucursalListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="80" />
           <Property Type="String" Name="ciudad" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="direccion" Nullable="false" MaxLength="150" />
           <Property Type="String" Name="telefono" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-          <Property Type="Int16" Name="estado" Nullable="false" />
         </ComplexType>
         <ComplexType Name="paUsuarioListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="nombreUsuario" Nullable="false" MaxLength="20" />
-          <Property Type="String" Name="usuarioRegistro" Nullable="false" MaxLength="50" />
-          <Property Type="DateTime" Name="fechaRegistro" Nullable="false" Precision="23" />
-          <Property Type="Int16" Name="estado" Nullable="false" />
         </ComplexType>
         <ComplexType Name="paVentaListar_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="DateTime" Name="fechaVenta" Nullable="false" />
           <Property Type="String" Name="cliente" Nullable="false" MaxLength="81" />
           <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />
@@ -1144,75 +1206,6 @@
           <Property Type="String" Name="tipoPago" Nullable="false" MaxLength="30" />
           <Property Type="Decimal" Name="montoTotal" Nullable="false" Precision="10" Scale="2" />
         </ComplexType>
-        <EntityType Name="Empleado">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombres" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="primerApellido" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="segundoApellido" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="ci" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="celular" Type="Int64" Nullable="false" />
-          <Property Name="direccion" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="cargo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="usuarioRegistro" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="estado" Type="Int16" Nullable="false" />
-          <Property Name="idSucursal" Type="Int32" />
-          <NavigationProperty Name="Compra" Relationship="LabOmnicellModel.fk_Compra_Empleado" FromRole="Empleado" ToRole="Compra" />
-          <NavigationProperty Name="Sucursal" Relationship="LabOmnicellModel.fk_Empleado_Sucursal" FromRole="Empleado" ToRole="Sucursal" />
-          <NavigationProperty Name="Usuario" Relationship="LabOmnicellModel.fk_Usuario_Empleado" FromRole="Empleado" ToRole="Usuario" />
-          <NavigationProperty Name="Venta" Relationship="LabOmnicellModel.fk_Venta_Empleado" FromRole="Empleado" ToRole="Venta" />
-        </EntityType>
-        <Association Name="fk_Compra_Empleado">
-          <End Type="LabOmnicellModel.Empleado" Role="Empleado" Multiplicity="1" />
-          <End Type="LabOmnicellModel.Compra" Role="Compra" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleado">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Compra">
-              <PropertyRef Name="idEmpleado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Empleado_Sucursal">
-          <End Type="LabOmnicellModel.Sucursal" Role="Sucursal" Multiplicity="0..1" />
-          <End Type="LabOmnicellModel.Empleado" Role="Empleado" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Sucursal">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Empleado">
-              <PropertyRef Name="idSucursal" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Usuario_Empleado">
-          <End Type="LabOmnicellModel.Empleado" Role="Empleado" Multiplicity="1" />
-          <End Type="LabOmnicellModel.Usuario" Role="Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleado">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Usuario">
-              <PropertyRef Name="idEmpleado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_Venta_Empleado">
-          <End Type="LabOmnicellModel.Empleado" Role="Empleado" Multiplicity="1" />
-          <End Type="LabOmnicellModel.Venta" Role="Venta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleado">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Venta">
-              <PropertyRef Name="idEmpleado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1276,6 +1269,24 @@
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
                 <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleado">
+            <EntityTypeMapping TypeName="LabOmnicellModel.Empleado">
+              <MappingFragment StoreEntitySet="Empleado">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombres" ColumnName="nombres" />
+                <ScalarProperty Name="primerApellido" ColumnName="primerApellido" />
+                <ScalarProperty Name="segundoApellido" ColumnName="segundoApellido" />
+                <ScalarProperty Name="ci" ColumnName="ci" />
+                <ScalarProperty Name="celular" ColumnName="celular" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="cargo" ColumnName="cargo" />
+                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
+                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="idSucursal" ColumnName="idSucursal" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1421,7 +1432,6 @@
           <FunctionImportMapping FunctionImportName="paClienteListar" FunctionName="LabOmnicellModel.Store.paClienteListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paClienteListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nitCi" ColumnName="nitCi" />
                 <ScalarProperty Name="nombres" ColumnName="nombres" />
                 <ScalarProperty Name="primerApellido" ColumnName="primerApellido" />
@@ -1431,8 +1441,6 @@
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="tipoCliente" ColumnName="tipoCliente" />
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1452,7 +1460,6 @@
           <FunctionImportMapping FunctionImportName="paEmpleadoListar" FunctionName="LabOmnicellModel.Store.paEmpleadoListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paEmpleadoListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombres" ColumnName="nombres" />
                 <ScalarProperty Name="primerApellido" ColumnName="primerApellido" />
                 <ScalarProperty Name="segundoApellido" ColumnName="segundoApellido" />
@@ -1460,9 +1467,6 @@
                 <ScalarProperty Name="celular" ColumnName="celular" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="cargo" ColumnName="cargo" />
-                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1497,7 +1501,6 @@
           <FunctionImportMapping FunctionImportName="paMarcaListar" FunctionName="LabOmnicellModel.Store.paMarcaListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paMarcaListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
                 <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
@@ -1517,65 +1520,61 @@
           <FunctionImportMapping FunctionImportName="paPantallaListar" FunctionName="LabOmnicellModel.Store.paPantallaListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paPantallaListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="sku" ColumnName="sku" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="calidad" ColumnName="calidad" />
                 <ScalarProperty Name="tecnologia" ColumnName="tecnologia" />
                 <ScalarProperty Name="precioVenta" ColumnName="precioVenta" />
                 <ScalarProperty Name="stockTotal" ColumnName="stockTotal" />
-                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="paPantallaListarPorSucursal" FunctionName="LabOmnicellModel.Store.paPantallaListarPorSucursal">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LabOmnicellModel.paPantallaListarPorSucursal_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="sku" ColumnName="sku" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="calidad" ColumnName="calidad" />
+                <ScalarProperty Name="tecnologia" ColumnName="tecnologia" />
+                <ScalarProperty Name="precioVenta" ColumnName="precioVenta" />
+                <ScalarProperty Name="stockActual" ColumnName="stockActual" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="paProveedorListar" FunctionName="LabOmnicellModel.Store.paProveedorListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paProveedorListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="razonSocial" ColumnName="razonSocial" />
                 <ScalarProperty Name="pais" ColumnName="pais" />
                 <ScalarProperty Name="contactoPersona" ColumnName="contactoPersona" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="paSucursalListar" FunctionName="LabOmnicellModel.Store.paSucursalListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paSucursalListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="ciudad" ColumnName="ciudad" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="paUsuarioListar" FunctionName="LabOmnicellModel.Store.paUsuarioListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paUsuarioListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="nombres" ColumnName="nombres" />
                 <ScalarProperty Name="cargo" ColumnName="cargo" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="nombreUsuario" ColumnName="nombreUsuario" />
-                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="paVentaListar" FunctionName="LabOmnicellModel.Store.paVentaListar">
             <ResultMapping>
               <ComplexTypeMapping TypeName="LabOmnicellModel.paVentaListar_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="fechaVenta" ColumnName="fechaVenta" />
                 <ScalarProperty Name="cliente" ColumnName="cliente" />
                 <ScalarProperty Name="nitCi" ColumnName="nitCi" />
@@ -1586,24 +1585,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Empleado">
-            <EntityTypeMapping TypeName="LabOmnicellModel.Empleado">
-              <MappingFragment StoreEntitySet="Empleado">
-                <ScalarProperty Name="idSucursal" ColumnName="idSucursal" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-                <ScalarProperty Name="usuarioRegistro" ColumnName="usuarioRegistro" />
-                <ScalarProperty Name="cargo" ColumnName="cargo" />
-                <ScalarProperty Name="direccion" ColumnName="direccion" />
-                <ScalarProperty Name="celular" ColumnName="celular" />
-                <ScalarProperty Name="ci" ColumnName="ci" />
-                <ScalarProperty Name="segundoApellido" ColumnName="segundoApellido" />
-                <ScalarProperty Name="primerApellido" ColumnName="primerApellido" />
-                <ScalarProperty Name="nombres" ColumnName="nombres" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -16,206 +16,568 @@ namespace CpOmnicell
     public partial class FrmVentas : Form
     {
         private List<Cliente> listaClientes = new List<Cliente>();
-        private int? idVenta;
-        private Venta ventaActual;
 
-        // Para registrar una venta nueva
+        private List<paPantallaListarPorSucursal_Result> listaPantallas =
+            new List<paPantallaListarPorSucursal_Result>();
+
+        private int idSucursalSesion;
+
         public FrmVentas()
         {
             InitializeComponent();
-            idVenta = null;
         }
 
-        // Para editar una venta existente
-        public FrmVentas(int id)
+        private void FrmVentas_Load(object sender, EventArgs e)
         {
-            InitializeComponent();
-            idVenta = id;
+            configurarDgvProductos();
+            try
+            {
+                configurarTipoPago();
+                cargarClientes();
+                cargarEmpleadoSesion();
+                cargarPantallas();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error al cargar ventas",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+        private void configurarTipoPago()
+        {
+            cbxTipoPago.Items.Clear();
+
+            cbxTipoPago.Items.Add("Efectivo");
+            cbxTipoPago.Items.Add("QR");
+            cbxTipoPago.Items.Add("Transferencia");
+
+            cbxTipoPago.SelectedIndex = -1;
+
+            gbxEfectivo.Visible = false;
+
+            nudRecibido.Value = 0;
+            txtCambio.Text = "0.00";
+
+            cbxTipoPago.SelectedIndexChanged +=
+                cbxTipoPago_SelectedIndexChanged;
+        }
+        private void cbxTipoPago_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            bool esEfectivo = cbxTipoPago.SelectedItem?.ToString() == "Efectivo";
+
+            gbxEfectivo.Visible = esEfectivo;
+
+            if (!esEfectivo)
+            {
+                nudRecibido.Value = 0;
+                txtCambio.Text = "0.00";
+            }
+        }
+        private void cargarClientes()
+        {
+            listaClientes = VentaCln.listarClientesCombo();
+
+            if (listaClientes == null)
+                listaClientes = new List<Cliente>();
+
+            cbxCiNit.DataSource = null;
+
+            cbxCiNit.DataSource = listaClientes.Select(x => new
+            {
+                id = x.id,
+                nitCi = x.nitCi
+            }).ToList();
+
+            cbxCiNit.DisplayMember = "nitCi";
+            cbxCiNit.ValueMember = "id";
+
+            cbxCiNit.SelectedIndex = -1;
+
+            txtCliente.Clear();
+            txtTelefono.Clear();
+        }
+        private void cargarEmpleadoSesion()
+        {
+            if (Util.usuario == null)
+                throw new Exception(
+                    "No existe un usuario autenticado. Inicie sesión nuevamente."
+                );
+
+            int idEmpleado = Util.usuario.idEmpleado;
+
+            Empleado empleado =
+                EmpleadoCln.obtenerConSucursal(idEmpleado);
+
+            if (!empleado.idSucursal.HasValue ||
+                empleado.Sucursal == null)
+            {
+                throw new Exception(
+                    "El empleado no tiene una sucursal asignada."
+                );
+            }
+
+            idSucursalSesion = empleado.idSucursal.Value;
+
+            txtEmpleado.Text =
+                empleado.nombres + " " +
+                empleado.primerApellido + " " +
+                empleado.segundoApellido;
+
+            txtSucursal.Text = empleado.Sucursal.nombre;
+
+            txtEmpleado.ReadOnly = true;
+            txtSucursal.ReadOnly = true;
+
+            dtpFechaVenta.Value = DateTime.Today;
+            dtpFechaVenta.Enabled = false;
+        }
+        private void cargarPantallas(string parametro = "")
+        {
+            listaPantallas = PantallaCln.listarPorSucursal(
+                idSucursalSesion,
+                parametro
+            );
+
+            if (listaPantallas == null)
+                listaPantallas =
+                    new List<paPantallaListarPorSucursal_Result>();
+
+            cbxPantalla.DataSource = null;
+
+            cbxPantalla.DataSource = listaPantallas.Select(x => new
+            {
+                id = x.id,
+                sku = x.sku
+            }).ToList();
+
+            cbxPantalla.DisplayMember = "sku";
+            cbxPantalla.ValueMember = "id";
+
+            cbxPantalla.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxPantalla.SelectedIndex = -1;
+
+            limpiarDatosPantalla();
+        }
+
+        private void cbxPantalla_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxPantalla.SelectedValue == null ||
+      !(cbxPantalla.SelectedValue is int))
+            {
+                return;
+            }
+
+            int idPantalla =
+                Convert.ToInt32(cbxPantalla.SelectedValue);
+
+            var pantalla = listaPantallas.FirstOrDefault(
+                x => x.id == idPantalla
+            );
+
+            if (pantalla == null)
+                return;
+
+            // Mostrar stock y precio
+            txtStock.Text = pantalla.stockActual.ToString("N2");
+
+            txtPrecioVenta.Text =
+                pantalla.precioVenta.ToString("N2");
+
+            // Obtener marca y modelos compatibles
+            Pantalla pantallaCompleta =
+                PantallaCln.obtenerConCompatibilidad(pantalla.id);
+
+            var modelos = pantallaCompleta.Compatibilidad
+                .Where(c => c.estado == 1 && c.Modelo != null)
+                .Select(c => c.Modelo)
+                .Where(m => m.estado == 1)
+                .GroupBy(m => m.id)
+                .Select(g => g.First())
+                .OrderBy(m => m.nombre)
+                .ToList();
+
+            cbxModelo.DataSource = null;
+            cbxModelo.DisplayMember = "nombre";
+            cbxModelo.ValueMember = "id";
+            cbxModelo.DataSource = modelos;
+
+            cbxModelo.Enabled = modelos.Count > 0;
+
+            if (modelos.Count == 0)
+            {
+                txtMarca.Clear();
+            }
+
+            // Configurar cantidad máxima según existencias
+            nudCantidad.DecimalPlaces = 0;
+            nudCantidad.Minimum = 0;
+
+            decimal stockDisponible =
+                Math.Floor(pantalla.stockActual);
+
+            nudCantidad.Maximum = Math.Max(1, stockDisponible);
+
+            if (stockDisponible >= 1)
+            {
+                nudCantidad.Enabled = true;
+                nudCantidad.Value = 1;
+            }
+            else
+            {
+                nudCantidad.Value = 0;
+                nudCantidad.Enabled = false;
+            }
+        }
+        private void cbxCiNit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbxCiNit.SelectedValue == null ||
+     !(cbxCiNit.SelectedValue is int))
+            {
+                return;
+            }
+
+            int idCliente =
+                Convert.ToInt32(cbxCiNit.SelectedValue);
+
+            Cliente cliente = listaClientes.FirstOrDefault(
+                x => x.id == idCliente
+            );
+
+            if (cliente != null)
+            {
+                txtCliente.Text =
+                    string.IsNullOrEmpty(cliente.razonSocial)
+                    ? cliente.nombres + " " +
+                      cliente.primerApellido + " " +
+                      cliente.segundoApellido
+                    : cliente.razonSocial;
+
+                txtTelefono.Text = cliente.telefono;
+            }
+        }
+
+        private void limpiarDatosPantalla()
+        {
+            txtMarca.Clear();
+            txtStock.Clear();
+            txtPrecioVenta.Clear();
+
+            nudCantidad.Value = 0;
+            nudCantidad.Enabled = false;
+        }
+        private void btnAñadirProducto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cbxPantalla.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Seleccione una pantalla.");
+                    return;
+                }
+
+                if (cbxModelo.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Seleccione un modelo compatible.");
+                    return;
+                }
+
+                if (nudCantidad.Value <= 0)
+                {
+                    MessageBox.Show("Ingrese una cantidad válida.");
+                    return;
+                }
+
+                int idPantalla = Convert.ToInt32(cbxPantalla.SelectedValue);
+                int idModelo = Convert.ToInt32(cbxModelo.SelectedValue);
+
+                var pantalla = listaPantallas.FirstOrDefault(
+                    x => x.id == idPantalla
+                );
+
+                if (pantalla == null)
+                    throw new Exception("No se encontró la pantalla seleccionada.");
+
+                decimal cantidad = nudCantidad.Value;
+                decimal precio = pantalla.precioVenta;
+
+                // Buscar el mismo SKU y modelo
+                foreach (DataGridViewRow fila in dgvListaProductos.Rows)
+                {
+                    if (Convert.ToInt32(fila.Cells["colIdPantalla"].Value) == idPantalla &&
+                        Convert.ToInt32(fila.Cells["colIdModelo"].Value) == idModelo)
+                    {
+                        decimal cantidadActual =
+                            Convert.ToDecimal(fila.Cells["colCantidad"].Value);
+
+                        decimal nuevaCantidad = cantidadActual + cantidad;
+
+                        if (nuevaCantidad > pantalla.stockActual)
+                        {
+                            MessageBox.Show("La cantidad supera el stock disponible.");
+                            return;
+                        }
+
+                        fila.Cells["colCantidad"].Value = nuevaCantidad;
+                        fila.Cells["colSubtotal"].Value = nuevaCantidad * precio;
+
+                        actualizarTotalVenta();
+                        return;
+                    }
+                }
+
+                if (cantidad > pantalla.stockActual)
+                {
+                    MessageBox.Show("No existe suficiente stock.");
+                    return;
+                }
+
+                int numero = dgvListaProductos.Rows.Count + 1;
+
+                dgvListaProductos.Rows.Add(
+                    numero,
+                    pantalla.id,
+                    idModelo,
+                    pantalla.sku,
+                    pantalla.descripcion,
+                    txtMarca.Text,
+                    cbxModelo.Text,
+                    pantalla.calidad,
+                    cantidad,
+                    precio,
+                    cantidad * precio
+                );
+
+                actualizarTotalVenta();
+
+                nudCantidad.Value = 1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error al agregar producto",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+        private void actualizarTotalVenta()
+        {
+            decimal total = 0;
+
+            foreach (DataGridViewRow fila in dgvListaProductos.Rows)
+            {
+                total += Convert.ToDecimal(
+                    fila.Cells["colSubtotal"].Value
+                );
+            }
+
+            nudTotalVenta.Value = total;
+        }
+        private void btnCancelarProducto_Click(object sender, EventArgs e)
+        {
+            if (dgvListaProductos.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un producto de la lista.");
+                return;
+            }
+
+            dgvListaProductos.Rows.Remove(
+                dgvListaProductos.CurrentRow
+            );
+
+            // Actualizar numeración
+            for (int i = 0; i < dgvListaProductos.Rows.Count; i++)
+            {
+                dgvListaProductos.Rows[i].Cells["colNumero"].Value = i + 1;
+            }
+
+            actualizarTotalVenta();
+        }
+
+        private void configurarDgvProductos()
+        {
+            dgvListaProductos.Columns.Clear();
+
+            dgvListaProductos.AutoGenerateColumns = false;
+            dgvListaProductos.AllowUserToAddRows = false;
+            dgvListaProductos.AllowUserToDeleteRows = false;
+            dgvListaProductos.ReadOnly = true;
+            dgvListaProductos.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+            dgvListaProductos.MultiSelect = false;
+            dgvListaProductos.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+
+            dgvListaProductos.Columns.Add("colNumero", "N°");
+            dgvListaProductos.Columns.Add("colIdPantalla", "Id Pantalla");
+            dgvListaProductos.Columns.Add("colIdModelo", "Id Modelo");
+            dgvListaProductos.Columns.Add("colSku", "SKU");
+            dgvListaProductos.Columns.Add("colDescripcion", "Descripción");
+            dgvListaProductos.Columns.Add("colMarca", "Marca");
+            dgvListaProductos.Columns.Add("colModelo", "Modelo");
+            dgvListaProductos.Columns.Add("colCalidad", "Calidad");
+            dgvListaProductos.Columns.Add("colCantidad", "Cantidad");
+            dgvListaProductos.Columns.Add("colPrecio", "Precio unitario");
+            dgvListaProductos.Columns.Add("colSubtotal", "Subtotal");
+
+            dgvListaProductos.Columns["colIdPantalla"].Visible = false;
+            dgvListaProductos.Columns["colIdModelo"].Visible = false;
+
+            dgvListaProductos.Columns["colCantidad"].DefaultCellStyle.Format = "N0";
+            dgvListaProductos.Columns["colPrecio"].DefaultCellStyle.Format = "N2";
+            dgvListaProductos.Columns["colSubtotal"].DefaultCellStyle.Format = "N2";
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
         }
-
-        private void FrmVentas_Load(object sender, EventArgs e)
-        {
-
-            cbxTipoPago.Items.Clear();
-            cbxTipoPago.Items.Add("Efectivo");
-            cbxTipoPago.Items.Add("QR");
-            cbxTipoPago.Items.Add("Transferencia");
-            cbxTipoPago.DropDownStyle = ComboBoxStyle.DropDownList;
-            cbxTipoPago.SelectedIndex = 0;
-            cargarCombos();
-
-            if (idVenta.HasValue)
-            {
-                ventaActual = VentaCln.obtenerUno(idVenta.Value);
-
-                cbxCliente.SelectedValue = ventaActual.idCliente;
-                cbxEmpleado.SelectedValue = ventaActual.idEmpleado;
-                cbxSucursal.SelectedValue = ventaActual.idSucursal;
-
-                dtpFechaVenta.Value = ventaActual.fechaVenta;
-                cbxTipoPago.SelectedItem = ventaActual.tipoPago;
-                nudTotalVenta.Value = ventaActual.montoTotal;
-            }
-            else
-            {
-                cbxCliente.SelectedIndex = -1;
-                cbxEmpleado.SelectedIndex = -1;
-                cbxSucursal.SelectedIndex = -1;
-
-                txtCINit.Clear();
-            }
-        }
-
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
-                Venta venta = new Venta();
-
-                if (cbxCliente.SelectedIndex == -1 ||
-                    cbxEmpleado.SelectedIndex == -1 ||
-                    cbxSucursal.SelectedIndex == -1)
+                // Validar cliente.
+                if (cbxCiNit.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Seleccione el cliente, empleado y sucursal.");
+                    MessageBox.Show("Seleccione un cliente.");
+                    cbxCiNit.Focus();
                     return;
                 }
 
-                venta.idCliente = Convert.ToInt32(cbxCliente.SelectedValue);
-                venta.idEmpleado = Convert.ToInt32(cbxEmpleado.SelectedValue);
-                venta.idSucursal = Convert.ToInt32(cbxSucursal.SelectedValue);
-
-                venta.fechaVenta = dtpFechaVenta.Value.Date;
-                venta.tipoPago = cbxTipoPago.SelectedItem.ToString();
-                venta.montoTotal = nudTotalVenta.Value;
-
-                if (idVenta.HasValue)
+                // Validar productos.
+                if (dgvListaProductos.Rows.Count == 0)
                 {
-                    venta.id = idVenta.Value;
-                    VentaCln.actualizar(venta);
-
-                    MessageBox.Show("Venta actualizada correctamente.");
+                    MessageBox.Show("Debe agregar al menos un producto.");
+                    return;
                 }
-                else
+
+                // Validar tipo de pago.
+                if (cbxTipoPago.SelectedIndex == -1)
                 {
-                    if (Util.usuario == null)
+                    MessageBox.Show("Seleccione un tipo de pago.");
+                    cbxTipoPago.Focus();
+                    return;
+                }
+
+                // Obtener el empleado y su sucursal.
+                var empleado = EmpleadoCln.obtenerConSucursal(
+                    Util.usuario.idEmpleado
+                );
+
+                if (empleado.idSucursal == null)
+                    throw new Exception(
+                        "El empleado no tiene una sucursal asignada.");
+
+                // Construir los detalles de la venta.
+                List<VentaDetalle> detalles = new List<VentaDetalle>();
+
+                foreach (DataGridViewRow fila in dgvListaProductos.Rows)
+                {
+                    detalles.Add(new VentaDetalle
                     {
-                        MessageBox.Show("No existe un usuario autenticado. Inicie sesión nuevamente.");
+                        idPantalla = Convert.ToInt32(
+                            fila.Cells["colIdPantalla"].Value),
+
+                        cantidad = Convert.ToDecimal(
+                            fila.Cells["colCantidad"].Value),
+
+                        precioUnitario = Convert.ToDecimal(
+                            fila.Cells["colPrecio"].Value),
+
+                        subtotal = Convert.ToDecimal(
+                            fila.Cells["colSubtotal"].Value),
+
+                        observacionGarantia = null
+                    });
+                }
+
+                // Calcular el total.
+                decimal total = detalles.Sum(d => d.cantidad * d.precioUnitario);
+
+                // Validar pago en efectivo.
+                if (cbxTipoPago.SelectedItem.ToString() == "Efectivo")
+                {
+                    if (nudRecibido.Value < total)
+                    {
+                        MessageBox.Show(
+                            "El monto recibido es insuficiente.",
+                            "Pago incompleto",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        nudRecibido.Focus();
                         return;
                     }
-
-                    venta.usuarioRegistro = Util.usuario.nombreUsuario;
-                    venta.fechaRegistro = DateTime.Now;
-                    venta.estado = 1;
-
-                    VentaCln.crear(venta);
-
-                    MessageBox.Show("Venta registrada correctamente.");
                 }
 
-                Close();
-            }
-            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
-            {
-                string errores = "";
-
-                foreach (var entidad in ex.EntityValidationErrors)
+                // Datos ingresados a la venta.
+                Venta venta = new Venta
                 {
-                    errores += "\nEntidad: " + entidad.Entry.Entity.GetType().Name;
+                    idCliente = Convert.ToInt32(cbxCiNit.SelectedValue),
+                    idEmpleado = empleado.id,
+                    idSucursal = empleado.idSucursal.Value,
+                    fechaVenta = dtpFechaVenta.Value,
+                    tipoPago = cbxTipoPago.SelectedItem.ToString(),
+                    montoTotal = total,
+                    usuarioRegistro = Util.usuario.nombreUsuario,
+                    fechaRegistro = DateTime.Now,
+                    estado = 1
+                };
 
-                    foreach (var error in entidad.ValidationErrors)
-                    {
-                        errores += "\nCampo: " + error.PropertyName;
-                        errores += "\nError: " + error.ErrorMessage + "\n";
-                    }
-                }
+                // Registrar la venta completa.
+                int idVenta = VentaCln.registrarVenta(venta, detalles);
 
-                MessageBox.Show(errores, "Errores de validación",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "La venta se registró correctamente.\nN° de venta: " + idVenta,
+                    "Venta registrada",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+
+                this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    ex.Message,
+                    "Error al registrar la venta",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
-        private void configurarBuscador(ComboBox combo)
+        private void nudRecibido_ValueChanged(object sender, EventArgs e)
         {
-            combo.DropDownStyle = ComboBoxStyle.DropDown;
+            decimal total = nudTotalVenta.Value;
+            decimal recibido = nudRecibido.Value;
 
-            combo.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            decimal cambio = recibido - total;
 
-            combo.AutoCompleteSource = AutoCompleteSource.ListItems;
+            txtCambio.Text = cambio >= 0
+                ? cambio.ToString("N2")
+                : "0.00";
         }
 
-        private void cargarCombos()
+        private void cbxModelo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Cargar clientes
-            listaClientes = VentaCln.listarClientesCombo();
-
-            if (listaClientes == null)
-                listaClientes = new List<Cliente>();
-
-            cbxCliente.DataSource = listaClientes.Select(x => new
+            if (cbxModelo.SelectedItem is Modelo modelo)
             {
-                id = x.id,
-                nombre = (string.IsNullOrEmpty(x.razonSocial)
-                    ? x.nombres + " " + x.primerApellido
-                    : x.razonSocial)
-            }).ToList();
-
-            cbxCliente.DisplayMember = "nombre";
-            cbxCliente.ValueMember = "id";
-
-
-            // Cargar empleados
-            var empleados = VentaCln.listarEmpleadosCombo();
-
-            cbxEmpleado.DataSource = empleados.Select(x => new
-            {
-                id = x.id,
-                nombre = x.nombres + " " + x.primerApellido
-            }).ToList();
-
-            cbxEmpleado.DisplayMember = "nombre";
-            cbxEmpleado.ValueMember = "id";
-
-
-            // Cargar sucursales
-            var sucursales = VentaCln.listarSucursalesCombo();
-
-            cbxSucursal.DataSource = sucursales.Select(x => new
-            {
-                id = x.id,
-                nombre = x.nombre
-            }).ToList();
-
-            cbxSucursal.DisplayMember = "nombre";
-            cbxSucursal.ValueMember = "id";
-        }
-        private void cbxCliente_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (cbxCliente.SelectedIndex == -1 ||
-                cbxCliente.SelectedValue == null ||
-                !(cbxCliente.SelectedValue is int))
-            {
-                txtCINit.Clear();
-                return;
+                txtMarca.Text = modelo.Marca?.nombre ?? "";
             }
+        }
 
-            int idCliente = Convert.ToInt32(cbxCliente.SelectedValue);
+        private void btnNuevoCliente_Click(object sender, EventArgs e)
+        {
+            FrmClientes formulario = new FrmClientes();
+            formulario.ShowDialog();
 
-            var cliente = listaClientes.FirstOrDefault(x => x.id == idCliente);
-
-            if (cliente != null)
-                txtCINit.Text = cliente.nitCi;
-            else
-                txtCINit.Clear();
+            cargarClientes();
         }
     }
 }

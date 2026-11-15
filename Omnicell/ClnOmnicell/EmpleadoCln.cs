@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace ClnOmnicell
 {
@@ -72,5 +73,21 @@ namespace ClnOmnicell
                 return context.Empleado.Where(x => x.estado == 1).OrderBy(x => x.nombres).ToList();
             }
         }
+
+        public static Empleado obtenerConSucursal(int id)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                var empleado = context.Empleado
+                    .Include("Sucursal")
+                    .FirstOrDefault(x => x.id == id && x.estado == 1);
+
+                if (empleado == null)
+                    throw new Exception("No se encontró el empleado.");
+
+                return empleado;
+            }
+        }
+
     }
 }

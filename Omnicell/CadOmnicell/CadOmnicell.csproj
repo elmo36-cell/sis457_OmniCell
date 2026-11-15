@@ -119,6 +119,9 @@
     <Compile Include="Pantalla.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>
+    <Compile Include="paPantallaListarPorSucursal_Result.cs">
+      <DependentUpon>Modelo.tt</DependentUpon>
+    </Compile>
     <Compile Include="paPantallaListar_Result.cs">
       <DependentUpon>Modelo.tt</DependentUpon>
     </Compile>

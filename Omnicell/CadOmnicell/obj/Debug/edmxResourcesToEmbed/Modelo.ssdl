@@ -71,6 +71,7 @@
     <Property Name="usuarioRegistro" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
     <Property Name="estado" Type="smallint" Nullable="false" />
+    <Property Name="idSucursal" Type="int" />
   </EntityType>
   <EntityType Name="Inventario">
     <Key>
@@ -273,6 +274,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_Empleado_Sucursal">
+    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="0..1" />
+    <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sucursal">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Empleado">
+        <PropertyRef Name="idSucursal" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_Inventario_Pantalla">
     <End Role="Pantalla" Type="Self.Pantalla" Multiplicity="1" />
     <End Role="Inventario" Type="Self.Inventario" Multiplicity="*" />
@@ -415,6 +428,10 @@
   <Function Name="paPantallaListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="parametro" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="paPantallaListarPorSucursal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="idSucursal" Type="int" Mode="In" />
+    <Parameter Name="parametro" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="paProveedorListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="parametro" Type="varchar" Mode="In" />
   </Function>
@@ -466,6 +483,10 @@
     <AssociationSet Name="fk_CompraDetalle_Pantalla" Association="Self.fk_CompraDetalle_Pantalla">
       <End Role="Pantalla" EntitySet="Pantalla" />
       <End Role="CompraDetalle" EntitySet="CompraDetalle" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Empleado_Sucursal" Association="Self.fk_Empleado_Sucursal">
+      <End Role="Sucursal" EntitySet="Sucursal" />
+      <End Role="Empleado" EntitySet="Empleado" />
     </AssociationSet>
     <AssociationSet Name="fk_Inventario_Pantalla" Association="Self.fk_Inventario_Pantalla">
       <End Role="Pantalla" EntitySet="Pantalla" />

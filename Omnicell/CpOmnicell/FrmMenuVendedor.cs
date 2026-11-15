@@ -37,11 +37,14 @@ namespace CpOmnicell
             listarCompras();
             listarClientes();
             listarProveedores();
+            listarUsuarios();
+            listarPantalla();
             gbxVentas.Visible = false;
             gbxCompras.Visible = false;
             gbxClientes.Visible = false;
             gbxProveedores.Visible = false;
             gbxUsuarios.Visible = false;
+            gbxPantallas.Visible = false;
         }
 
 
@@ -53,6 +56,7 @@ namespace CpOmnicell
             gbxClientes.Visible = false;
             gbxProveedores.Visible = false;
             gbxUsuarios.Visible = false;
+            gbxPantallas.Visible = false;
             gbxVentas.Visible = true;
 
             gbxVentas.BringToFront();
@@ -86,7 +90,6 @@ namespace CpOmnicell
             }
 
             // Configurar encabezados
-            dgvListaVentas.Columns["id"].HeaderText = "ID Venta";
             dgvListaVentas.Columns["fechaVenta"].HeaderText = "Fecha";
             dgvListaVentas.Columns["cliente"].HeaderText = "Cliente";
             dgvListaVentas.Columns["nitCi"].HeaderText = "CI / NIT";
@@ -165,7 +168,7 @@ namespace CpOmnicell
                 dgvListaVentas.CurrentRow.Cells["id"].Value
             );
 
-            FrmVentas formulario = new FrmVentas(id);
+            FrmVentas formulario = new FrmVentas();
             formulario.ShowDialog();
 
             listarVentas();
@@ -186,6 +189,7 @@ namespace CpOmnicell
             gbxClientes.Visible = false;
             gbxProveedores.Visible = false;
             gbxUsuarios.Visible = false;
+            gbxPantallas.Visible = false;
             gbxCompras.Visible = true;
 
             gbxCompras.BringToFront();
@@ -219,7 +223,6 @@ namespace CpOmnicell
                 dgvListaCompras.Columns.Insert(0, columnaNumero);
             }
 
-            dgvListaCompras.Columns["id"].HeaderText = "ID De Compra";
             dgvListaCompras.Columns["fechaCompra"].HeaderText = "Fecha de Compra";
             dgvListaCompras.Columns["proveedor"].HeaderText = "Proveedor";
             dgvListaCompras.Columns["pais"].HeaderText = "País";
@@ -319,6 +322,7 @@ namespace CpOmnicell
             gbxVentas.Visible = false;
             gbxProveedores.Visible = false;
             gbxUsuarios.Visible = false;
+            gbxPantallas.Visible = false;
             gbxClientes.Visible = true;
 
             gbxClientes.BringToFront();
@@ -353,7 +357,6 @@ namespace CpOmnicell
                 dgvListaClientes.Columns.Insert(0, columnaNumero);
             }
 
-            dgvListaClientes.Columns["id"].HeaderText = "ID De Cliente";
             dgvListaClientes.Columns["nombres"].HeaderText = "Nombre";
             dgvListaClientes.Columns["nitCi"].HeaderText = "CI/NIT";
             dgvListaClientes.Columns["primerApellido"].HeaderText = "Primer Apellido";
@@ -364,7 +367,6 @@ namespace CpOmnicell
             dgvListaClientes.Columns["tipoCliente"].HeaderText = "Tipo de Cliente";
 
             dgvListaClientes.Columns["usuarioRegistro"].HeaderText = "Usuario de Registro";
-            dgvListaClientes.Columns["fechaRegistro"].HeaderText = "Fecha de Registro";
 
             int numero = 1;
 
@@ -463,6 +465,7 @@ namespace CpOmnicell
             gbxVentas.Visible = false;
             gbxClientes.Visible = false;
             gbxUsuarios.Visible = false;
+            gbxPantallas.Visible = false;
             gbxProveedores.Visible = true;
 
             gbxProveedores.BringToFront();
@@ -496,8 +499,6 @@ namespace CpOmnicell
 
                 dgvListaProveedores.Columns.Insert(0, columnaNumero);
             }
-
-            dgvListaProveedores.Columns["id"].HeaderText = "ID De Proveedor";
             dgvListaProveedores.Columns["razonSocial"].HeaderText = "Razón Social";
             dgvListaProveedores.Columns["pais"].HeaderText = "País";
             dgvListaProveedores.Columns["contactoPersona"].HeaderText = "Contacto";
@@ -599,6 +600,7 @@ namespace CpOmnicell
             gbxVentas.Visible = false;
             gbxClientes.Visible = false;
             gbxProveedores.Visible = false;
+            gbxPantallas.Visible = false;
             gbxUsuarios.Visible = true;
 
             gbxUsuarios.BringToFront();
@@ -641,9 +643,6 @@ namespace CpOmnicell
                 }
 
                 // Configurar encabezados solamente si existen
-                if (dgvListaUsuarios.Columns.Contains("id"))
-                    dgvListaUsuarios.Columns["id"].HeaderText = "ID de Usuario";
-
                 if (dgvListaUsuarios.Columns.Contains("nombres"))
                     dgvListaUsuarios.Columns["nombres"].HeaderText = "Nombre";
 
@@ -655,14 +654,6 @@ namespace CpOmnicell
 
                 if (dgvListaUsuarios.Columns.Contains("nombreUsuario"))
                     dgvListaUsuarios.Columns["nombreUsuario"].HeaderText = "Usuario";
-
-                if (dgvListaUsuarios.Columns.Contains("usuarioRegistro"))
-                    dgvListaUsuarios.Columns["usuarioRegistro"].HeaderText =
-                        "Usuario de Registro";
-
-                if (dgvListaUsuarios.Columns.Contains("fechaRegistro"))
-                    dgvListaUsuarios.Columns["fechaRegistro"].HeaderText =
-                        "Fecha de Registro";
 
                 int numero = 1;
 
@@ -758,5 +749,91 @@ namespace CpOmnicell
             if (e.KeyChar == (char)Keys.Enter) listarUsuarios();
         }
 
+
+        //SECCION INVENTARIO
+
+        private void btnPantallas_Click(object sender, EventArgs e)
+        {
+            gbxCompras.Visible = false;
+            gbxClientes.Visible = false;
+            gbxProveedores.Visible = false;
+            gbxUsuarios.Visible = false;
+            gbxVentas.Visible = false;
+            gbxPantallas.Visible= true;
+
+            gbxPantallas.BringToFront();
+            listarPantalla();
+        }
+
+        private void listarPantalla()
+        {
+            try
+            {
+                dgvListaPantallas.DataSource = PantallaCln.listarPantalla(
+                    txtBuscarPantalla.Text.Trim()
+                );
+
+                if (!dgvListaPantallas.Columns.Contains("colNumero"))
+                {
+                    DataGridViewTextBoxColumn columnaNumero =
+                        new DataGridViewTextBoxColumn();
+
+                    columnaNumero.Name = "colNumero";
+                    columnaNumero.HeaderText = "N.º";
+                    columnaNumero.ReadOnly = true;
+                    columnaNumero.Width = 50;
+                    columnaNumero.SortMode =
+                        DataGridViewColumnSortMode.NotSortable;
+
+                    columnaNumero.DefaultCellStyle.Alignment =
+                        DataGridViewContentAlignment.MiddleCenter;
+
+                    dgvListaPantallas.Columns.Insert(0, columnaNumero);
+                }
+
+                if (dgvListaPantallas.Columns.Contains("sku"))
+                    dgvListaPantallas.Columns["sku"].HeaderText = "SKU";
+
+                if (dgvListaPantallas.Columns.Contains("descripcion"))
+                    dgvListaPantallas.Columns["descripcion"].HeaderText = "Descripción";
+
+                if (dgvListaPantallas.Columns.Contains("calidad"))
+                    dgvListaPantallas.Columns["calidad"].HeaderText = "Calidad";
+
+                if (dgvListaPantallas.Columns.Contains("tecnologia"))
+                    dgvListaPantallas.Columns["tecnologia"].HeaderText = "Tecnología";
+
+                if (dgvListaPantallas.Columns.Contains("precioVenta"))
+                {
+                    dgvListaPantallas.Columns["precioVenta"].HeaderText = "Precio de Venta";
+                    dgvListaPantallas.Columns["precioVenta"].DefaultCellStyle.Format = "N2";
+                }
+
+                if (dgvListaPantallas.Columns.Contains("stockTotal"))
+                {
+                    dgvListaPantallas.Columns["stockTotal"].HeaderText = "Stock Total";
+                    dgvListaPantallas.Columns["stockTotal"].DefaultCellStyle.Format = "N2";
+                }
+
+                int numero = 1;
+                foreach (DataGridViewRow fila in dgvListaPantallas.Rows)
+                {
+                    if (!fila.IsNewRow)
+                    {
+                        fila.Cells["colNumero"].Value = numero;
+                        numero++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.ToString(),
+                    "Error al listar pantallas",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
     }
 }

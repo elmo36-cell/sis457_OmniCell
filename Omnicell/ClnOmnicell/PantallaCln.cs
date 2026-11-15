@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace ClnOmnicell
 {
@@ -72,11 +73,46 @@ namespace ClnOmnicell
             }
         }
 
-        public static List<paPantallaListar_Result> listarPa(string parametro)
+        public static List<paPantallaListar_Result> listarPantalla(string parametro)
         {
             using (var context = new LabOmnicellEntities())
             {
                 return context.paPantallaListar(parametro != null ? parametro.Trim() : "").ToList();
+            }
+        }
+
+        public static List<Pantalla> listarPorSucursal(int idSucursal)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Pantalla
+                    .Include("Compatibilidad.Modelo.Marca")
+                    .Where(p => p.estado == 1 &&
+                        p.Inventario.Any(i =>
+                            i.idSucursal == idSucursal &&
+                            i.estado == 1 &&
+                            i.stockActual > 0))
+                    .OrderBy(p => p.descripcion)
+                    .ToList();
+            }
+        }
+        public static List<paPantallaListarPorSucursal_Result> listarPorSucursal(
+        int idSucursal, string parametro)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.paPantallaListarPorSucursal(
+                    idSucursal, parametro
+                ).ToList();
+            }
+        }
+        public static Pantalla obtenerConCompatibilidad(int id)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Pantalla
+                    .Include("Compatibilidad.Modelo.Marca")
+                    .FirstOrDefault(x => x.id == id && x.estado == 1);
             }
         }
     }

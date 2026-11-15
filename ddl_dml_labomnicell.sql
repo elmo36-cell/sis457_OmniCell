@@ -253,7 +253,7 @@ GO
 DROP PROC IF EXISTS paPantallaListar;
 GO
 CREATE PROC paPantallaListar @parametro VARCHAR(50) AS
-  SELECT id, sku, descripcion, calidad, tecnologia, precioVenta, stockTotal, usuarioRegistro, fechaRegistro, estado
+  SELECT sku, descripcion, calidad, tecnologia, precioVenta, stockTotal
   FROM Pantalla
   WHERE estado = 1 AND (sku + descripcion + calidad LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY descripcion;
@@ -265,7 +265,7 @@ GO
 DROP PROC IF EXISTS paClienteListar;
 GO
 CREATE PROC paClienteListar @parametro VARCHAR(50) AS
-  SELECT id, nitCi, nombres, primerApellido, segundoApellido, razonSocial, telefono, direccion, tipoCliente, usuarioRegistro, fechaRegistro, estado
+  SELECT nitCi, nombres, primerApellido, segundoApellido, razonSocial, telefono, direccion, tipoCliente, usuarioRegistro
   FROM Cliente
   WHERE estado = 1 AND (
         nitCi LIKE '%' + @parametro + '%' OR 
@@ -281,7 +281,7 @@ GO
 DROP PROC IF EXISTS paEmpleadoListar;
 GO
 CREATE PROC paEmpleadoListar @parametro VARCHAR(50) AS
-  SELECT id, nombres, primerApellido, segundoApellido, ci, celular, direccion, cargo, usuarioRegistro, fechaRegistro, estado
+  SELECT nombres, primerApellido, segundoApellido, ci, celular, direccion, cargo
   FROM Empleado
   WHERE estado = 1 AND (ci + nombres + primerApellido LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY primerApellido, nombres;
@@ -293,7 +293,7 @@ GO
 DROP PROC IF EXISTS paUsuarioListar;
 GO
 CREATE PROC paUsuarioListar @parametro VARCHAR(50) AS
-  SELECT u.id, e.nombres, e.cargo, r.nombre, u.nombreUsuario, u.usuarioRegistro, u.fechaRegistro, u.estado
+  SELECT e.nombres, e.cargo, r.nombre, u.nombreUsuario
   FROM Usuario u
   INNER JOIN Empleado e ON u.idEmpleado = e.id
   INNER JOIN Rol r ON u.idRol = r.id
@@ -307,7 +307,7 @@ GO
 DROP PROC IF EXISTS paProveedorListar;
 GO
 CREATE PROC paProveedorListar @parametro VARCHAR(50) AS
-  SELECT id, razonSocial, pais, contactoPersona, telefono, usuarioRegistro, fechaRegistro, estado
+  SELECT razonSocial, pais, contactoPersona, telefono
   FROM Proveedor
   WHERE estado = 1 AND (razonSocial + contactoPersona + pais LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY razonSocial;
@@ -319,7 +319,7 @@ GO
 DROP PROC IF EXISTS paSucursalListar;
 GO
 CREATE PROC paSucursalListar @parametro VARCHAR(50) AS
-  SELECT id, nombre, ciudad, direccion, telefono, usuarioRegistro, fechaRegistro, estado
+  SELECT nombre, ciudad, direccion, telefono
   FROM Sucursal
   WHERE estado = 1 AND (nombre + ciudad LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY nombre;
@@ -331,7 +331,7 @@ GO
 DROP PROC IF EXISTS paMarcaListar;
 GO
 CREATE PROC paMarcaListar @parametro VARCHAR(50) AS
-  SELECT id, nombre, usuarioRegistro, fechaRegistro, estado
+  SELECT nombre, usuarioRegistro, fechaRegistro, estado
   FROM Marca
   WHERE estado = 1 AND (nombre LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY nombre;
@@ -343,7 +343,7 @@ GO
 DROP PROC IF EXISTS dbo.paVentaListar;
 GO
 CREATE PROC dbo.paVentaListar @parametro VARCHAR(50) AS BEGIN
-    SELECT v.id, v.fechaVenta, CONCAT(c.nombres, ' ', c.primerApellido) AS cliente, c.nitCi, CONCAT(e.nombres, ' ', e.primerApellido) AS vendedor, s.nombre AS sucursal, v.tipoPago, v.montoTotal
+    SELECT v.fechaVenta, CONCAT(c.nombres, ' ', c.primerApellido) AS cliente, c.nitCi, CONCAT(e.nombres, ' ', e.primerApellido) AS vendedor, s.nombre AS sucursal, v.tipoPago, v.montoTotal
     FROM Venta v
     INNER JOIN Cliente c ON v.idCliente = c.id
     INNER JOIN Empleado e ON v.idEmpleado = e.id
@@ -351,7 +351,6 @@ CREATE PROC dbo.paVentaListar @parametro VARCHAR(50) AS BEGIN
     WHERE
         v.estado = 1
         AND CONCAT(
-            v.id, ' ',
             c.nitCi, ' ',
             c.nombres, ' ',
             c.primerApellido, ' ',
@@ -370,7 +369,7 @@ GO
 DROP PROC IF EXISTS paCompraListar;
 GO
 CREATE PROC paCompraListar @parametro VARCHAR(50) AS BEGIN
-  SELECT c.id, c.fechaCompra, p.razonSocial AS proveedor, p.pais, e.nombres + ' ' + e.primerApellido AS empleado, c.factura, c.costoTotal
+  SELECT c.fechaCompra, p.razonSocial AS proveedor, p.pais, e.nombres + ' ' + e.primerApellido AS empleado, c.factura, c.costoTotal
     FROM Compra c
     INNER JOIN Proveedor p ON c.idProveedor = p.id
     INNER JOIN Empleado e ON c.idEmpleado = e.id
@@ -427,6 +426,44 @@ GO
 EXEC paModeloListar '';
 GO
 
+GO
+DROP PROC IF EXISTS paPantallaListarPorSucursal;
+GO
+
+CREATE PROC paPantallaListarPorSucursal
+    @idSucursal INT,
+    @parametro VARCHAR(50)
+AS
+BEGIN
+    SELECT
+        p.id,
+        p.sku,
+        p.descripcion,
+        p.calidad,
+        p.tecnologia,
+        p.precioVenta,
+        i.stockActual
+    FROM Pantalla p
+    INNER JOIN Inventario i
+        ON p.id = i.idPantalla
+    WHERE
+        p.estado = 1
+        AND i.estado = 1
+        AND i.idSucursal = @idSucursal
+        AND i.stockActual > 0
+        AND (
+            p.sku + ' ' +
+            p.descripcion + ' ' +
+            p.calidad + ' ' +
+            p.tecnologia
+        ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
+    ORDER BY p.descripcion;
+END;
+GO
+EXEC paPantallaListarPorSucursal
+    @idSucursal = 1,
+    @parametro = '';
+GO
 
 
 -- DML (Datos Iniciales)
@@ -452,8 +489,103 @@ VALUES (1, 1, 'admin', 'Q04sp73uUzMPFuEBS5xNLg=='),
 INSERT INTO Marca (nombre)
 VALUES ('Apple'), ('Samsung'), ('Xiaomi'), ('Tecno'), ('Infinix'), ('Sony'), ('Nokia'), ('ZTE'), ('Asus'), ('Lenovo');
 
+INSERT INTO Modelo (idMarca, nombre, usuarioRegistro, fechaRegistro, estado)
+SELECT v.idMarca, v.nombre, SYSTEM_USER, GETDATE(), 1
+FROM (VALUES
+    (1, 'iPhone 13'),
+    (2, 'Galaxy A54'),
+    (3, 'Redmi Note 11'),
+    (4, 'Spark 10'),
+    (5, 'Hot 30'),
+    (6, 'Xperia 5 IV'),
+    (7, 'G22'),
+    (8, 'Blade A73'),
+    (9, 'ROG Phone 7'),
+    (10, 'Legion Y70')
+) AS v(idMarca, nombre)
+WHERE NOT EXISTS (
+    SELECT 1 FROM Modelo m
+    WHERE m.idMarca = v.idMarca AND m.nombre = v.nombre
+);
+
 INSERT INTO Modelo (idMarca, nombre)
 VALUES (1, 'iPhone 13 Pro'), (2, 'Galaxy S22'), (3, 'Note 10 Pro'), (4, 'Spark Go 1'), (5, 'Note 30 Pro'), (6, 'Moto G84'), (7, 'P60 Pro'), (8, 'Reno 10'), (9, 'Realme 11 Pro'), (10, 'Honor 90');
+UPDATE Modelo SET nombre = 'iPhone 13 Pro', idMarca = 1 WHERE id = 1;
+UPDATE Modelo SET nombre = 'Galaxy S22', idMarca = 2 WHERE id = 2;
+UPDATE Modelo SET nombre = 'Redmi Note 10 Pro', idMarca = 3 WHERE id = 3;
+UPDATE Modelo SET nombre = 'Spark Go 1', idMarca = 4 WHERE id = 4;
+UPDATE Modelo SET nombre = 'Note 30 Pro', idMarca = 5 WHERE id = 5;
+UPDATE Modelo SET nombre = 'Xperia 10 V', idMarca = 6 WHERE id = 6;
+UPDATE Modelo SET nombre = 'G42', idMarca = 7 WHERE id = 7;
+UPDATE Modelo SET nombre = 'Blade V50', idMarca = 8 WHERE id = 8;
+UPDATE Modelo SET nombre = 'Zenfone 10', idMarca = 9 WHERE id = 9;
+UPDATE Modelo SET nombre = 'K14', idMarca = 10 WHERE id = 10;
+
+INSERT INTO Modelo (idMarca, nombre)
+SELECT v.idMarca, v.nombre
+FROM (VALUES
+    (1, 'iPhone 14'),
+    (1, 'iPhone 12'),
+    (2, 'Galaxy S23'),
+    (2, 'Galaxy A34'),
+    (3, 'Redmi Note 12'),
+    (3, 'Poco X5 Pro'),
+    (4, 'Camon 20'),
+    (4, 'Pova 5'),
+    (5, 'Hot 40i'),
+    (5, 'Hot 40i'),
+    (5, 'Zero 30'),
+    (6, 'Xperia 10 IV'),
+    (6, 'Xperia 1 V'),
+    (7, 'G60'),
+    (7, 'C32'),
+    (8, 'Blade A53'),
+    (8, 'Nubia Neo 5G'),
+    (9, 'Zenfone 9'),
+    (9, 'ROG Phone 6'),
+    (10, 'K13'),
+    (10, 'Legion Duel 2')
+) AS v(idMarca, nombre)
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Modelo m
+    WHERE m.idMarca = v.idMarca
+      AND m.nombre = v.nombre
+);
+
+INSERT INTO Compatibilidad(idPantalla,idModelo)
+SELECT v.idPantalla, m.id
+FROM (VALUES
+    (1, 'iPhone 13 Pro'),
+    (1, 'iPhone 13'),
+    (2, 'Galaxy S22'),
+    (2, 'Galaxy A54'),
+    (3, 'Redmi Note 10 Pro'),
+    (3, 'Redmi Note 11'),
+    (4, 'Spark Go 1'),
+    (4, 'Spark 10'),
+    (5, 'Note 30 Pro'),
+    (5, 'Hot 30'),
+    (6, 'Xperia 10 V'),
+    (6, 'Xperia 5 IV'),
+    (7, 'G42'),
+    (7, 'G22'),
+    (8, 'Blade V50'),
+    (8, 'Blade A73'),
+    (9, 'Zenfone 10'),
+    (9, 'ROG Phone 7'),
+    (10, 'K14'),
+    (10, 'Legion Y70')
+) AS v(idPantalla, nombreModelo)
+INNER JOIN Modelo m
+    ON m.nombre = v.nombreModelo
+   AND m.estado = 1
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Compatibilidad c
+    WHERE c.idPantalla = v.idPantalla
+      AND c.idModelo = m.id
+);
 
 INSERT INTO Pantalla (sku, descripcion, calidad, tecnologia, precioVenta, stockTotal)
 VALUES ('IP13PRO-OL', 'Pantalla OLED Original para iPhone 13 Pro', 'OLED Original', 'Capacitiva', 850.00, 10),
@@ -527,6 +659,23 @@ VALUES(1, 1, 20, 5),
       (8, 8, 12, 5),
       (9, 9, 4, 5),
       (10, 10, 18, 6);
+
+INSERT INTO Inventario(idSucursal,idPantalla,stockActual,stockMinimo)
+SELECT s.idSucursal, p.idPantalla, 5, 2
+FROM (VALUES
+    (1),(2),(3),(4),(5),
+    (6),(7),(8),(9),(10)
+) s(idSucursal)
+CROSS JOIN (VALUES
+    (1),(2),(3),(4),(5),
+    (6),(7),(8),(9),(10)
+) p(idPantalla)
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Inventario i
+    WHERE i.idSucursal = s.idSucursal
+      AND i.idPantalla = p.idPantalla
+);
 
 INSERT INTO Venta
 (idCliente, idEmpleado, idSucursal, fechaVenta, tipoPago, montoTotal)
