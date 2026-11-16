@@ -9,6 +9,9 @@ ALTER DATABASE LabOmnicell SET ONLINE;
 DROP LOGIN usromnicell;
 GO
 
+USE LabOmnicell;
+GO
+
 -- DDL
 CREATE DATABASE LabOmnicell
 GO

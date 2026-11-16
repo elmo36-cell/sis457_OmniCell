@@ -1,10 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\SIS457\\Omnicell mas aveance\\origen\\sis457_OmniCell\\Omnicell\\",
+  "WorkspaceRootPath": "D:\\SIS457\\Omnicell mas aveance\\sis457_OmniCell\\Omnicell\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|d:\\sis457\\omnicell mas aveance\\origen\\sis457_omnicell\\omnicell\\cpomnicell\\properties\\licenses.licx||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\properties\\licenses.licx||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|d:\\sis457\\omnicell mas aveance\\sis457_omnicell\\omnicell\\cpomnicell\\frmlogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmlogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,14 +27,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "licenses.licx",
-              "DocumentMoniker": "D:\\SIS457\\Omnicell mas aveance\\origen\\sis457_OmniCell\\Omnicell\\CpOmnicell\\Properties\\licenses.licx",
-              "RelativeDocumentMoniker": "CpOmnicell\\Properties\\licenses.licx",
-              "ToolTip": "D:\\SIS457\\Omnicell mas aveance\\origen\\sis457_OmniCell\\Omnicell\\CpOmnicell\\Properties\\licenses.licx",
-              "RelativeToolTip": "CpOmnicell\\Properties\\licenses.licx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-11-16T20:41:24.018Z",
+              "Title": "FrmLogin.Designer.cs",
+              "DocumentMoniker": "D:\\SIS457\\Omnicell mas aveance\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmLogin.Designer.cs",
+              "RelativeDocumentMoniker": "CpOmnicell\\FrmLogin.Designer.cs",
+              "ToolTip": "D:\\SIS457\\Omnicell mas aveance\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmLogin.Designer.cs",
+              "RelativeToolTip": "CpOmnicell\\FrmLogin.Designer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMwAAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-16T23:08:15.37Z",
               "EditorCaption": ""
             }
           ]

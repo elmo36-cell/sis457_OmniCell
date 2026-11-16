@@ -94,6 +94,7 @@ namespace CpOmnicell
         {
             if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
                 string.IsNullOrWhiteSpace(txtPrimerApellido.Text) ||
+                string.IsNullOrWhiteSpace(txtSegundoApellido.Text) ||
                 string.IsNullOrWhiteSpace(txtCi.Text) ||
                 string.IsNullOrWhiteSpace(txtCargo.Text) ||
                 string.IsNullOrWhiteSpace(txtDireccion.Text) ||
@@ -111,6 +112,20 @@ namespace CpOmnicell
 
             try
             {
+                if (cbxSucursal.SelectedValue == null)
+                {
+                    MessageBox.Show("Seleccione una sucursal válida de la lista.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cbxSucursal.Focus();
+                    return;
+                }
+
+                if (!long.TryParse(txtCelular.Text.Trim(), out long celularNumero))
+                {
+                    MessageBox.Show("El celular debe contener solo números.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCelular.Focus();
+                    return;
+                }
+
                 Empleado empleado = new Empleado
                 {
                     nombres = txtNombre.Text.Trim(),
@@ -119,9 +134,10 @@ namespace CpOmnicell
                     ci = txtCi.Text.Trim(),
                     cargo = txtCargo.Text.Trim(),
                     direccion = txtDireccion.Text.Trim(),
-                    celular = Convert.ToInt64(txtCelular.Text.Trim()),
+                    celular = celularNumero,
                     idSucursal = Convert.ToInt32(cbxSucursal.SelectedValue),
-                    usuarioRegistro = Util.usuario.nombreUsuario
+                    usuarioRegistro = Util.usuario.nombreUsuario,
+                    fechaRegistro = DateTime.Now
                 };
 
                 if (idEmpleado.HasValue)
@@ -143,13 +159,24 @@ namespace CpOmnicell
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al guardar",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                string detalleError = ex.InnerException?.InnerException?.Message
+                                      ?? ex.InnerException?.Message
+                                      ?? ex.Message;
+
+                if (detalleError.Contains("UNIQUE") || detalleError.Contains("duplicate"))
+                {
+                    MessageBox.Show("Ya existe un empleado registrado con ese número de CI.", "CI Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    MessageBox.Show(detalleError, "Error al guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
