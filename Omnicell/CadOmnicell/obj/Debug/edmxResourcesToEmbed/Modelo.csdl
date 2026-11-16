@@ -564,6 +564,7 @@
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="paClienteListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />
     <Property Type="String" Name="nombres" Nullable="true" MaxLength="50" />
     <Property Type="String" Name="primerApellido" Nullable="true" MaxLength="30" />
@@ -584,6 +585,7 @@
     <Property Type="Decimal" Name="costoTotal" Nullable="false" Precision="10" Scale="2" />
   </ComplexType>
   <ComplexType Name="paEmpleadoListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="primerApellido" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="segundoApellido" Nullable="true" MaxLength="30" />
@@ -624,6 +626,7 @@
     <Property Type="String" Name="modelo" Nullable="false" MaxLength="60" />
   </ComplexType>
   <ComplexType Name="paPantallaListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="sku" Nullable="false" MaxLength="30" />
     <Property Type="String" Name="descripcion" Nullable="false" MaxLength="150" />
     <Property Type="String" Name="calidad" Nullable="false" MaxLength="30" />
@@ -641,6 +644,7 @@
     <Property Type="Decimal" Name="stockActual" Nullable="false" Precision="10" Scale="2" />
   </ComplexType>
   <ComplexType Name="paProveedorListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="razonSocial" Nullable="false" MaxLength="100" />
     <Property Type="String" Name="pais" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="contactoPersona" Nullable="false" MaxLength="60" />
@@ -653,12 +657,14 @@
     <Property Type="String" Name="telefono" Nullable="false" MaxLength="20" />
   </ComplexType>
   <ComplexType Name="paUsuarioListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="String" Name="nombres" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="cargo" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="nombreUsuario" Nullable="false" MaxLength="20" />
   </ComplexType>
   <ComplexType Name="paVentaListar_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
     <Property Type="DateTime" Name="fechaVenta" Nullable="false" />
     <Property Type="String" Name="cliente" Nullable="false" MaxLength="81" />
     <Property Type="String" Name="nitCi" Nullable="false" MaxLength="20" />

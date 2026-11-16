@@ -13,6 +13,7 @@ namespace CadOmnicell
     
     public partial class paUsuarioListar_Result
     {
+        public int id { get; set; }
         public string nombres { get; set; }
         public string cargo { get; set; }
         public string nombre { get; set; }

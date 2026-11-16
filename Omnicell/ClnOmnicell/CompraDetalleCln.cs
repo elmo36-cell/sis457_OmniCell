@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace ClnOmnicell
 {
-    public class CompraDatalleCln
+    public class CompraDetalleCln
     {
         public static int crear(CompraDetalle compraDetalle)
         {
@@ -50,13 +51,19 @@ namespace ClnOmnicell
             }
         }
 
-        public static CompraDetalle obtenerUno(int id)
+        public static Compra obtenerUno(int id)
         {
             using (var context = new LabOmnicellEntities())
             {
-                var detalle = context.CompraDetalle.Find(id);
-                if (detalle == null) throw new Exception($"El detalle de compra con id {id} no existe");
-                return detalle;
+                var compra = context.Compra
+                    .Include("Proveedor")
+                    .Include("Empleado")
+                    .FirstOrDefault(x => x.id == id);
+
+                if (compra == null)
+                    throw new Exception($"La compra con id {id} no existe");
+
+                return compra;
             }
         }
 
@@ -64,7 +71,11 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.CompraDetalle.Where(x => x.idCompra == idCompra && x.estado == 1).ToList();
+                return context.CompraDetalle
+                    .Include("Pantalla")
+                    .Include("Pantalla.Compatibilidad.Modelo.Marca")
+                    .Where(x => x.idCompra == idCompra && x.estado == 1)
+                    .ToList();
             }
         }
     }

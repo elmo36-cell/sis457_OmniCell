@@ -115,5 +115,109 @@ namespace ClnOmnicell
                     .FirstOrDefault(x => x.id == id && x.estado == 1);
             }
         }
+
+
+        public static int registrarConCompatibilidad(
+            Pantalla pantalla, string nombreMarca, string nombreModelo)
+        {
+            using (var context = new LabOmnicellEntities())
+            using (var transaccion = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    string sku = pantalla.sku.Trim();
+                    nombreMarca = nombreMarca.Trim();
+                    nombreModelo = nombreModelo.Trim();
+
+                    // Verificar SKU
+                    var existePantalla = context.Pantalla
+                        .FirstOrDefault(x => x.sku == sku);
+
+                    if (existePantalla != null)
+                        throw new Exception($"La pantalla con SKU {sku} ya existe.");
+
+                    // Buscar marca
+                    var marca = context.Marca.FirstOrDefault(x =>
+                        x.nombre.ToLower() == nombreMarca.ToLower());
+
+                    if (marca == null)
+                    {
+                        marca = new Marca
+                        {
+                            nombre = nombreMarca,
+                            usuarioRegistro = pantalla.usuarioRegistro,
+                            fechaRegistro = DateTime.Now,
+                            estado = 1
+                        };
+
+                        context.Marca.Add(marca);
+                        context.SaveChanges();
+                    }
+                    else if (marca.estado != 1)
+                    {
+                        marca.estado = 1;
+                        marca.usuarioRegistro = pantalla.usuarioRegistro;
+                    }
+
+                    // Buscar modelo dentro de la marca
+                    var modelo = context.Modelo.FirstOrDefault(x =>
+                        x.idMarca == marca.id &&
+                        x.nombre.ToLower() == nombreModelo.ToLower());
+
+                    if (modelo == null)
+                    {
+                        modelo = new Modelo
+                        {
+                            idMarca = marca.id,
+                            nombre = nombreModelo,
+                            usuarioRegistro = pantalla.usuarioRegistro,
+                            fechaRegistro = DateTime.Now,
+                            estado = 1
+                        };
+
+                        context.Modelo.Add(modelo);
+                        context.SaveChanges();
+                    }
+                    else if (modelo.estado != 1)
+                    {
+                        modelo.estado = 1;
+                        modelo.usuarioRegistro = pantalla.usuarioRegistro;
+                    }
+
+                    // Registrar pantalla sin stock
+                    pantalla.sku = sku;
+                    pantalla.stockTotal = 0;
+                    pantalla.fechaRegistro = DateTime.Now;
+                    pantalla.estado = 1;
+
+                    context.Pantalla.Add(pantalla);
+                    context.SaveChanges();
+
+                    // Registrar compatibilidad
+                    Compatibilidad compatibilidad = new Compatibilidad
+                    {
+                        idPantalla = pantalla.id,
+                        idModelo = modelo.id,
+                        usuarioRegistro = pantalla.usuarioRegistro,
+                        fechaRegistro = DateTime.Now,
+                        estado = 1
+                    };
+
+                    context.Compatibilidad.Add(compatibilidad);
+                    context.SaveChanges();
+
+                    transaccion.Commit();
+
+                    return pantalla.id;
+                }
+                catch
+                {
+                    transaccion.Rollback();
+                    throw;
+                }
+            }
+        }
+
+
     }
 }

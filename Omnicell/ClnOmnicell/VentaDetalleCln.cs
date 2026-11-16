@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace ClnOmnicell
 {
@@ -65,7 +66,11 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.VentaDetalle.Where(x => x.idVenta == idVenta && x.estado == 1).ToList();
+                return context.VentaDetalle
+                    .Include("Pantalla")
+                    .Include("Pantalla.Compatibilidad.Modelo.Marca")
+                    .Where(x => x.idVenta == idVenta && x.estado == 1)
+                    .ToList();
             }
         }
     }

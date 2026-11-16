@@ -35,41 +35,30 @@ namespace CpOmnicell
             this.ribbonBottomToolBar1 = new C1.Win.C1Ribbon.RibbonBottomToolBar();
             this.ribbonConfigToolBar1 = new C1.Win.C1Ribbon.RibbonConfigToolBar();
             this.ribbonQat1 = new C1.Win.C1Ribbon.RibbonQat();
-            this.ribbonTab1 = new C1.Win.C1Ribbon.RibbonTab();
+            this.rbtVentas = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup1 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnNuevaVenta = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup10 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnHistorialVentas = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab2 = new C1.Win.C1Ribbon.RibbonTab();
+            this.rbtCompras = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup2 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnNuevaCompra = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup12 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnHCompras = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab3 = new C1.Win.C1Ribbon.RibbonTab();
+            this.rbtInventario = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup3 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnPantallas = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup16 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.btnStockBajo = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab4 = new C1.Win.C1Ribbon.RibbonTab();
+            this.rbtClientes = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup4 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnNuevoCliente = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup17 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnClientes = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab5 = new C1.Win.C1Ribbon.RibbonTab();
+            this.rbtProveedores = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup18 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnNuevoProveedor = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup5 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnProveedores = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab7 = new C1.Win.C1Ribbon.RibbonTab();
-            this.ribbonGroup7 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton21 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup20 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton51 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup21 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton71 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonGroup22 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton101 = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab8 = new C1.Win.C1Ribbon.RibbonTab();
+            this.rbtPersonal = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup8 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnUsuarios = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup11 = new C1.Win.C1Ribbon.RibbonGroup();
@@ -78,11 +67,11 @@ namespace CpOmnicell
             this.btnEmpleado = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonGroup19 = new C1.Win.C1Ribbon.RibbonGroup();
             this.btnNuevoEmpleado = new C1.Win.C1Ribbon.RibbonButton();
-            this.ribbonTab9 = new C1.Win.C1Ribbon.RibbonTab();
+            this.rbtCerrarSesion = new C1.Win.C1Ribbon.RibbonTab();
             this.ribbonGroup9 = new C1.Win.C1Ribbon.RibbonGroup();
-            this.ribbonButton18 = new C1.Win.C1Ribbon.RibbonButton();
+            this.btnCerrarSesion = new C1.Win.C1Ribbon.RibbonButton();
             this.ribbonTopToolBar1 = new C1.Win.C1Ribbon.RibbonTopToolBar();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblUsuario = new System.Windows.Forms.Label();
             this.gbxVentas = new System.Windows.Forms.GroupBox();
             this.dgvListaVentas = new System.Windows.Forms.DataGridView();
             this.gbxBuscar = new System.Windows.Forms.GroupBox();
@@ -125,11 +114,19 @@ namespace CpOmnicell
             this.gbxPantallas = new System.Windows.Forms.GroupBox();
             this.dgvListaPantallas = new System.Windows.Forms.DataGridView();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.btnBuscarPantalla = new System.Windows.Forms.Button();
             this.txtBuscarPantalla = new System.Windows.Forms.TextBox();
+            this.btnBuscarPantalla = new System.Windows.Forms.Button();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.btnAñadirPantalla = new C1.Win.C1Input.C1Button();
             this.btnEliminarPantalla = new C1.Win.C1Input.C1Button();
+            this.gbxEmpleados = new System.Windows.Forms.GroupBox();
+            this.dgvListaEmpleados = new System.Windows.Forms.DataGridView();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.txtBuscarEmpleados = new System.Windows.Forms.TextBox();
+            this.btnEmpleados = new System.Windows.Forms.Button();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.btnEditarEmpleado = new C1.Win.C1Input.C1Button();
+            this.btnEliminarEmpleado = new C1.Win.C1Input.C1Button();
             ((System.ComponentModel.ISupportInitialize)(this.c1Ribbon1)).BeginInit();
             this.gbxVentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaVentas)).BeginInit();
@@ -166,6 +163,12 @@ namespace CpOmnicell
             this.groupBox11.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnAñadirPantalla)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEliminarPantalla)).BeginInit();
+            this.gbxEmpleados.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaEmpleados)).BeginInit();
+            this.groupBox12.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarEmpleado)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarEmpleado)).BeginInit();
             this.SuspendLayout();
             // 
             // c1Ribbon1
@@ -178,14 +181,13 @@ namespace CpOmnicell
             this.c1Ribbon1.Name = "c1Ribbon1";
             this.c1Ribbon1.QatHolder = this.ribbonQat1;
             this.c1Ribbon1.Size = new System.Drawing.Size(1234, 156);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab1);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab2);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab3);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab4);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab5);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab7);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab8);
-            this.c1Ribbon1.Tabs.Add(this.ribbonTab9);
+            this.c1Ribbon1.Tabs.Add(this.rbtVentas);
+            this.c1Ribbon1.Tabs.Add(this.rbtCompras);
+            this.c1Ribbon1.Tabs.Add(this.rbtInventario);
+            this.c1Ribbon1.Tabs.Add(this.rbtClientes);
+            this.c1Ribbon1.Tabs.Add(this.rbtProveedores);
+            this.c1Ribbon1.Tabs.Add(this.rbtPersonal);
+            this.c1Ribbon1.Tabs.Add(this.rbtCerrarSesion);
             this.c1Ribbon1.TopToolBarHolder = this.ribbonTopToolBar1;
             // 
             // ribbonApplicationMenu1
@@ -207,12 +209,12 @@ namespace CpOmnicell
             // 
             this.ribbonQat1.Name = "ribbonQat1";
             // 
-            // ribbonTab1
+            // rbtVentas
             // 
-            this.ribbonTab1.Groups.Add(this.ribbonGroup1);
-            this.ribbonTab1.Groups.Add(this.ribbonGroup10);
-            this.ribbonTab1.Name = "ribbonTab1";
-            this.ribbonTab1.Text = "VENTAS";
+            this.rbtVentas.Groups.Add(this.ribbonGroup1);
+            this.rbtVentas.Groups.Add(this.ribbonGroup10);
+            this.rbtVentas.Name = "rbtVentas";
+            this.rbtVentas.Text = "VENTAS";
             // 
             // ribbonGroup1
             // 
@@ -243,12 +245,12 @@ namespace CpOmnicell
             this.btnHistorialVentas.Text = "Historial de Ventas";
             this.btnHistorialVentas.Click += new System.EventHandler(this.btnHistorialVentas_Click);
             // 
-            // ribbonTab2
+            // rbtCompras
             // 
-            this.ribbonTab2.Groups.Add(this.ribbonGroup2);
-            this.ribbonTab2.Groups.Add(this.ribbonGroup12);
-            this.ribbonTab2.Name = "ribbonTab2";
-            this.ribbonTab2.Text = "COMPRAS";
+            this.rbtCompras.Groups.Add(this.ribbonGroup2);
+            this.rbtCompras.Groups.Add(this.ribbonGroup12);
+            this.rbtCompras.Name = "rbtCompras";
+            this.rbtCompras.Text = "COMPRAS";
             // 
             // ribbonGroup2
             // 
@@ -278,12 +280,11 @@ namespace CpOmnicell
             this.btnHCompras.Text = "Historial de Compras";
             this.btnHCompras.Click += new System.EventHandler(this.btnHCompras_Click);
             // 
-            // ribbonTab3
+            // rbtInventario
             // 
-            this.ribbonTab3.Groups.Add(this.ribbonGroup3);
-            this.ribbonTab3.Groups.Add(this.ribbonGroup16);
-            this.ribbonTab3.Name = "ribbonTab3";
-            this.ribbonTab3.Text = "INVENTARIO";
+            this.rbtInventario.Groups.Add(this.ribbonGroup3);
+            this.rbtInventario.Name = "rbtInventario";
+            this.rbtInventario.Text = "INVENTARIO";
             // 
             // ribbonGroup3
             // 
@@ -298,24 +299,12 @@ namespace CpOmnicell
             this.btnPantallas.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnPantallas.SmallImage")));
             this.btnPantallas.Click += new System.EventHandler(this.btnPantallas_Click);
             // 
-            // ribbonGroup16
+            // rbtClientes
             // 
-            this.ribbonGroup16.Items.Add(this.btnStockBajo);
-            this.ribbonGroup16.Name = "ribbonGroup16";
-            this.ribbonGroup16.Text = "Stock Bajo";
-            // 
-            // btnStockBajo
-            // 
-            this.btnStockBajo.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnStockBajo.LargeImage")));
-            this.btnStockBajo.Name = "btnStockBajo";
-            this.btnStockBajo.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnStockBajo.SmallImage")));
-            // 
-            // ribbonTab4
-            // 
-            this.ribbonTab4.Groups.Add(this.ribbonGroup4);
-            this.ribbonTab4.Groups.Add(this.ribbonGroup17);
-            this.ribbonTab4.Name = "ribbonTab4";
-            this.ribbonTab4.Text = "CLIENTES";
+            this.rbtClientes.Groups.Add(this.ribbonGroup4);
+            this.rbtClientes.Groups.Add(this.ribbonGroup17);
+            this.rbtClientes.Name = "rbtClientes";
+            this.rbtClientes.Text = "CLIENTES";
             // 
             // ribbonGroup4
             // 
@@ -343,12 +332,12 @@ namespace CpOmnicell
             this.btnClientes.Text = "Clientes";
             this.btnClientes.Click += new System.EventHandler(this.btnClientes_Click);
             // 
-            // ribbonTab5
+            // rbtProveedores
             // 
-            this.ribbonTab5.Groups.Add(this.ribbonGroup18);
-            this.ribbonTab5.Groups.Add(this.ribbonGroup5);
-            this.ribbonTab5.Name = "ribbonTab5";
-            this.ribbonTab5.Text = "PROVEEDORES";
+            this.rbtProveedores.Groups.Add(this.ribbonGroup18);
+            this.rbtProveedores.Groups.Add(this.ribbonGroup5);
+            this.rbtProveedores.Name = "rbtProveedores";
+            this.rbtProveedores.Text = "PROVEEDORES";
             // 
             // ribbonGroup18
             // 
@@ -376,71 +365,14 @@ namespace CpOmnicell
             this.btnProveedores.Text = "Proveedores";
             this.btnProveedores.Click += new System.EventHandler(this.btnProveedores_Click);
             // 
-            // ribbonTab7
+            // rbtPersonal
             // 
-            this.ribbonTab7.Groups.Add(this.ribbonGroup7);
-            this.ribbonTab7.Groups.Add(this.ribbonGroup20);
-            this.ribbonTab7.Groups.Add(this.ribbonGroup21);
-            this.ribbonTab7.Groups.Add(this.ribbonGroup22);
-            this.ribbonTab7.Name = "ribbonTab7";
-            this.ribbonTab7.Text = "REPORTES";
-            // 
-            // ribbonGroup7
-            // 
-            this.ribbonGroup7.Items.Add(this.ribbonButton21);
-            this.ribbonGroup7.Name = "ribbonGroup7";
-            this.ribbonGroup7.Text = "Ventas";
-            // 
-            // ribbonButton21
-            // 
-            this.ribbonButton21.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton21.LargeImage")));
-            this.ribbonButton21.Name = "ribbonButton21";
-            this.ribbonButton21.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton21.SmallImage")));
-            // 
-            // ribbonGroup20
-            // 
-            this.ribbonGroup20.Items.Add(this.ribbonButton51);
-            this.ribbonGroup20.Name = "ribbonGroup20";
-            this.ribbonGroup20.Text = "Historial de Compras";
-            // 
-            // ribbonButton51
-            // 
-            this.ribbonButton51.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton51.LargeImage")));
-            this.ribbonButton51.Name = "ribbonButton51";
-            this.ribbonButton51.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton51.SmallImage")));
-            // 
-            // ribbonGroup21
-            // 
-            this.ribbonGroup21.Items.Add(this.ribbonButton71);
-            this.ribbonGroup21.Name = "ribbonGroup21";
-            this.ribbonGroup21.Text = "Inventario";
-            // 
-            // ribbonButton71
-            // 
-            this.ribbonButton71.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton71.LargeImage")));
-            this.ribbonButton71.Name = "ribbonButton71";
-            this.ribbonButton71.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton71.SmallImage")));
-            // 
-            // ribbonGroup22
-            // 
-            this.ribbonGroup22.Items.Add(this.ribbonButton101);
-            this.ribbonGroup22.Name = "ribbonGroup22";
-            this.ribbonGroup22.Text = "Stock Bajo";
-            // 
-            // ribbonButton101
-            // 
-            this.ribbonButton101.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton101.LargeImage")));
-            this.ribbonButton101.Name = "ribbonButton101";
-            this.ribbonButton101.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton101.SmallImage")));
-            // 
-            // ribbonTab8
-            // 
-            this.ribbonTab8.Groups.Add(this.ribbonGroup8);
-            this.ribbonTab8.Groups.Add(this.ribbonGroup11);
-            this.ribbonTab8.Groups.Add(this.ribbonGroup6);
-            this.ribbonTab8.Groups.Add(this.ribbonGroup19);
-            this.ribbonTab8.Name = "ribbonTab8";
-            this.ribbonTab8.Text = "PERSONAL";
+            this.rbtPersonal.Groups.Add(this.ribbonGroup8);
+            this.rbtPersonal.Groups.Add(this.ribbonGroup11);
+            this.rbtPersonal.Groups.Add(this.ribbonGroup6);
+            this.rbtPersonal.Groups.Add(this.ribbonGroup19);
+            this.rbtPersonal.Name = "rbtPersonal";
+            this.rbtPersonal.Text = "PERSONAL";
             // 
             // ribbonGroup8
             // 
@@ -479,6 +411,7 @@ namespace CpOmnicell
             this.btnEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.LargeImage")));
             this.btnEmpleado.Name = "btnEmpleado";
             this.btnEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnEmpleado.SmallImage")));
+            this.btnEmpleado.Click += new System.EventHandler(this.btnEmpleado_Click);
             // 
             // ribbonGroup19
             // 
@@ -491,41 +424,40 @@ namespace CpOmnicell
             this.btnNuevoEmpleado.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.LargeImage")));
             this.btnNuevoEmpleado.Name = "btnNuevoEmpleado";
             this.btnNuevoEmpleado.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnNuevoEmpleado.SmallImage")));
+            this.btnNuevoEmpleado.Click += new System.EventHandler(this.btnNuevoEmpleado_Click);
             // 
-            // ribbonTab9
+            // rbtCerrarSesion
             // 
-            this.ribbonTab9.Groups.Add(this.ribbonGroup9);
-            this.ribbonTab9.Name = "ribbonTab9";
-            this.ribbonTab9.Text = "CERRAR SESION";
+            this.rbtCerrarSesion.Groups.Add(this.ribbonGroup9);
+            this.rbtCerrarSesion.Name = "rbtCerrarSesion";
+            this.rbtCerrarSesion.Text = "CERRAR SESION";
             // 
             // ribbonGroup9
             // 
-            this.ribbonGroup9.Items.Add(this.ribbonButton18);
+            this.ribbonGroup9.Items.Add(this.btnCerrarSesion);
             this.ribbonGroup9.Name = "ribbonGroup9";
             this.ribbonGroup9.Text = "Salir";
             // 
-            // ribbonButton18
+            // btnCerrarSesion
             // 
-            this.ribbonButton18.LargeImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.LargeImage")));
-            this.ribbonButton18.Name = "ribbonButton18";
-            this.ribbonButton18.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonButton18.SmallImage")));
-            this.ribbonButton18.Click += new System.EventHandler(this.ribbonButton18_Click);
+            this.btnCerrarSesion.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnCerrarSesion.LargeImage")));
+            this.btnCerrarSesion.Name = "btnCerrarSesion";
+            this.btnCerrarSesion.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnCerrarSesion.SmallImage")));
+            this.btnCerrarSesion.Click += new System.EventHandler(this.btnCerrarSesion_Click_1);
             // 
             // ribbonTopToolBar1
             // 
             this.ribbonTopToolBar1.Name = "ribbonTopToolBar1";
             // 
-            // label2
+            // lblUsuario
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Lavender;
-            this.label2.Font = new System.Drawing.Font("Microsoft YaHei", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(1134, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(98, 26);
-            this.label2.TabIndex = 34;
-            this.label2.Text = "Omnicell";
+            this.lblUsuario.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUsuario.BackColor = System.Drawing.Color.Lavender;
+            this.lblUsuario.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.Location = new System.Drawing.Point(902, 0);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(321, 26);
+            this.lblUsuario.TabIndex = 34;
             // 
             // gbxVentas
             // 
@@ -1172,6 +1104,18 @@ namespace CpOmnicell
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Buscar";
             // 
+            // txtBuscarPantalla
+            // 
+            this.txtBuscarPantalla.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBuscarPantalla.Location = new System.Drawing.Point(9, 16);
+            this.txtBuscarPantalla.MaxLength = 50;
+            this.txtBuscarPantalla.Name = "txtBuscarPantalla";
+            this.txtBuscarPantalla.Size = new System.Drawing.Size(1105, 20);
+            this.txtBuscarPantalla.TabIndex = 6;
+            this.txtBuscarPantalla.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarPantalla_KeyPress);
+            // 
             // btnBuscarPantalla
             // 
             this.btnBuscarPantalla.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1187,17 +1131,7 @@ namespace CpOmnicell
             this.btnBuscarPantalla.Text = "Buscar";
             this.btnBuscarPantalla.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnBuscarPantalla.UseVisualStyleBackColor = false;
-            // 
-            // txtBuscarPantalla
-            // 
-            this.txtBuscarPantalla.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtBuscarPantalla.Location = new System.Drawing.Point(9, 16);
-            this.txtBuscarPantalla.MaxLength = 50;
-            this.txtBuscarPantalla.Name = "txtBuscarPantalla";
-            this.txtBuscarPantalla.Size = new System.Drawing.Size(1105, 20);
-            this.txtBuscarPantalla.TabIndex = 6;
+            this.btnBuscarPantalla.Click += new System.EventHandler(this.btnBuscarPantalla_Click);
             // 
             // groupBox11
             // 
@@ -1231,6 +1165,7 @@ namespace CpOmnicell
             this.btnAñadirPantalla.Text = "Añadir";
             this.btnAñadirPantalla.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAñadirPantalla.UseVisualStyleBackColor = false;
+            this.btnAñadirPantalla.Click += new System.EventHandler(this.btnAñadirPantalla_Click);
             // 
             // btnEliminarPantalla
             // 
@@ -1251,6 +1186,134 @@ namespace CpOmnicell
             this.btnEliminarPantalla.Text = "Eliminar";
             this.btnEliminarPantalla.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnEliminarPantalla.UseVisualStyleBackColor = false;
+            this.btnEliminarPantalla.Click += new System.EventHandler(this.btnEliminarPantalla_Click);
+            // 
+            // gbxEmpleados
+            // 
+            this.gbxEmpleados.Controls.Add(this.dgvListaEmpleados);
+            this.gbxEmpleados.Controls.Add(this.groupBox12);
+            this.gbxEmpleados.Controls.Add(this.groupBox13);
+            this.gbxEmpleados.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbxEmpleados.Location = new System.Drawing.Point(0, 156);
+            this.gbxEmpleados.Name = "gbxEmpleados";
+            this.gbxEmpleados.Size = new System.Drawing.Size(1234, 346);
+            this.gbxEmpleados.TabIndex = 42;
+            this.gbxEmpleados.TabStop = false;
+            this.gbxEmpleados.Text = "Lista de Empleados";
+            // 
+            // dgvListaEmpleados
+            // 
+            this.dgvListaEmpleados.AllowUserToAddRows = false;
+            this.dgvListaEmpleados.AllowUserToDeleteRows = false;
+            this.dgvListaEmpleados.AllowUserToResizeColumns = false;
+            this.dgvListaEmpleados.AllowUserToResizeRows = false;
+            this.dgvListaEmpleados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvListaEmpleados.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.dgvListaEmpleados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvListaEmpleados.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgvListaEmpleados.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.dgvListaEmpleados.Location = new System.Drawing.Point(3, 61);
+            this.dgvListaEmpleados.MultiSelect = false;
+            this.dgvListaEmpleados.Name = "dgvListaEmpleados";
+            this.dgvListaEmpleados.ReadOnly = true;
+            this.dgvListaEmpleados.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvListaEmpleados.Size = new System.Drawing.Size(1228, 230);
+            this.dgvListaEmpleados.TabIndex = 0;
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.txtBuscarEmpleados);
+            this.groupBox12.Controls.Add(this.btnEmpleados);
+            this.groupBox12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox12.Location = new System.Drawing.Point(3, 16);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(1228, 45);
+            this.groupBox12.TabIndex = 8;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Buscar";
+            // 
+            // txtBuscarEmpleados
+            // 
+            this.txtBuscarEmpleados.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtBuscarEmpleados.Location = new System.Drawing.Point(9, 16);
+            this.txtBuscarEmpleados.MaxLength = 50;
+            this.txtBuscarEmpleados.Name = "txtBuscarEmpleados";
+            this.txtBuscarEmpleados.Size = new System.Drawing.Size(1105, 20);
+            this.txtBuscarEmpleados.TabIndex = 6;
+            this.txtBuscarEmpleados.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtBuscarEmpleados_KeyPress);
+            // 
+            // btnEmpleados
+            // 
+            this.btnEmpleados.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnEmpleados.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnEmpleados.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEmpleados.Image = ((System.Drawing.Image)(resources.GetObject("btnEmpleados.Image")));
+            this.btnEmpleados.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEmpleados.Location = new System.Drawing.Point(1126, 9);
+            this.btnEmpleados.Name = "btnEmpleados";
+            this.btnEmpleados.Size = new System.Drawing.Size(94, 33);
+            this.btnEmpleados.TabIndex = 7;
+            this.btnEmpleados.Text = "Buscar";
+            this.btnEmpleados.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEmpleados.UseVisualStyleBackColor = false;
+            this.btnEmpleados.Click += new System.EventHandler(this.btnEmpleados_Click);
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.btnEditarEmpleado);
+            this.groupBox13.Controls.Add(this.btnEliminarEmpleado);
+            this.groupBox13.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox13.Location = new System.Drawing.Point(3, 291);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(1228, 52);
+            this.groupBox13.TabIndex = 7;
+            this.groupBox13.TabStop = false;
+            this.groupBox13.Text = "Opciones";
+            // 
+            // btnEditarEmpleado
+            // 
+            this.btnEditarEmpleado.BackColor = System.Drawing.Color.ForestGreen;
+            this.btnEditarEmpleado.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btnEditarEmpleado.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnEditarEmpleado.FlatAppearance.BorderSize = 10;
+            this.btnEditarEmpleado.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnEditarEmpleado.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnEditarEmpleado.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEditarEmpleado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditarEmpleado.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEditarEmpleado.Image = ((System.Drawing.Image)(resources.GetObject("btnEditarEmpleado.Image")));
+            this.btnEditarEmpleado.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEditarEmpleado.Location = new System.Drawing.Point(9, 14);
+            this.btnEditarEmpleado.Name = "btnEditarEmpleado";
+            this.btnEditarEmpleado.Size = new System.Drawing.Size(103, 35);
+            this.btnEditarEmpleado.TabIndex = 6;
+            this.btnEditarEmpleado.Text = "Editar";
+            this.btnEditarEmpleado.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEditarEmpleado.UseVisualStyleBackColor = false;
+            // 
+            // btnEliminarEmpleado
+            // 
+            this.btnEliminarEmpleado.BackColor = System.Drawing.Color.Red;
+            this.btnEliminarEmpleado.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnEliminarEmpleado.FlatAppearance.BorderSize = 10;
+            this.btnEliminarEmpleado.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.btnEliminarEmpleado.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Lime;
+            this.btnEliminarEmpleado.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEliminarEmpleado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarEmpleado.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnEliminarEmpleado.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarEmpleado.Image")));
+            this.btnEliminarEmpleado.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarEmpleado.Location = new System.Drawing.Point(118, 14);
+            this.btnEliminarEmpleado.Name = "btnEliminarEmpleado";
+            this.btnEliminarEmpleado.Size = new System.Drawing.Size(98, 35);
+            this.btnEliminarEmpleado.TabIndex = 5;
+            this.btnEliminarEmpleado.Text = "Eliminar";
+            this.btnEliminarEmpleado.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEliminarEmpleado.UseVisualStyleBackColor = false;
+            this.btnEliminarEmpleado.Click += new System.EventHandler(this.btnEliminarEmpleado_Click);
             // 
             // FrmMenuVendedor
             // 
@@ -1258,13 +1321,14 @@ namespace CpOmnicell
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(1234, 502);
+            this.Controls.Add(this.gbxEmpleados);
             this.Controls.Add(this.gbxPantallas);
             this.Controls.Add(this.gbxUsuarios);
             this.Controls.Add(this.gbxClientes);
             this.Controls.Add(this.gbxProveedores);
             this.Controls.Add(this.gbxCompras);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.c1Ribbon1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmMenuVendedor";
@@ -1313,6 +1377,13 @@ namespace CpOmnicell
             this.groupBox11.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.btnAñadirPantalla)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnEliminarPantalla)).EndInit();
+            this.gbxEmpleados.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvListaEmpleados)).EndInit();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox13.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btnEditarEmpleado)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnEliminarEmpleado)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1324,46 +1395,35 @@ namespace CpOmnicell
         private C1.Win.C1Ribbon.RibbonBottomToolBar ribbonBottomToolBar1;
         private C1.Win.C1Ribbon.RibbonConfigToolBar ribbonConfigToolBar1;
         private C1.Win.C1Ribbon.RibbonQat ribbonQat1;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab1;
+        private C1.Win.C1Ribbon.RibbonTab rbtVentas;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup1;
         private C1.Win.C1Ribbon.RibbonTopToolBar ribbonTopToolBar1;
-        private System.Windows.Forms.Label label2;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab2;
+        private System.Windows.Forms.Label lblUsuario;
+        private C1.Win.C1Ribbon.RibbonTab rbtCompras;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup2;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab3;
+        private C1.Win.C1Ribbon.RibbonTab rbtInventario;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup3;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab4;
+        private C1.Win.C1Ribbon.RibbonTab rbtClientes;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup4;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab5;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab7;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup7;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab8;
+        private C1.Win.C1Ribbon.RibbonTab rbtProveedores;
+        private C1.Win.C1Ribbon.RibbonTab rbtPersonal;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup8;
         private C1.Win.C1Ribbon.RibbonButton btnNuevaVenta;
-        private C1.Win.C1Ribbon.RibbonTab ribbonTab9;
+        private C1.Win.C1Ribbon.RibbonTab rbtCerrarSesion;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup10;
         private C1.Win.C1Ribbon.RibbonButton btnHistorialVentas;
         private C1.Win.C1Ribbon.RibbonButton btnNuevaCompra;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup12;
         private C1.Win.C1Ribbon.RibbonButton btnHCompras;
         private C1.Win.C1Ribbon.RibbonButton btnPantallas;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup16;
-        private C1.Win.C1Ribbon.RibbonButton btnStockBajo;
         private C1.Win.C1Ribbon.RibbonButton btnNuevoCliente;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup17;
         private C1.Win.C1Ribbon.RibbonButton btnClientes;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup18;
         private C1.Win.C1Ribbon.RibbonButton btnNuevoProveedor;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton21;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup20;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup21;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton51;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton71;
-        private C1.Win.C1Ribbon.RibbonGroup ribbonGroup22;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton101;
         private C1.Win.C1Ribbon.RibbonButton btnUsuarios;
         private C1.Win.C1Ribbon.RibbonGroup ribbonGroup9;
-        private C1.Win.C1Ribbon.RibbonButton ribbonButton18;
+        private C1.Win.C1Ribbon.RibbonButton btnCerrarSesion;
         private System.Windows.Forms.GroupBox gbxVentas;
         private System.Windows.Forms.DataGridView dgvListaVentas;
         private C1Button btnDetalleVenta;
@@ -1419,5 +1479,13 @@ namespace CpOmnicell
         private System.Windows.Forms.GroupBox groupBox11;
         private C1Button btnAñadirPantalla;
         private C1Button btnEliminarPantalla;
+        private System.Windows.Forms.GroupBox gbxEmpleados;
+        private System.Windows.Forms.DataGridView dgvListaEmpleados;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.TextBox txtBuscarEmpleados;
+        private System.Windows.Forms.Button btnEmpleados;
+        private System.Windows.Forms.GroupBox groupBox13;
+        private C1Button btnEditarEmpleado;
+        private C1Button btnEliminarEmpleado;
     }
 }

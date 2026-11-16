@@ -48,7 +48,6 @@ E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\bin\Deb
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.AssemblyReference.cache
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmClientes.resources
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmCompras.resources
-E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmMenuCliente.resources
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmLogin.resources
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmMenuVendedor.resources
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmProveedores.resources
@@ -61,3 +60,7 @@ E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Deb
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.Up2Date
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.exe
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.pdb
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmPantalla.resources
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmEmpleados.resources
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmDetalleVenta.resources
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmDetalleCompra.resources

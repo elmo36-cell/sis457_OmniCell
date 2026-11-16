@@ -25,12 +25,6 @@ namespace CpOmnicell
             Close();
         }
 
-        private void btnInicioCliente_Click(object sender, EventArgs e)
-        {
-            FrmMenuCliente frmMenuCliente = new FrmMenuCliente();
-            frmMenuCliente.Show();
-        }
-
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
             // Limpiar errores anteriores
@@ -80,10 +74,15 @@ namespace CpOmnicell
                 // Abrir menú principal
                 this.Hide();
 
-                FrmMenuVendedor menu = new FrmMenuVendedor();
-                menu.ShowDialog();
+                using (FrmMenuVendedor menu = new FrmMenuVendedor())
+                {
+                    menu.ShowDialog();
+                }
 
-                this.Close();
+                txtClave.Clear();
+                txtUsuarios.Focus();
+
+                this.Show();
             }
             catch (Exception ex)
             {

@@ -31,6 +31,9 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmUsuarios));
             this.lblTitulo = new System.Windows.Forms.Label();
             this.gbxDatos = new System.Windows.Forms.GroupBox();
+            this.cbxRol = new System.Windows.Forms.ComboBox();
+            this.lblClave = new System.Windows.Forms.Label();
+            this.cbxNombre = new System.Windows.Forms.ComboBox();
             this.txtNombreUsuario = new System.Windows.Forms.TextBox();
             this.txtClave = new System.Windows.Forms.TextBox();
             this.txtCargo = new System.Windows.Forms.TextBox();
@@ -40,9 +43,7 @@
             this.lblCargo = new System.Windows.Forms.Label();
             this.lblRol = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.cbxNombre = new System.Windows.Forms.ComboBox();
-            this.lblClave = new System.Windows.Forms.Label();
-            this.cbxRol = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.gbxDatos.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -60,6 +61,7 @@
             // 
             // gbxDatos
             // 
+            this.gbxDatos.Controls.Add(this.label1);
             this.gbxDatos.Controls.Add(this.cbxRol);
             this.gbxDatos.Controls.Add(this.lblClave);
             this.gbxDatos.Controls.Add(this.cbxNombre);
@@ -78,6 +80,32 @@
             this.gbxDatos.TabIndex = 32;
             this.gbxDatos.TabStop = false;
             this.gbxDatos.Text = "Datos";
+            // 
+            // cbxRol
+            // 
+            this.cbxRol.FormattingEnabled = true;
+            this.cbxRol.Location = new System.Drawing.Point(79, 106);
+            this.cbxRol.Name = "cbxRol";
+            this.cbxRol.Size = new System.Drawing.Size(332, 21);
+            this.cbxRol.TabIndex = 23;
+            // 
+            // lblClave
+            // 
+            this.lblClave.AutoSize = true;
+            this.lblClave.Location = new System.Drawing.Point(20, 255);
+            this.lblClave.Name = "lblClave";
+            this.lblClave.Size = new System.Drawing.Size(64, 13);
+            this.lblClave.TabIndex = 22;
+            this.lblClave.Text = "Contraseña:";
+            // 
+            // cbxNombre
+            // 
+            this.cbxNombre.FormattingEnabled = true;
+            this.cbxNombre.Location = new System.Drawing.Point(79, 32);
+            this.cbxNombre.Name = "cbxNombre";
+            this.cbxNombre.Size = new System.Drawing.Size(332, 21);
+            this.cbxNombre.TabIndex = 21;
+            this.cbxNombre.SelectedIndexChanged += new System.EventHandler(this.cbxNombre_SelectedIndexChanged);
             // 
             // txtNombreUsuario
             // 
@@ -119,12 +147,14 @@
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnGuardar.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar.Image")));
+            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btnGuardar.Location = new System.Drawing.Point(207, 335);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(101, 42);
+            this.btnGuardar.Size = new System.Drawing.Size(120, 42);
             this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
@@ -134,12 +164,14 @@
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnCancelar.Location = new System.Drawing.Point(96, 335);
+            this.btnCancelar.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelar.Image")));
+            this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnCancelar.Location = new System.Drawing.Point(78, 335);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(105, 42);
+            this.btnCancelar.Size = new System.Drawing.Size(123, 42);
             this.btnCancelar.TabIndex = 10;
             this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
@@ -170,31 +202,13 @@
             this.lblNombre.TabIndex = 1;
             this.lblNombre.Text = "Nombre :";
             // 
-            // cbxNombre
+            // label1
             // 
-            this.cbxNombre.FormattingEnabled = true;
-            this.cbxNombre.Location = new System.Drawing.Point(79, 32);
-            this.cbxNombre.Name = "cbxNombre";
-            this.cbxNombre.Size = new System.Drawing.Size(332, 21);
-            this.cbxNombre.TabIndex = 21;
-            this.cbxNombre.SelectedIndexChanged += new System.EventHandler(this.cbxNombre_SelectedIndexChanged);
-            // 
-            // lblClave
-            // 
-            this.lblClave.AutoSize = true;
-            this.lblClave.Location = new System.Drawing.Point(20, 255);
-            this.lblClave.Name = "lblClave";
-            this.lblClave.Size = new System.Drawing.Size(64, 13);
-            this.lblClave.TabIndex = 22;
-            this.lblClave.Text = "Contraseña:";
-            // 
-            // cbxRol
-            // 
-            this.cbxRol.FormattingEnabled = true;
-            this.cbxRol.Location = new System.Drawing.Point(79, 106);
-            this.cbxRol.Name = "cbxRol";
-            this.cbxRol.Size = new System.Drawing.Size(332, 21);
-            this.cbxRol.TabIndex = 23;
+            this.label1.Image = ((System.Drawing.Image)(resources.GetObject("label1.Image")));
+            this.label1.Location = new System.Drawing.Point(149, 144);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(145, 69);
+            this.label1.TabIndex = 24;
             // 
             // FrmUsuarios
             // 
@@ -232,5 +246,6 @@
         private System.Windows.Forms.ComboBox cbxNombre;
         private System.Windows.Forms.Label lblClave;
         private System.Windows.Forms.ComboBox cbxRol;
+        private System.Windows.Forms.Label label1;
     }
 }

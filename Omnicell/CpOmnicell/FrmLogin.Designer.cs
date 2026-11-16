@@ -40,7 +40,6 @@
             this.lblTilOmnicell = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btnSalir = new System.Windows.Forms.Button();
-            this.btnInicioCliente = new System.Windows.Forms.Button();
             this.erpUsuario = new System.Windows.Forms.ErrorProvider(this.components);
             this.erpClave = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.tbFondo)).BeginInit();
@@ -162,21 +161,6 @@
             this.btnSalir.UseVisualStyleBackColor = false;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
-            // btnInicioCliente
-            // 
-            this.btnInicioCliente.BackColor = System.Drawing.SystemColors.Highlight;
-            this.btnInicioCliente.FlatAppearance.BorderColor = System.Drawing.Color.Black;
-            this.btnInicioCliente.FlatAppearance.BorderSize = 10;
-            this.btnInicioCliente.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnInicioCliente.Font = new System.Drawing.Font("Microsoft YaHei", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInicioCliente.Location = new System.Drawing.Point(523, 287);
-            this.btnInicioCliente.Name = "btnInicioCliente";
-            this.btnInicioCliente.Size = new System.Drawing.Size(183, 37);
-            this.btnInicioCliente.TabIndex = 19;
-            this.btnInicioCliente.Text = "Iniciar como Invitado";
-            this.btnInicioCliente.UseVisualStyleBackColor = false;
-            this.btnInicioCliente.Click += new System.EventHandler(this.btnInicioCliente_Click);
-            // 
             // erpUsuario
             // 
             this.erpUsuario.ContainerControl = this;
@@ -191,7 +175,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnInicioCliente);
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.lblTilOmnicell);
@@ -230,7 +213,6 @@
         private System.Windows.Forms.Label lblTilOmnicell;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnSalir;
-        private System.Windows.Forms.Button btnInicioCliente;
         private System.Windows.Forms.ErrorProvider erpUsuario;
         private System.Windows.Forms.ErrorProvider erpClave;
     }

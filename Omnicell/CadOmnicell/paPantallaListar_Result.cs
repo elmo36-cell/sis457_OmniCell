@@ -13,6 +13,7 @@ namespace CadOmnicell
     
     public partial class paPantallaListar_Result
     {
+        public int id { get; set; }
         public string sku { get; set; }
         public string descripcion { get; set; }
         public string calidad { get; set; }

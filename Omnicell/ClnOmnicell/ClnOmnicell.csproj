@@ -57,7 +57,7 @@
     <Compile Include="ClienteCln.cs" />
     <Compile Include="CompatibilidadCln.cs" />
     <Compile Include="CompraCln.cs" />
-    <Compile Include="CompraDatalleCln.cs" />
+    <Compile Include="CompraDetalleCln.cs" />
     <Compile Include="EmpleadoCln.cs" />
     <Compile Include="InventarioCln.cs" />
     <Compile Include="MarcaCln.cs" />

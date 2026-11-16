@@ -69,5 +69,20 @@ namespace ClnOmnicell
                 return context.Inventario.Where(x => x.estado == 1).ToList();
             }
         }
+
+        public static decimal obtenerStock(int idSucursal, int idPantalla)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                var inventario = context.Inventario.FirstOrDefault(i =>
+                    i.idSucursal == idSucursal &&
+                    i.idPantalla == idPantalla &&
+                    i.estado == 1
+                );
+
+                return inventario != null ? inventario.stockActual : 0;
+            }
+        }
+
     }
 }

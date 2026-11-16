@@ -253,7 +253,7 @@ GO
 DROP PROC IF EXISTS paPantallaListar;
 GO
 CREATE PROC paPantallaListar @parametro VARCHAR(50) AS
-  SELECT sku, descripcion, calidad, tecnologia, precioVenta, stockTotal
+  SELECT id,sku, descripcion, calidad, tecnologia, precioVenta, stockTotal
   FROM Pantalla
   WHERE estado = 1 AND (sku + descripcion + calidad LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY descripcion;
@@ -265,7 +265,7 @@ GO
 DROP PROC IF EXISTS paClienteListar;
 GO
 CREATE PROC paClienteListar @parametro VARCHAR(50) AS
-  SELECT nitCi, nombres, primerApellido, segundoApellido, razonSocial, telefono, direccion, tipoCliente, usuarioRegistro
+  SELECT id, nitCi, nombres, primerApellido, segundoApellido, razonSocial, telefono, direccion, tipoCliente, usuarioRegistro
   FROM Cliente
   WHERE estado = 1 AND (
         nitCi LIKE '%' + @parametro + '%' OR 
@@ -281,7 +281,7 @@ GO
 DROP PROC IF EXISTS paEmpleadoListar;
 GO
 CREATE PROC paEmpleadoListar @parametro VARCHAR(50) AS
-  SELECT nombres, primerApellido, segundoApellido, ci, celular, direccion, cargo
+  SELECT id, nombres, primerApellido, segundoApellido, ci, celular, direccion, cargo
   FROM Empleado
   WHERE estado = 1 AND (ci + nombres + primerApellido LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY primerApellido, nombres;
@@ -293,7 +293,7 @@ GO
 DROP PROC IF EXISTS paUsuarioListar;
 GO
 CREATE PROC paUsuarioListar @parametro VARCHAR(50) AS
-  SELECT e.nombres, e.cargo, r.nombre, u.nombreUsuario
+  SELECT u.id, e.nombres, e.cargo, r.nombre, u.nombreUsuario
   FROM Usuario u
   INNER JOIN Empleado e ON u.idEmpleado = e.id
   INNER JOIN Rol r ON u.idRol = r.id
@@ -307,7 +307,7 @@ GO
 DROP PROC IF EXISTS paProveedorListar;
 GO
 CREATE PROC paProveedorListar @parametro VARCHAR(50) AS
-  SELECT razonSocial, pais, contactoPersona, telefono
+  SELECT id, razonSocial, pais, contactoPersona, telefono
   FROM Proveedor
   WHERE estado = 1 AND (razonSocial + contactoPersona + pais LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
   ORDER BY razonSocial;
@@ -343,7 +343,7 @@ GO
 DROP PROC IF EXISTS dbo.paVentaListar;
 GO
 CREATE PROC dbo.paVentaListar @parametro VARCHAR(50) AS BEGIN
-    SELECT v.fechaVenta, CONCAT(c.nombres, ' ', c.primerApellido) AS cliente, c.nitCi, CONCAT(e.nombres, ' ', e.primerApellido) AS vendedor, s.nombre AS sucursal, v.tipoPago, v.montoTotal
+    SELECT v.id, v.fechaVenta, CONCAT(c.nombres, ' ', c.primerApellido) AS cliente, c.nitCi, CONCAT(e.nombres, ' ', e.primerApellido) AS vendedor, s.nombre AS sucursal, v.tipoPago, v.montoTotal
     FROM Venta v
     INNER JOIN Cliente c ON v.idCliente = c.id
     INNER JOIN Empleado e ON v.idEmpleado = e.id
@@ -369,7 +369,7 @@ GO
 DROP PROC IF EXISTS paCompraListar;
 GO
 CREATE PROC paCompraListar @parametro VARCHAR(50) AS BEGIN
-  SELECT c.fechaCompra, p.razonSocial AS proveedor, p.pais, e.nombres + ' ' + e.primerApellido AS empleado, c.factura, c.costoTotal
+  SELECT c.id, c.fechaCompra, p.razonSocial AS proveedor, p.pais, e.nombres + ' ' + e.primerApellido AS empleado, c.factura, c.costoTotal
     FROM Compra c
     INNER JOIN Proveedor p ON c.idProveedor = p.id
     INNER JOIN Empleado e ON c.idEmpleado = e.id

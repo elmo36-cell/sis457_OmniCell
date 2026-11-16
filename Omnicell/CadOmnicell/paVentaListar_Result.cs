@@ -13,6 +13,7 @@ namespace CadOmnicell
     
     public partial class paVentaListar_Result
     {
+        public int id { get; set; }
         public System.DateTime fechaVenta { get; set; }
         public string cliente { get; set; }
         public string nitCi { get; set; }

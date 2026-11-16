@@ -13,6 +13,7 @@ namespace CadOmnicell
     
     public partial class paProveedorListar_Result
     {
+        public int id { get; set; }
         public string razonSocial { get; set; }
         public string pais { get; set; }
         public string contactoPersona { get; set; }

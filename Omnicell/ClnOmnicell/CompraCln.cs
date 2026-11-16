@@ -53,9 +53,10 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                var compra = context.Compra.Find(id);
-                if (compra == null) throw new Exception($"La compra con id {id} no existe");
-                return compra;
+                return context.Compra
+                    .Include("Proveedor")
+                    .Include("Empleado")
+                    .FirstOrDefault(x => x.id == id);
             }
         }
 
@@ -94,6 +95,76 @@ namespace ClnOmnicell
                     .Where(x => x.estado == 1)
                     .OrderBy(x => x.nombres)
                     .ToList();
+            }
+        }
+        public static int registrarCompra(Compra compra,List<CompraDetalle> detalles,int idSucursal)
+        {
+            if (compra == null)
+                throw new Exception("La compra no es válida.");
+
+            if (detalles == null || detalles.Count == 0)
+                throw new Exception("La compra debe tener al menos un detalle.");
+
+            using (var context = new LabOmnicellEntities())
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    // Registrar cabecera de compra
+                    compra.fechaRegistro = DateTime.Now;
+                    compra.estado = 1;
+
+                    context.Compra.Add(compra);
+                    context.SaveChanges();
+
+                    // Registrar detalles y actualizar inventario
+                    foreach (var detalle in detalles)
+                    {
+                        detalle.idCompra = compra.id;
+                        detalle.fechaRegistro = DateTime.Now;
+                        detalle.usuarioRegistro = compra.usuarioRegistro;
+                        detalle.estado = 1;
+
+                        context.CompraDetalle.Add(detalle);
+
+                        var inventario = context.Inventario
+                            .FirstOrDefault(i =>
+                                i.idSucursal == idSucursal &&
+                                i.idPantalla == detalle.idPantalla &&
+                                i.estado == 1);
+
+                        if (inventario == null)
+                        {
+                            inventario = new Inventario
+                            {
+                                idSucursal = idSucursal,
+                                idPantalla = detalle.idPantalla,
+                                stockActual = detalle.cantidad,
+                                stockMinimo = 0,
+                                usuarioRegistro = compra.usuarioRegistro,
+                                fechaRegistro = DateTime.Now,
+                                estado = 1
+                            };
+
+                            context.Inventario.Add(inventario);
+                        }
+                        else
+                        {
+                            inventario.stockActual += detalle.cantidad;
+                            inventario.estado = 1;
+                        }
+                    }
+
+                    context.SaveChanges();
+                    transaction.Commit();
+
+                    return compra.id;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
             }
         }
     }

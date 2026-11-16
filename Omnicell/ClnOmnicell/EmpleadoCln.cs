@@ -38,6 +38,7 @@ namespace ClnOmnicell
                 existe.direccion = empleado.direccion;
                 existe.cargo = empleado.cargo;
                 existe.usuarioRegistro = empleado.usuarioRegistro;
+                existe.idSucursal = empleado.idSucursal;
 
                 return context.SaveChanges();
             }
@@ -88,6 +89,22 @@ namespace ClnOmnicell
                 return empleado;
             }
         }
-
+        public static List<paEmpleadoListar_Result> listarEmpleados(string parametro)
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.paEmpleadoListar(parametro.Trim()).ToList();
+            }
+        }
+        public static List<Sucursal> listarSucursalCombo()
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                return context.Sucursal
+                    .Where(x => x.estado == 1)
+                    .OrderBy(x => x.nombre)
+                    .ToList();
+            }
+        }
     }
 }

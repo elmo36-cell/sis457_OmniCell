@@ -30,7 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmClientes));
             this.lblTitulo = new System.Windows.Forms.Label();
-            this.gbxDatos = new System.Windows.Forms.GroupBox();
+            this.gbxDatosCliente = new System.Windows.Forms.GroupBox();
+            this.txtTelefono = new System.Windows.Forms.TextBox();
+            this.txtDireccion = new System.Windows.Forms.TextBox();
+            this.txtRazonSocial = new System.Windows.Forms.TextBox();
+            this.lblDireccion = new System.Windows.Forms.Label();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.txtPrimerApellido = new System.Windows.Forms.TextBox();
+            this.txtSegundoApellido = new System.Windows.Forms.TextBox();
             this.txtCINit = new System.Windows.Forms.TextBox();
             this.lblTelefono = new System.Windows.Forms.Label();
             this.lblTipoCliente = new System.Windows.Forms.Label();
@@ -42,14 +49,8 @@
             this.lblSegundoApellido = new System.Windows.Forms.Label();
             this.lblPrimerApellido = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.txtSegundoApellido = new System.Windows.Forms.TextBox();
-            this.txtPrimerApellido = new System.Windows.Forms.TextBox();
-            this.txtNombre = new System.Windows.Forms.TextBox();
-            this.lblDireccion = new System.Windows.Forms.Label();
-            this.txtRazonSocial = new System.Windows.Forms.TextBox();
-            this.txtDireccion = new System.Windows.Forms.TextBox();
-            this.txtTelefono = new System.Windows.Forms.TextBox();
-            this.gbxDatos.SuspendLayout();
+            this.lblTituloCliente = new System.Windows.Forms.Label();
+            this.gbxDatosCliente.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTitulo
@@ -57,39 +58,97 @@
             this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Microsoft YaHei", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(154, 11);
+            this.lblTitulo.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitulo.Location = new System.Drawing.Point(3, 9);
             this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(147, 39);
+            this.lblTitulo.Size = new System.Drawing.Size(81, 22);
             this.lblTitulo.TabIndex = 29;
             this.lblTitulo.Text = "Omnicell";
             // 
-            // gbxDatos
+            // gbxDatosCliente
             // 
-            this.gbxDatos.Controls.Add(this.txtTelefono);
-            this.gbxDatos.Controls.Add(this.txtDireccion);
-            this.gbxDatos.Controls.Add(this.txtRazonSocial);
-            this.gbxDatos.Controls.Add(this.lblDireccion);
-            this.gbxDatos.Controls.Add(this.txtNombre);
-            this.gbxDatos.Controls.Add(this.txtPrimerApellido);
-            this.gbxDatos.Controls.Add(this.txtSegundoApellido);
-            this.gbxDatos.Controls.Add(this.txtCINit);
-            this.gbxDatos.Controls.Add(this.lblTelefono);
-            this.gbxDatos.Controls.Add(this.lblTipoCliente);
-            this.gbxDatos.Controls.Add(this.btnGuardar);
-            this.gbxDatos.Controls.Add(this.btnCancelar);
-            this.gbxDatos.Controls.Add(this.lblRazonSocial);
-            this.gbxDatos.Controls.Add(this.lblCiNit);
-            this.gbxDatos.Controls.Add(this.cbxTipoCliente);
-            this.gbxDatos.Controls.Add(this.lblSegundoApellido);
-            this.gbxDatos.Controls.Add(this.lblPrimerApellido);
-            this.gbxDatos.Controls.Add(this.lblNombre);
-            this.gbxDatos.Location = new System.Drawing.Point(7, 53);
-            this.gbxDatos.Name = "gbxDatos";
-            this.gbxDatos.Size = new System.Drawing.Size(419, 383);
-            this.gbxDatos.TabIndex = 28;
-            this.gbxDatos.TabStop = false;
-            this.gbxDatos.Text = "Datos";
+            this.gbxDatosCliente.BackColor = System.Drawing.Color.DodgerBlue;
+            this.gbxDatosCliente.Controls.Add(this.txtTelefono);
+            this.gbxDatosCliente.Controls.Add(this.txtDireccion);
+            this.gbxDatosCliente.Controls.Add(this.txtRazonSocial);
+            this.gbxDatosCliente.Controls.Add(this.lblDireccion);
+            this.gbxDatosCliente.Controls.Add(this.txtNombre);
+            this.gbxDatosCliente.Controls.Add(this.txtPrimerApellido);
+            this.gbxDatosCliente.Controls.Add(this.txtSegundoApellido);
+            this.gbxDatosCliente.Controls.Add(this.txtCINit);
+            this.gbxDatosCliente.Controls.Add(this.lblTelefono);
+            this.gbxDatosCliente.Controls.Add(this.lblTipoCliente);
+            this.gbxDatosCliente.Controls.Add(this.btnGuardar);
+            this.gbxDatosCliente.Controls.Add(this.btnCancelar);
+            this.gbxDatosCliente.Controls.Add(this.lblRazonSocial);
+            this.gbxDatosCliente.Controls.Add(this.lblCiNit);
+            this.gbxDatosCliente.Controls.Add(this.cbxTipoCliente);
+            this.gbxDatosCliente.Controls.Add(this.lblSegundoApellido);
+            this.gbxDatosCliente.Controls.Add(this.lblPrimerApellido);
+            this.gbxDatosCliente.Controls.Add(this.lblNombre);
+            this.gbxDatosCliente.Location = new System.Drawing.Point(7, 53);
+            this.gbxDatosCliente.Name = "gbxDatosCliente";
+            this.gbxDatosCliente.Size = new System.Drawing.Size(419, 383);
+            this.gbxDatosCliente.TabIndex = 28;
+            this.gbxDatosCliente.TabStop = false;
+            this.gbxDatosCliente.Text = "Datos de Cliente";
+            // 
+            // txtTelefono
+            // 
+            this.txtTelefono.Location = new System.Drawing.Point(91, 225);
+            this.txtTelefono.MaxLength = 30;
+            this.txtTelefono.Name = "txtTelefono";
+            this.txtTelefono.Size = new System.Drawing.Size(323, 20);
+            this.txtTelefono.TabIndex = 22;
+            // 
+            // txtDireccion
+            // 
+            this.txtDireccion.Location = new System.Drawing.Point(90, 254);
+            this.txtDireccion.MaxLength = 30;
+            this.txtDireccion.Name = "txtDireccion";
+            this.txtDireccion.Size = new System.Drawing.Size(323, 20);
+            this.txtDireccion.TabIndex = 21;
+            // 
+            // txtRazonSocial
+            // 
+            this.txtRazonSocial.Location = new System.Drawing.Point(95, 156);
+            this.txtRazonSocial.MaxLength = 30;
+            this.txtRazonSocial.Name = "txtRazonSocial";
+            this.txtRazonSocial.Size = new System.Drawing.Size(318, 20);
+            this.txtRazonSocial.TabIndex = 20;
+            // 
+            // lblDireccion
+            // 
+            this.lblDireccion.AutoSize = true;
+            this.lblDireccion.Location = new System.Drawing.Point(18, 257);
+            this.lblDireccion.Name = "lblDireccion";
+            this.lblDireccion.Size = new System.Drawing.Size(55, 13);
+            this.lblDireccion.TabIndex = 19;
+            this.lblDireccion.Text = "Dirección:";
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.Location = new System.Drawing.Point(79, 22);
+            this.txtNombre.MaxLength = 30;
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(333, 20);
+            this.txtNombre.TabIndex = 18;
+            // 
+            // txtPrimerApellido
+            // 
+            this.txtPrimerApellido.Location = new System.Drawing.Point(103, 57);
+            this.txtPrimerApellido.MaxLength = 30;
+            this.txtPrimerApellido.Name = "txtPrimerApellido";
+            this.txtPrimerApellido.Size = new System.Drawing.Size(311, 20);
+            this.txtPrimerApellido.TabIndex = 17;
+            // 
+            // txtSegundoApellido
+            // 
+            this.txtSegundoApellido.Location = new System.Drawing.Point(116, 92);
+            this.txtSegundoApellido.MaxLength = 30;
+            this.txtSegundoApellido.Name = "txtSegundoApellido";
+            this.txtSegundoApellido.Size = new System.Drawing.Size(297, 20);
+            this.txtSegundoApellido.TabIndex = 16;
             // 
             // txtCINit
             // 
@@ -201,62 +260,19 @@
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombres:";
             // 
-            // txtSegundoApellido
+            // lblTituloCliente
             // 
-            this.txtSegundoApellido.Location = new System.Drawing.Point(116, 92);
-            this.txtSegundoApellido.MaxLength = 30;
-            this.txtSegundoApellido.Name = "txtSegundoApellido";
-            this.txtSegundoApellido.Size = new System.Drawing.Size(297, 20);
-            this.txtSegundoApellido.TabIndex = 16;
-            // 
-            // txtPrimerApellido
-            // 
-            this.txtPrimerApellido.Location = new System.Drawing.Point(103, 57);
-            this.txtPrimerApellido.MaxLength = 30;
-            this.txtPrimerApellido.Name = "txtPrimerApellido";
-            this.txtPrimerApellido.Size = new System.Drawing.Size(311, 20);
-            this.txtPrimerApellido.TabIndex = 17;
-            // 
-            // txtNombre
-            // 
-            this.txtNombre.Location = new System.Drawing.Point(79, 22);
-            this.txtNombre.MaxLength = 30;
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(333, 20);
-            this.txtNombre.TabIndex = 18;
-            // 
-            // lblDireccion
-            // 
-            this.lblDireccion.AutoSize = true;
-            this.lblDireccion.Location = new System.Drawing.Point(18, 257);
-            this.lblDireccion.Name = "lblDireccion";
-            this.lblDireccion.Size = new System.Drawing.Size(55, 13);
-            this.lblDireccion.TabIndex = 19;
-            this.lblDireccion.Text = "Dirección:";
-            // 
-            // txtRazonSocial
-            // 
-            this.txtRazonSocial.Location = new System.Drawing.Point(95, 156);
-            this.txtRazonSocial.MaxLength = 30;
-            this.txtRazonSocial.Name = "txtRazonSocial";
-            this.txtRazonSocial.Size = new System.Drawing.Size(318, 20);
-            this.txtRazonSocial.TabIndex = 20;
-            // 
-            // txtDireccion
-            // 
-            this.txtDireccion.Location = new System.Drawing.Point(90, 254);
-            this.txtDireccion.MaxLength = 30;
-            this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(323, 20);
-            this.txtDireccion.TabIndex = 21;
-            // 
-            // txtTelefono
-            // 
-            this.txtTelefono.Location = new System.Drawing.Point(91, 225);
-            this.txtTelefono.MaxLength = 30;
-            this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(323, 20);
-            this.txtTelefono.TabIndex = 22;
+            this.lblTituloCliente.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTituloCliente.Font = new System.Drawing.Font("Microsoft YaHei", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTituloCliente.Image = ((System.Drawing.Image)(resources.GetObject("lblTituloCliente.Image")));
+            this.lblTituloCliente.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblTituloCliente.Location = new System.Drawing.Point(104, 14);
+            this.lblTituloCliente.Name = "lblTituloCliente";
+            this.lblTituloCliente.Size = new System.Drawing.Size(248, 36);
+            this.lblTituloCliente.TabIndex = 30;
+            this.lblTituloCliente.Text = "Nuevo Cliente";
+            this.lblTituloCliente.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // FrmClientes
             // 
@@ -264,15 +280,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.RoyalBlue;
             this.ClientSize = new System.Drawing.Size(433, 446);
+            this.Controls.Add(this.lblTituloCliente);
             this.Controls.Add(this.lblTitulo);
-            this.Controls.Add(this.gbxDatos);
+            this.Controls.Add(this.gbxDatosCliente);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmClientes";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "::: Omnicell - Clientes :::";
             this.Load += new System.EventHandler(this.FrmClientes_Load);
-            this.gbxDatos.ResumeLayout(false);
-            this.gbxDatos.PerformLayout();
+            this.gbxDatosCliente.ResumeLayout(false);
+            this.gbxDatosCliente.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -281,7 +298,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.GroupBox gbxDatos;
+        private System.Windows.Forms.GroupBox gbxDatosCliente;
         private System.Windows.Forms.TextBox txtCINit;
         private System.Windows.Forms.Label lblTelefono;
         private System.Windows.Forms.Label lblTipoCliente;
@@ -300,5 +317,6 @@
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.TextBox txtRazonSocial;
+        private System.Windows.Forms.Label lblTituloCliente;
     }
 }

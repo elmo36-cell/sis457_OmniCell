@@ -117,11 +117,23 @@
     <Compile Include="FrmCompras.Designer.cs">
       <DependentUpon>FrmCompras.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmMenuCliente.cs">
+    <Compile Include="FrmDetalleCompra.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmMenuCliente.Designer.cs">
-      <DependentUpon>FrmMenuCliente.cs</DependentUpon>
+    <Compile Include="FrmDetalleCompra.Designer.cs">
+      <DependentUpon>FrmDetalleCompra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmDetalleVenta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmDetalleVenta.Designer.cs">
+      <DependentUpon>FrmDetalleVenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmEmpleados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmEmpleados.Designer.cs">
+      <DependentUpon>FrmEmpleados.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
@@ -134,6 +146,12 @@
     </Compile>
     <Compile Include="FrmMenuVendedor.Designer.cs">
       <DependentUpon>FrmMenuVendedor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmPantalla.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPantalla.Designer.cs">
+      <DependentUpon>FrmPantalla.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmProveedores.cs">
       <SubType>Form</SubType>
@@ -162,14 +180,23 @@
     <EmbeddedResource Include="FrmCompras.resx">
       <DependentUpon>FrmCompras.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmMenuCliente.resx">
-      <DependentUpon>FrmMenuCliente.cs</DependentUpon>
+    <EmbeddedResource Include="FrmDetalleCompra.resx">
+      <DependentUpon>FrmDetalleCompra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmDetalleVenta.resx">
+      <DependentUpon>FrmDetalleVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmEmpleados.resx">
+      <DependentUpon>FrmEmpleados.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMenuVendedor.resx">
       <DependentUpon>FrmMenuVendedor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPantalla.resx">
+      <DependentUpon>FrmPantalla.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmProveedores.resx">
       <DependentUpon>FrmProveedores.cs</DependentUpon>
