@@ -29,9 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVentas));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.gbxDatosVentas = new System.Windows.Forms.GroupBox();
             this.cbxModelo = new System.Windows.Forms.ComboBox();
             this.btnGuardar = new System.Windows.Forms.Button();
@@ -53,7 +50,6 @@
             this.lbl = new System.Windows.Forms.Label();
             this.cbxPantalla = new System.Windows.Forms.ComboBox();
             this.txtPrecioVenta = new System.Windows.Forms.TextBox();
-            this.txtMarca = new System.Windows.Forms.TextBox();
             this.txtStock = new System.Windows.Forms.TextBox();
             this.txtCliente = new System.Windows.Forms.TextBox();
             this.lblStock = new System.Windows.Forms.Label();
@@ -78,6 +74,7 @@
             this.lblCambio = new System.Windows.Forms.Label();
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblNuevaVenta = new System.Windows.Forms.Label();
+            this.cbxMarca = new System.Windows.Forms.ComboBox();
             this.gbxDatosVentas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvListaProductos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudCantidad)).BeginInit();
@@ -89,6 +86,7 @@
             // gbxDatosVentas
             // 
             this.gbxDatosVentas.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.gbxDatosVentas.Controls.Add(this.cbxMarca);
             this.gbxDatosVentas.Controls.Add(this.cbxModelo);
             this.gbxDatosVentas.Controls.Add(this.btnGuardar);
             this.gbxDatosVentas.Controls.Add(this.txtTelefono);
@@ -109,7 +107,6 @@
             this.gbxDatosVentas.Controls.Add(this.lbl);
             this.gbxDatosVentas.Controls.Add(this.cbxPantalla);
             this.gbxDatosVentas.Controls.Add(this.txtPrecioVenta);
-            this.gbxDatosVentas.Controls.Add(this.txtMarca);
             this.gbxDatosVentas.Controls.Add(this.txtStock);
             this.gbxDatosVentas.Controls.Add(this.txtCliente);
             this.gbxDatosVentas.Controls.Add(this.lblStock);
@@ -217,36 +214,12 @@
             this.dgvListaProductos.AllowUserToResizeRows = false;
             this.dgvListaProductos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvListaProductos.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvListaProductos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvListaProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvListaProductos.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvListaProductos.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
             this.dgvListaProductos.Location = new System.Drawing.Point(6, 196);
             this.dgvListaProductos.MultiSelect = false;
             this.dgvListaProductos.Name = "dgvListaProductos";
             this.dgvListaProductos.ReadOnly = true;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvListaProductos.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvListaProductos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvListaProductos.Size = new System.Drawing.Size(524, 164);
             this.dgvListaProductos.TabIndex = 44;
@@ -407,14 +380,6 @@
             this.txtPrecioVenta.Name = "txtPrecioVenta";
             this.txtPrecioVenta.Size = new System.Drawing.Size(160, 26);
             this.txtPrecioVenta.TabIndex = 28;
-            // 
-            // txtMarca
-            // 
-            this.txtMarca.Location = new System.Drawing.Point(106, 91);
-            this.txtMarca.MaxLength = 30;
-            this.txtMarca.Name = "txtMarca";
-            this.txtMarca.Size = new System.Drawing.Size(150, 26);
-            this.txtMarca.TabIndex = 26;
             // 
             // txtStock
             // 
@@ -657,6 +622,16 @@
             this.lblNuevaVenta.TabIndex = 28;
             this.lblNuevaVenta.Text = "Nueva Venta";
             // 
+            // cbxMarca
+            // 
+            this.cbxMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxMarca.FormattingEnabled = true;
+            this.cbxMarca.Location = new System.Drawing.Point(105, 91);
+            this.cbxMarca.Name = "cbxMarca";
+            this.cbxMarca.Size = new System.Drawing.Size(166, 28);
+            this.cbxMarca.TabIndex = 53;
+            this.cbxMarca.SelectedIndexChanged += new System.EventHandler(this.cbxMarca_SelectedIndexChanged);
+            // 
             // FrmVentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -707,7 +682,6 @@
         private System.Windows.Forms.TextBox txtStock;
         private System.Windows.Forms.TextBox txtCliente;
         private System.Windows.Forms.TextBox txtPrecioVenta;
-        private System.Windows.Forms.TextBox txtMarca;
         private System.Windows.Forms.Label lblNuevaVenta;
         private System.Windows.Forms.ComboBox cbxCiNit;
         private System.Windows.Forms.Label lbl;
@@ -732,5 +706,6 @@
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.ComboBox cbxModelo;
         private System.Windows.Forms.GroupBox gbxEfectivo;
+        private System.Windows.Forms.ComboBox cbxMarca;
     }
 }

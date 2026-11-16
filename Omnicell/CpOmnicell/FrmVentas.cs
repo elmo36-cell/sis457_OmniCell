@@ -16,6 +16,7 @@ namespace CpOmnicell
     public partial class FrmVentas : Form
     {
         private List<Cliente> listaClientes = new List<Cliente>();
+        private List<Modelo> modelosPantallaActual = new List<Modelo>();
 
         private List<paPantallaListarPorSucursal_Result> listaPantallas = new List<paPantallaListarPorSucursal_Result>();
 
@@ -272,6 +273,8 @@ namespace CpOmnicell
                 listaPantallas =
                     new List<paPantallaListarPorSucursal_Result>();
 
+            cbxPantalla.SelectedIndexChanged -= cbxPantalla_SelectedIndexChanged;
+
             cbxPantalla.DataSource = null;
 
             cbxPantalla.DataSource = listaPantallas.Select(x => new
@@ -286,13 +289,15 @@ namespace CpOmnicell
             cbxPantalla.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxPantalla.SelectedIndex = -1;
 
+            cbxPantalla.SelectedIndexChanged += cbxPantalla_SelectedIndexChanged;
+
             limpiarDatosPantalla();
         }
         private void cbxModelo_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxModelo.SelectedItem is Modelo modelo)
             {
-                txtMarca.Text = modelo.Marca?.nombre ?? "";
+                cbxMarca.Text = modelo.Marca?.nombre ?? "";
             }
         }
         private void cbxPantalla_SelectedIndexChanged(object sender, EventArgs e)
@@ -318,11 +323,11 @@ namespace CpOmnicell
             txtPrecioVenta.Text =
                 pantalla.precioVenta.ToString("N2");
 
-            // Obtener marca y modelos compatibles
+            // Obtener marcas y modelos compatibles de la pantalla seleccionada
             Pantalla pantallaCompleta =
                 PantallaCln.obtenerConCompatibilidad(pantalla.id);
 
-            var modelos = pantallaCompleta.Compatibilidad
+            modelosPantallaActual = pantallaCompleta.Compatibilidad
                 .Where(c => c.estado == 1 && c.Modelo != null)
                 .Select(c => c.Modelo)
                 .Where(m => m.estado == 1)
@@ -331,17 +336,28 @@ namespace CpOmnicell
                 .OrderBy(m => m.nombre)
                 .ToList();
 
+            var marcas = modelosPantallaActual
+                .Where(m => m.Marca != null && m.Marca.estado == 1)
+                .Select(m => m.Marca)
+                .GroupBy(ma => ma.id)
+                .Select(g => g.First())
+                .OrderBy(ma => ma.nombre)
+                .ToList();
+
+            cbxMarca.SelectedIndexChanged -= cbxMarca_SelectedIndexChanged;
+            cbxMarca.DataSource = null;
+            cbxMarca.DisplayMember = "nombre";
+            cbxMarca.ValueMember = "id";
+            cbxMarca.DataSource = marcas;
+            cbxMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxMarca.SelectedIndex = -1;
+            cbxMarca.Enabled = marcas.Count > 0;
+            cbxMarca.SelectedIndexChanged += cbxMarca_SelectedIndexChanged;
+
+            // Deshabilitar Modelo hasta que seleccione una Marca
             cbxModelo.DataSource = null;
-            cbxModelo.DisplayMember = "nombre";
-            cbxModelo.ValueMember = "id";
-            cbxModelo.DataSource = modelos;
-
-            cbxModelo.Enabled = modelos.Count > 0;
-
-            if (modelos.Count == 0)
-            {
-                txtMarca.Clear();
-            }
+            cbxModelo.Items.Clear();
+            cbxModelo.Enabled = false;
 
             // Configurar cantidad máxima según existencias
             nudCantidad.DecimalPlaces = 0;
@@ -365,7 +381,16 @@ namespace CpOmnicell
         }
         private void limpiarDatosPantalla()
         {
-            txtMarca.Clear();
+            modelosPantallaActual.Clear();
+
+            cbxMarca.DataSource = null;
+            cbxMarca.Items.Clear();
+            cbxMarca.Enabled = false;
+
+            cbxModelo.DataSource = null;
+            cbxModelo.Items.Clear();
+            cbxModelo.Enabled = false;
+
             txtStock.Clear();
             txtPrecioVenta.Clear();
 
@@ -446,7 +471,7 @@ namespace CpOmnicell
                     idModelo,
                     pantalla.sku,
                     pantalla.descripcion,
-                    txtMarca.Text,
+                    cbxMarca.Text,
                     cbxModelo.Text,
                     pantalla.calidad,
                     cantidad,
@@ -496,6 +521,7 @@ namespace CpOmnicell
             dgvListaProductos.AllowUserToAddRows = false;
             dgvListaProductos.AllowUserToDeleteRows = false;
             dgvListaProductos.ReadOnly = true;
+            dgvListaProductos.RowHeadersVisible = false;
             dgvListaProductos.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
             dgvListaProductos.MultiSelect = false;
@@ -516,6 +542,10 @@ namespace CpOmnicell
 
             dgvListaProductos.Columns["colIdPantalla"].Visible = false;
             dgvListaProductos.Columns["colIdModelo"].Visible = false;
+
+            dgvListaProductos.Columns["colNumero"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgvListaProductos.Columns["colNumero"].Width = 35;
+            dgvListaProductos.Columns["colNumero"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             dgvListaProductos.Columns["colCantidad"].DefaultCellStyle.Format = "N0";
             dgvListaProductos.Columns["colPrecio"].DefaultCellStyle.Format = "N2";
@@ -573,6 +603,28 @@ namespace CpOmnicell
 
             cbxTipoPago.SelectedIndexChanged +=
                 cbxTipoPago_SelectedIndexChanged;
+        }
+
+        private void cbxMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cbxModelo.DataSource = null;
+            cbxModelo.Items.Clear();
+            cbxModelo.Enabled = false;
+
+            if (cbxMarca.SelectedValue == null || !(cbxMarca.SelectedValue is int idMarca))
+                return;
+
+            var modelosFiltrados = modelosPantallaActual
+                .Where(m => m.idMarca == idMarca)
+                .OrderBy(m => m.nombre)
+                .ToList();
+
+            cbxModelo.DisplayMember = "nombre";
+            cbxModelo.ValueMember = "id";
+            cbxModelo.DataSource = modelosFiltrados;
+            cbxModelo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxModelo.SelectedIndex = -1;
+            cbxModelo.Enabled = modelosFiltrados.Count > 0;
         }
     }
 }

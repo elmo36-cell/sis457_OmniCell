@@ -47,7 +47,6 @@
             this.nudCantidad = new System.Windows.Forms.NumericUpDown();
             this.lblCantidad = new System.Windows.Forms.Label();
             this.cbxPantalla = new System.Windows.Forms.ComboBox();
-            this.txtMarca = new System.Windows.Forms.TextBox();
             this.txtStock = new System.Windows.Forms.TextBox();
             this.lblStock = new System.Windows.Forms.Label();
             this.lblPrecio = new System.Windows.Forms.Label();
@@ -78,6 +77,7 @@
             this.lblEmpleado = new System.Windows.Forms.Label();
             this.lblNuevaCompra = new System.Windows.Forms.Label();
             this.lblTitulo = new System.Windows.Forms.Label();
+            this.cbxMarca = new System.Windows.Forms.ComboBox();
             this.gbxDatosCompra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudPrecioCompra)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudTotalCompra)).BeginInit();
@@ -88,6 +88,7 @@
             // gbxDatosCompra
             // 
             this.gbxDatosCompra.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.gbxDatosCompra.Controls.Add(this.cbxMarca);
             this.gbxDatosCompra.Controls.Add(this.nudPrecioCompra);
             this.gbxDatosCompra.Controls.Add(this.btnNuevoProveedor);
             this.gbxDatosCompra.Controls.Add(this.txtTecnologia);
@@ -105,7 +106,6 @@
             this.gbxDatosCompra.Controls.Add(this.nudCantidad);
             this.gbxDatosCompra.Controls.Add(this.lblCantidad);
             this.gbxDatosCompra.Controls.Add(this.cbxPantalla);
-            this.gbxDatosCompra.Controls.Add(this.txtMarca);
             this.gbxDatosCompra.Controls.Add(this.txtStock);
             this.gbxDatosCompra.Controls.Add(this.lblStock);
             this.gbxDatosCompra.Controls.Add(this.lblPrecio);
@@ -336,14 +336,6 @@
             this.cbxPantalla.Size = new System.Drawing.Size(445, 21);
             this.cbxPantalla.TabIndex = 80;
             this.cbxPantalla.SelectedIndexChanged += new System.EventHandler(this.cbxPantalla_SelectedIndexChanged);
-            // 
-            // txtMarca
-            // 
-            this.txtMarca.Location = new System.Drawing.Point(551, 92);
-            this.txtMarca.MaxLength = 30;
-            this.txtMarca.Name = "txtMarca";
-            this.txtMarca.Size = new System.Drawing.Size(150, 20);
-            this.txtMarca.TabIndex = 78;
             // 
             // txtStock
             // 
@@ -657,6 +649,16 @@
             this.lblTitulo.TabIndex = 29;
             this.lblTitulo.Text = "Omnicell";
             // 
+            // cbxMarca
+            // 
+            this.cbxMarca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxMarca.FormattingEnabled = true;
+            this.cbxMarca.Location = new System.Drawing.Point(551, 92);
+            this.cbxMarca.Name = "cbxMarca";
+            this.cbxMarca.Size = new System.Drawing.Size(174, 21);
+            this.cbxMarca.TabIndex = 99;
+            this.cbxMarca.SelectedIndexChanged += new System.EventHandler(this.cbxMarca_SelectedIndexChanged);
+            // 
             // FrmCompras
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -714,7 +716,6 @@
         private System.Windows.Forms.NumericUpDown nudCantidad;
         private System.Windows.Forms.Label lblCantidad;
         private System.Windows.Forms.ComboBox cbxPantalla;
-        private System.Windows.Forms.TextBox txtMarca;
         private System.Windows.Forms.TextBox txtStock;
         private System.Windows.Forms.Label lblStock;
         private System.Windows.Forms.Label lblPrecio;
@@ -732,5 +733,6 @@
         private System.Windows.Forms.Label lblTecnologia;
         private System.Windows.Forms.Button btnNuevoProveedor;
         private System.Windows.Forms.NumericUpDown nudPrecioCompra;
+        private System.Windows.Forms.ComboBox cbxMarca;
     }
 }

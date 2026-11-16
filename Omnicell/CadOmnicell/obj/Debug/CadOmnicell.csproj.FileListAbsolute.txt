@@ -10,3 +10,15 @@ E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\De
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnic.169F8D2B.Up2Date
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.dll
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.pdb
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\CadOmnicell.dll.config
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\CadOmnicell.dll
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\CadOmnicell.pdb
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.dll
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.SqlServer.dll
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.xml
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\bin\Debug\EntityFramework.SqlServer.xml
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.csproj.AssemblyReference.cache
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.csproj.CoreCompileInputs.cache
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnic.169F8D2B.Up2Date
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.dll
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.pdb

@@ -17,6 +17,7 @@ namespace CpOmnicell
     {
         private List<Proveedor> listaProveedores;
         private List<Pantalla> listaPantallas;
+        private List<Modelo> modelosPantallaActual = new List<Modelo>();
         private int idSucursalSesion;
 
         public FrmCompras()
@@ -28,6 +29,16 @@ namespace CpOmnicell
         {
             try
             {
+                nudPrecioCompra.DecimalPlaces = 2;
+                nudPrecioCompra.Maximum = 1000000;
+                nudTotalCompra.DecimalPlaces = 2;
+                nudTotalCompra.Maximum = 10000000;
+                nudCantidad.Maximum = 10000;
+
+                // Enlazar eventos para que el total se actualice en tiempo real
+                nudCantidad.ValueChanged += (s, ev) => actualizarTotalCompra();
+                nudPrecioCompra.ValueChanged += (s, ev) => actualizarTotalCompra();
+
                 configurarDgvProductos();
                 limpiarDatosPantalla();
 
@@ -109,12 +120,13 @@ namespace CpOmnicell
 
                 // Limpiar formulario
                 dgvListarProductos.Rows.Clear();
-                nudTotalCompra.Value = 0;
                 txtFactura.Clear();
 
                 cbxProveedor.SelectedIndex = -1;
                 cbxPantalla.SelectedIndex = -1;
                 cbxTipoPago.SelectedIndex = -1;
+                limpiarDatosPantalla();
+                actualizarTotalCompra();
 
             }
             catch (Exception ex)
@@ -168,6 +180,7 @@ namespace CpOmnicell
         {
             FrmProveedores frmProveedores = new FrmProveedores();
             frmProveedores.ShowDialog();
+            cargarProveedores();
         }
         private void cargarProveedores()
         {
@@ -207,14 +220,13 @@ namespace CpOmnicell
 
                 Empleado empleado = EmpleadoCln.obtenerConSucursal(idEmpleado);
 
-                if (!empleado.idSucursal.HasValue) throw new Exception("El empleado no tiene una sucursal asignada.");
+                if (!empleado.idSucursal.HasValue)
+                    throw new Exception("El empleado no tiene una sucursal asignada.");
 
                 idSucursalSesion = empleado.idSucursal.Value;
 
                 txtEmpleado.Text = empleado.nombres + " " + empleado.primerApellido;
-
                 txtSucursal.Text = empleado.Sucursal.nombre;
-
                 dtpFechaCompra.Value = DateTime.Today;
             }
             catch (Exception ex)
@@ -233,11 +245,13 @@ namespace CpOmnicell
         {
             listaPantallas = PantallaCln.listar();
 
+            cbxPantalla.SelectedIndexChanged -= cbxPantalla_SelectedIndexChanged;
             cbxPantalla.DataSource = null;
             cbxPantalla.DisplayMember = "sku";
             cbxPantalla.ValueMember = "id";
             cbxPantalla.DataSource = listaPantallas;
             cbxPantalla.SelectedIndex = -1;
+            cbxPantalla.SelectedIndexChanged += cbxPantalla_SelectedIndexChanged;
         }
         private void cbxPantalla_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -250,106 +264,99 @@ namespace CpOmnicell
                 }
 
                 int idPantalla = pantallaSeleccionada.id;
-
-                // Obtener la pantalla con sus modelos compatibles y marcas.
                 Pantalla pantalla = PantallaCln.obtenerConCompatibilidad(idPantalla);
-
-                nudPrecioCompra.Value = Math.Min(
-                    pantalla.precioVenta,
-                    nudPrecioCompra.Maximum
-                );
 
                 if (pantalla == null)
                     throw new Exception("No se encontró la pantalla seleccionada.");
 
-                // Mostrar información de la pantalla.
+                nudPrecioCompra.Value = Math.Min(pantalla.precioVenta, nudPrecioCompra.Maximum);
                 txtCalidad.Text = pantalla.calidad;
                 txtTecnologia.Text = pantalla.tecnologia;
 
-                // Obtener el stock actual de la sucursal.
-                decimal stock = InventarioCln.obtenerStock(
-                    idSucursalSesion,
-                    idPantalla
-                );
-
+                decimal stock = InventarioCln.obtenerStock(idSucursalSesion, idPantalla);
                 txtStock.Text = stock.ToString("N2");
 
-                // Cargar modelos compatibles.
-                var modelos = pantalla.Compatibilidad
-                    .Where(c => c.estado == 1 && c.Modelo != null)
+                // Cargar modelos compatibles en memoria
+                modelosPantallaActual = pantalla.Compatibilidad
+                    .Where(c => c.estado == 1 && c.Modelo != null && c.Modelo.estado == 1)
                     .Select(c => c.Modelo)
-                    .Where(m => m.estado == 1)
                     .GroupBy(m => m.id)
                     .Select(g => g.First())
                     .OrderBy(m => m.nombre)
                     .ToList();
 
-                // Obtener las marcas de los modelos compatibles.
-                var marcas = modelos
-                    .Where(m => m.Marca != null)
-                    .Select(m => m.Marca.nombre)
-                    .Distinct()
+                // Obtener marcas únicas
+                var marcas = modelosPantallaActual
+                    .Where(m => m.Marca != null && m.Marca.estado == 1)
+                    .Select(m => m.Marca)
+                    .GroupBy(ma => ma.id)
+                    .Select(g => g.First())
+                    .OrderBy(ma => ma.nombre)
                     .ToList();
 
-                // Mostrar la marca cuando solo existe una.
+                // Desconectar evento mientras se llena cbxMarca
+                cbxMarca.SelectedIndexChanged -= cbxMarca_SelectedIndexChanged;
+                cbxMarca.DataSource = null;
+                cbxMarca.DisplayMember = "nombre";
+                cbxMarca.ValueMember = "id";
+                cbxMarca.DataSource = marcas;
+                cbxMarca.SelectedIndex = -1;
+                cbxMarca.Enabled = marcas.Count > 0;
+                cbxMarca.SelectedIndexChanged += cbxMarca_SelectedIndexChanged;
+
+                // Limpiar modelos hasta elegir marca
+                cbxModelo.SelectedIndexChanged -= cbxModelo_SelectedIndexChanged;
+                cbxModelo.DataSource = null;
+                cbxModelo.Items.Clear();
+                cbxModelo.Enabled = false;
+                cbxModelo.SelectedIndexChanged += cbxModelo_SelectedIndexChanged;
+
+                // Si solo hay 1 marca, seleccionarla automáticamente
                 if (marcas.Count == 1)
                 {
-                    txtMarca.Text = marcas.First();
-                }
-                else
-                {
-                    txtMarca.Clear();
+                    cbxMarca.SelectedIndex = 0;
                 }
 
-                cbxModelo.DataSource = null;
-                cbxModelo.DisplayMember = "nombre";
-                cbxModelo.ValueMember = "id";
-                cbxModelo.DataSource = modelos;
-                cbxModelo.SelectedIndex = -1;
-
-                cbxModelo.Enabled = modelos.Count > 0;
-
-                if (modelos.Count == 0)
-                {
-                    MessageBox.Show(
-                        "Esta pantalla no tiene modelos compatibles registrados.",
-                        "Información",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                }
+                actualizarTotalCompra();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al seleccionar pantalla",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message, "Error al seleccionar pantalla", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void limpiarDatosPantalla()
         {
-            txtMarca.Clear();
+            modelosPantallaActual.Clear();
+
+            cbxMarca.SelectedIndexChanged -= cbxMarca_SelectedIndexChanged;
+            cbxMarca.DataSource = null;
+            cbxMarca.Items.Clear();
+            cbxMarca.Enabled = false;
+            cbxMarca.SelectedIndexChanged += cbxMarca_SelectedIndexChanged;
+
+            cbxModelo.SelectedIndexChanged -= cbxModelo_SelectedIndexChanged;
+            cbxModelo.DataSource = null;
+            cbxModelo.Items.Clear();
+            cbxModelo.Enabled = false;
+            cbxModelo.SelectedIndexChanged += cbxModelo_SelectedIndexChanged;
+
             txtCalidad.Clear();
             txtTecnologia.Clear();
             txtStock.Clear();
+            nudCantidad.Value = 0;
             nudPrecioCompra.Value = 0;
-
-            cbxModelo.DataSource = null;
-            cbxModelo.Enabled = false;
+            actualizarTotalCompra();
         }
         private void cbxModelo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbxModelo.SelectedItem is Modelo modelo)
+            /*if (cbxModelo.SelectedItem is Modelo modelo)
             {
-                txtMarca.Text = modelo.Marca?.nombre ?? "";
+                cbxMarca.SelectedValue = modelo.idMarca;
             }
             else
             {
-                txtMarca.Clear();
-            }
+                cbxMarca.SelectedIndex = -1;
+            }*/
         }
         private void configurarDgvProductos()
         {
@@ -368,6 +375,9 @@ namespace CpOmnicell
                 DataGridViewAutoSizeColumnsMode.Fill;
 
             dgvListarProductos.Columns.Add("colNumero", "N.º");
+            dgvListarProductos.Columns["colNumero"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            dgvListarProductos.Columns["colNumero"].Width = 35;
+            dgvListarProductos.Columns["colNumero"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
 
             dgvListarProductos.Columns.Add("colIdPantalla", "ID Pantalla");
             dgvListarProductos.Columns["colIdPantalla"].Visible = false;
@@ -396,6 +406,14 @@ namespace CpOmnicell
                 {
                     MessageBox.Show("Seleccione una pantalla.");
                     cbxPantalla.Focus();
+                    return;
+                }
+
+                // Validar marca.
+                if (cbxMarca.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Seleccione una marca.");
+                    cbxMarca.Focus();
                     return;
                 }
 
@@ -454,10 +472,9 @@ namespace CpOmnicell
                         fila.Cells["colPrecio"].Value = precio;
                         fila.Cells["colSubtotal"].Value = nuevaCantidad * precio;
 
-                        actualizarTotalCompra();
-
                         nudCantidad.Value = 1;
                         nudPrecioCompra.Value = 0;
+                        actualizarTotalCompra();
 
                         MessageBox.Show("Cantidad del producto actualizada.");
                         return;
@@ -473,7 +490,7 @@ namespace CpOmnicell
                     idModelo,
                     pantalla.sku,
                     pantalla.descripcion,
-                    txtMarca.Text,
+                    cbxMarca.Text,
                     cbxModelo.Text,
                     pantalla.calidad,
                     cantidad,
@@ -481,12 +498,10 @@ namespace CpOmnicell
                     cantidad * precio
                 );
 
-                actualizarTotalCompra();
-
                 // Limpiar campos de ingreso.
                 nudCantidad.Value = 1;
                 nudPrecioCompra.Value = 0;
-
+                actualizarTotalCompra();
             }
             catch (Exception ex)
             {
@@ -524,7 +539,8 @@ namespace CpOmnicell
         {
             configurarComboBuscador(cbxProveedor);
             configurarComboBuscador(cbxPantalla);
-            configurarComboBuscador(cbxModelo);
+            cbxMarca.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxModelo.DropDownStyle = ComboBoxStyle.DropDownList;
         }
         private void configurarComboBuscador(ComboBox combo)
         {
@@ -546,14 +562,53 @@ namespace CpOmnicell
         }
         private void actualizarTotalCompra()
         {
-            decimal total = 0;
+            decimal totalTabla = 0;
 
             foreach (DataGridViewRow fila in dgvListarProductos.Rows)
             {
-                total += Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
+                totalTabla += Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
             }
-            nudTotalCompra.Value = Math.Min(total,nudTotalCompra.Maximum);
-        }        
 
+            decimal vistaPreviaActual = nudCantidad.Value * nudPrecioCompra.Value;
+            decimal totalGeneral = totalTabla + vistaPreviaActual;
+
+            nudTotalCompra.Value = Math.Min(totalGeneral, nudTotalCompra.Maximum);
+        }
+
+        private void cbxMarca_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                cbxModelo.SelectedIndexChanged -= cbxModelo_SelectedIndexChanged;
+                cbxModelo.DataSource = null;
+                cbxModelo.Items.Clear();
+                cbxModelo.Enabled = false;
+
+                if (cbxMarca.SelectedItem is Marca marcaSeleccionada)
+                {
+                    var modelosFiltrados = modelosPantallaActual
+                        .Where(m => m.idMarca == marcaSeleccionada.id)
+                        .OrderBy(m => m.nombre)
+                        .ToList();
+
+                    cbxModelo.DisplayMember = "nombre";
+                    cbxModelo.ValueMember = "id";
+                    cbxModelo.DataSource = modelosFiltrados;
+                    cbxModelo.SelectedIndex = -1;
+                    cbxModelo.Enabled = modelosFiltrados.Count > 0;
+
+                    if (modelosFiltrados.Count == 1)
+                    {
+                        cbxModelo.SelectedIndex = 0;
+                    }
+                }
+
+                cbxModelo.SelectedIndexChanged += cbxModelo_SelectedIndexChanged;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error al seleccionar marca", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

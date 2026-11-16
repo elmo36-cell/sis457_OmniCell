@@ -112,7 +112,24 @@ namespace CpOmnicell
         //lista de ventas
         private void listarVentas()
         {
-            dgvListaVentas.DataSource = VentaCln.listarVentas(txtParametro.Text);
+            var ventas = VentaCln.listarVentas(txtParametro.Text.Trim());
+
+            // Si es Vendedor (idRol == 2), mostrar solo las ventas de su sucursal
+            if (Util.usuario != null && Util.usuario.idRol == 2)
+            {
+                var empleado = EmpleadoCln.obtenerConSucursal(Util.usuario.idEmpleado);
+                string sucursalUsuario = empleado?.Sucursal?.nombre ?? "";
+
+                if (!string.IsNullOrEmpty(sucursalUsuario))
+                {
+                    ventas = ventas
+                        .Where(v => v.sucursal != null &&
+                                    v.sucursal.Equals(sucursalUsuario, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                }
+            }
+
+            dgvListaVentas.DataSource = ventas;
 
             if (!dgvListaVentas.Columns.Contains("colNumero"))
             {

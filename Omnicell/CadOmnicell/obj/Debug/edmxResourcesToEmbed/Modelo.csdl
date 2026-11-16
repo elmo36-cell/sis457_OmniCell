@@ -79,9 +79,9 @@
     <Property Name="usuarioRegistro" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="fechaRegistro" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="estado" Type="Int16" Nullable="false" />
-    <Property Name="idSucursal" Type="Int32" />
+    <Property Name="idSucursal" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Compra" Relationship="Self.fk_Compra_Empleado" FromRole="Empleado" ToRole="Compra" />
-    <NavigationProperty Name="Sucursal" Relationship="Self.fk_Empleado_Sucursal" FromRole="Empleado" ToRole="Sucursal" />
+    <NavigationProperty Name="Sucursal" Relationship="LabOmnicellModel.fk_Empleado_Sucursal" FromRole="Empleado" ToRole="Sucursal" />
     <NavigationProperty Name="Usuario" Relationship="Self.fk_Usuario_Empleado" FromRole="Empleado" ToRole="Usuario" />
     <NavigationProperty Name="Venta" Relationship="Self.fk_Venta_Empleado" FromRole="Empleado" ToRole="Venta" />
   </EntityType>
@@ -321,7 +321,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_Empleado_Sucursal">
-    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="0..1" />
+    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="1" />
     <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Sucursal">

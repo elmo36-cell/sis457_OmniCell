@@ -1,0 +1,15 @@
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.csproj.AssemblyReference.cache
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmClientes.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmCompras.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmDetalleCompra.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmDetalleVenta.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmEmpleados.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmLogin.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmMenuVendedor.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmPantalla.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmProveedores.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmUsuarios.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.FrmVentas.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.Properties.Resources.resources
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.csproj.GenerateResource.cache
+D:\SIS457\Omnicell mas aveance\origen\sis457_OmniCell\Omnicell\CpOmnicell\obj\Release\CpOmnicell.exe.licenses

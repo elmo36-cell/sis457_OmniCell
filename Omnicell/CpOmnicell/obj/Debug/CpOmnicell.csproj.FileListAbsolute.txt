@@ -64,3 +64,19 @@ E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Deb
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmEmpleados.resources
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmDetalleVenta.resources
 E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmDetalleCompra.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.AssemblyReference.cache
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmClientes.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmCompras.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmDetalleCompra.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmDetalleVenta.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmEmpleados.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmLogin.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmMenuVendedor.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmPantalla.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmProveedores.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmUsuarios.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.FrmVentas.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.Properties.Resources.resources
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.GenerateResource.cache
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.exe.licenses
+D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\CpOmnicell\obj\Debug\CpOmnicell.csproj.CoreCompileInputs.cache

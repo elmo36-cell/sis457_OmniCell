@@ -61,6 +61,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idSucursal" Type="int" Nullable="false" />
     <Property Name="nombres" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="primerApellido" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="segundoApellido" Type="varchar" MaxLength="30" />
@@ -71,7 +72,6 @@
     <Property Name="usuarioRegistro" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
     <Property Name="estado" Type="smallint" Nullable="false" />
-    <Property Name="idSucursal" Type="int" />
   </EntityType>
   <EntityType Name="Inventario">
     <Key>
@@ -275,7 +275,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_Empleado_Sucursal">
-    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="0..1" />
+    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="1" />
     <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Sucursal">
