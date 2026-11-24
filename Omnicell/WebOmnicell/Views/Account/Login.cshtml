@@ -1,0 +1,24 @@
+@model WebOmnicell.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<h1>Iniciar sesión</h1>
+
+<form asp-action="Login" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <p>
+        <label asp-for="NombreUsuario"></label><br />
+        <input asp-for="NombreUsuario" autocomplete="username" />
+        <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+    </p>
+
+    <p>
+        <label asp-for="Clave"></label><br />
+        <input asp-for="Clave" type="password" autocomplete="current-password" />
+        <span asp-validation-for="Clave" class="text-danger"></span>
+    </p>
+
+    <button type="submit">Entrar</button>
+</form>
