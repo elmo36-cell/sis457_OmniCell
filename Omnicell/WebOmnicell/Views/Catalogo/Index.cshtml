@@ -1,43 +1,620 @@
-@model List<WebOmnicell.Models.Pantalla>
 @{
-    ViewData["Title"] = "Catálogo";
+    ViewData["Title"] = "Inicio";
 }
 
-<h1>Catálogo de pantallas</h1>
+<!-- ==========================================
+     BANNER PRINCIPAL DE LA TIENDA
+     FUTURA FUNCIONALIDAD:
+     - Mostrar promociones configuradas por administración.
+     - Permitir cambiar banners.
+     - Redirigir a productos o categorías promocionadas.
+========================================== -->
 
-<form asp-action="Index" method="get">
-    <input type="text" name="parametro" value="@Context.Request.Query["parametro"]" placeholder="Buscar por SKU, descripción o calidad" size="40" />
-    <button type="submit">Buscar</button>
-</form>
+<section class="store-hero">
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>SKU</th>
-            <th>Descripción</th>
-            <th>Calidad</th>
-            <th>Tecnología</th>
-            <th>Precio</th>
-            <th>Stock</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var pantalla in Model)
-        {
-            <tr>
-                <td>@pantalla.sku</td>
-                <td>@pantalla.descripcion</td>
-                <td>@pantalla.calidad</td>
-                <td>@pantalla.tecnologia</td>
-                <td>@pantalla.precioVenta.ToString("N2")</td>
-                <td>@pantalla.stockTotal.ToString("N2")</td>
-            </tr>
-        }
-        @if (Model.Count == 0)
-        {
-            <tr>
-                <td colspan="6">No se encontraron pantallas.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <div class="container">
+
+        <div class="hero-content">
+
+            <div class="hero-text">
+
+                <span class="hero-label">
+                    COMPONENTES Y REPUESTOS
+                </span>
+
+                <h1>
+                    Encuentra la pantalla que
+                    <span>tu dispositivo necesita</span>
+                </h1>
+
+                <p>
+                    Explora repuestos, pantallas y componentes
+                    para diferentes marcas y modelos de celulares.
+                </p>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Redirigir al catálogo general de productos. -->
+                <a href="#" class="btn-hero">
+                    Explorar productos
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+
+            </div>
+
+
+            <!-- IMAGEN DECORATIVA DEL BANNER
+                 FUTURA IMPLEMENTACIÓN:
+                 Reemplazar por una imagen promocional propia
+                 de OmniCell almacenada en wwwroot/img. -->
+
+            <div class="hero-visual">
+
+                <div class="hero-circle"></div>
+
+                <div class="hero-device">
+                    <i class="bi bi-phone"></i>
+                </div>
+
+                <div class="hero-floating-card">
+
+                    <i class="bi bi-display"></i>
+
+                    <div>
+                        <strong>Pantallas</strong>
+                        <span>Encuentra tu modelo</span>
+                    </div>
+
+                </div>
+
+                <div class="hero-floating-card hero-floating-card-2">
+
+                    <i class="bi bi-tools"></i>
+
+                    <div>
+                        <strong>Componentes</strong>
+                        <span>Todo para reparación</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     CATEGORÍAS PRINCIPALES
+     FUTURA FUNCIONALIDAD:
+     - Consultar las categorías existentes.
+     - Filtrar los productos por categoría.
+     - Redirigir a la vista del catálogo filtrado.
+========================================== -->
+
+<section class="categories-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="section-eyebrow">EXPLORA LA TIENDA</span>
+                <h2>Compra por categoría</h2>
+                <p>Encuentra fácilmente el componente que necesitas.</p>
+            </div>
+
+            <!-- FUTURA FUNCIONALIDAD:
+                 Mostrar todas las categorías disponibles. -->
+            <a href="#" class="section-link">
+                Ver todas
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="categories-grid">
+
+            <!-- CATEGORÍA PANTALLAS -->
+            <!-- FUTURA FUNCIONALIDAD:
+                 Filtrar el catálogo por pantallas. -->
+            <a href="#" class="category-card">
+
+                <div class="category-icon category-blue">
+                    <i class="bi bi-phone"></i>
+                </div>
+
+                <h3>Pantallas</h3>
+
+                <span>
+                    LCD, OLED e Incell
+                </span>
+
+            </a>
+
+
+            <!-- CATEGORÍA BATERÍAS -->
+            <!-- FUTURA FUNCIONALIDAD:
+                 Filtrar el catálogo por baterías. -->
+            <a href="#" class="category-card">
+
+                <div class="category-icon category-green">
+                    <i class="bi bi-battery-full"></i>
+                </div>
+
+                <h3>Baterías</h3>
+
+                <span>
+                    Repuestos de energía
+                </span>
+
+            </a>
+
+
+            <!-- CATEGORÍA COMPONENTES -->
+            <!-- FUTURA FUNCIONALIDAD:
+                 Filtrar el catálogo por componentes. -->
+            <a href="#" class="category-card">
+
+                <div class="category-icon category-purple">
+                    <i class="bi bi-cpu"></i>
+                </div>
+
+                <h3>Componentes</h3>
+
+                <span>
+                    Flex, conectores y más
+                </span>
+
+            </a>
+
+
+            <!-- CATEGORÍA ACCESORIOS -->
+            <!-- FUTURA FUNCIONALIDAD:
+                 Filtrar el catálogo por accesorios. -->
+            <a href="#" class="category-card">
+
+                <div class="category-icon category-orange">
+                    <i class="bi bi-tools"></i>
+                </div>
+
+                <h3>Accesorios</h3>
+
+                <span>
+                    Herramientas y accesorios
+                </span>
+
+            </a>
+
+
+            <!-- CATEGORÍA OTROS -->
+            <!-- FUTURA FUNCIONALIDAD:
+                 Filtrar el catálogo por otros repuestos. -->
+            <a href="#" class="category-card">
+
+                <div class="category-icon category-red">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+
+                <h3>Otros repuestos</h3>
+
+                <span>
+                    Más componentes
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     PRODUCTOS DESTACADOS
+     FUTURA FUNCIONALIDAD:
+     - Consultar productos destacados de la base de datos.
+     - Mostrar precios, stock y características.
+     - Agregar productos al carrito.
+     - Abrir detalle de producto.
+========================================== -->
+
+<section class="featured-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <div>
+                <span class="section-eyebrow">SELECCIÓN OMNICELL</span>
+                <h2>Productos destacados</h2>
+                <p>Productos seleccionados para tu próxima reparación.</p>
+            </div>
+
+            <!-- FUTURA FUNCIONALIDAD:
+                 Redirigir al catálogo completo. -->
+            <a href="#" class="section-link">
+                Ver catálogo
+                <i class="bi bi-arrow-right"></i>
+            </a>
+
+        </div>
+
+
+        <!--
+            FUTURA FUNCIONALIDAD:
+            - Aquí se generarán las tarjetas dinámicamente.
+            - Cada tarjeta recibirá un producto desde el controlador.
+            - Se podrán agregar filtros, paginación y ordenamiento.
+        -->
+
+        <div class="products-grid">
+
+
+            <!-- PRODUCTO 1 -->
+            <article class="product-card">
+
+                <div class="product-image-container">
+
+                    <!-- IMAGEN DEL PRODUCTO
+                         FUTURA IMPLEMENTACIÓN:
+                         Cargar imagen desde el producto registrado.
+                         Usar una imagen local o la URL correspondiente. -->
+                    <div class="product-placeholder product-placeholder-blue">
+                        <i class="bi bi-phone"></i>
+                    </div>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Mostrar la etiqueta según el producto. -->
+                    <span class="product-badge">
+                        Destacado
+                    </span>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Abrir el detalle del producto. -->
+                    <button type="button"
+                            class="product-view-button"
+                            title="Ver producto"
+                            aria-label="Ver producto">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Mostrar marca y modelo del producto. -->
+                    <span class="product-category">
+                        Pantallas
+                    </span>
+
+                    <h3>
+                        Pantalla de reemplazo
+                    </h3>
+
+                    <p class="product-description">
+                        Pantalla de reemplazo para dispositivo compatible.
+                    </p>
+
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Mostrar el precio real de la base de datos. -->
+                    <div class="product-price">
+                        Bs 450.00
+                    </div>
+
+
+                    <div class="product-card-actions">
+
+                        <!-- FUTURA FUNCIONALIDAD:
+                             Agregar producto al carrito.
+                             Validar stock y cantidad. -->
+                        <button type="button"
+                                class="btn-add-cart">
+
+                            <i class="bi bi-cart-plus"></i>
+                            Agregar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCTO 2 -->
+            <article class="product-card">
+
+                <div class="product-image-container">
+
+                    <!-- FUTURA IMPLEMENTACIÓN:
+                         Mostrar la imagen real del producto. -->
+                    <div class="product-placeholder product-placeholder-green">
+                        <i class="bi bi-battery-full"></i>
+                    </div>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Mostrar etiquetas promocionales. -->
+                    <span class="product-badge product-badge-green">
+                        Disponible
+                    </span>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Abrir detalle del producto. -->
+                    <button type="button"
+                            class="product-view-button"
+                            title="Ver producto"
+                            aria-label="Ver producto">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <span class="product-category">
+                        Baterías
+                    </span>
+
+                    <h3>
+                        Batería de reemplazo
+                    </h3>
+
+                    <p class="product-description">
+                        Batería compatible para dispositivos seleccionados.
+                    </p>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Consultar precio de la base de datos. -->
+                    <div class="product-price">
+                        Bs 180.00
+                    </div>
+
+                    <div class="product-card-actions">
+
+                        <!-- FUTURA FUNCIONALIDAD:
+                             Agregar batería al carrito. -->
+                        <button type="button"
+                                class="btn-add-cart">
+
+                            <i class="bi bi-cart-plus"></i>
+                            Agregar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCTO 3 -->
+            <article class="product-card">
+
+                <div class="product-image-container">
+
+                    <!-- FUTURA IMPLEMENTACIÓN:
+                         Cargar imagen real del componente. -->
+                    <div class="product-placeholder product-placeholder-purple">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+
+                    <span class="product-badge">
+                        Destacado
+                    </span>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Mostrar detalles del componente. -->
+                    <button type="button"
+                            class="product-view-button"
+                            title="Ver producto"
+                            aria-label="Ver producto">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <span class="product-category">
+                        Componentes
+                    </span>
+
+                    <h3>
+                        Conector de carga
+                    </h3>
+
+                    <p class="product-description">
+                        Componente de reemplazo para modelos compatibles.
+                    </p>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Consultar precio real. -->
+                    <div class="product-price">
+                        Bs 95.00
+                    </div>
+
+                    <div class="product-card-actions">
+
+                        <!-- FUTURA FUNCIONALIDAD:
+                             Agregar al carrito. -->
+                        <button type="button"
+                                class="btn-add-cart">
+
+                            <i class="bi bi-cart-plus"></i>
+                            Agregar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+            <!-- PRODUCTO 4 -->
+            <article class="product-card">
+
+                <div class="product-image-container">
+
+                    <!-- FUTURA IMPLEMENTACIÓN:
+                         Cargar fotografía del producto. -->
+                    <div class="product-placeholder product-placeholder-orange">
+                        <i class="bi bi-tools"></i>
+                    </div>
+
+                    <span class="product-badge product-badge-green">
+                        Disponible
+                    </span>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Abrir ficha del producto. -->
+                    <button type="button"
+                            class="product-view-button"
+                            title="Ver producto"
+                            aria-label="Ver producto">
+
+                        <i class="bi bi-eye"></i>
+
+                    </button>
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <span class="product-category">
+                        Herramientas
+                    </span>
+
+                    <h3>
+                        Kit de reparación
+                    </h3>
+
+                    <p class="product-description">
+                        Herramientas básicas para reparación de celulares.
+                    </p>
+
+                    <!-- FUTURA FUNCIONALIDAD:
+                         Consultar precio real. -->
+                    <div class="product-price">
+                        Bs 120.00
+                    </div>
+
+                    <div class="product-card-actions">
+
+                        <!-- FUTURA FUNCIONALIDAD:
+                             Agregar kit al carrito. -->
+                        <button type="button"
+                                class="btn-add-cart">
+
+                            <i class="bi bi-cart-plus"></i>
+                            Agregar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ==========================================
+     BENEFICIOS DE OMNICELL
+     FUTURA FUNCIONALIDAD:
+     - Mostrar políticas reales de entrega.
+     - Configurar condiciones de garantía.
+     - Mostrar canales de atención.
+========================================== -->
+
+<section class="benefits-section">
+
+    <div class="container">
+
+        <div class="benefits-grid">
+
+            <div class="benefit-item">
+
+                <div class="benefit-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+
+                <div>
+                    <h3>Envíos</h3>
+                    <p>Información sobre entregas y envíos.</p>
+                </div>
+
+            </div>
+
+
+            <div class="benefit-item">
+
+                <div class="benefit-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <div>
+                    <h3>Garantía</h3>
+                    <p>Información sobre garantía de productos.</p>
+                </div>
+
+            </div>
+
+
+            <div class="benefit-item">
+
+                <div class="benefit-icon">
+                    <i class="bi bi-headset"></i>
+                </div>
+
+                <div>
+                    <h3>Atención</h3>
+                    <p>Canales de atención al cliente.</p>
+                </div>
+
+            </div>
+
+
+            <div class="benefit-item">
+
+                <div class="benefit-icon">
+                    <i class="bi bi-credit-card"></i>
+                </div>
+
+                <div>
+                    <h3>Pagos</h3>
+                    <p>Información sobre métodos de pago.</p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

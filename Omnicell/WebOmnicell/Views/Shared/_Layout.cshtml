@@ -1,70 +1,275 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebOmnicell</title>
-    <script type="importmap"></script>
+
+    <title>@ViewData["Title"] - OmniCell</title>
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <!-- Estilos personalizados de OmniCell -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebOmnicell.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebOmnicell</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Catalogo" asp-action="Index">Catálogo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        @if (Context.Session.GetString("usuario") == null)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Iniciar sesión</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <span class="nav-link text-dark">@Context.Session.GetString("usuario")</span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Salir</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+    <!-- BARRA SUPERIOR DE PROMOCIONES -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <span>
+                <i class="bi bi-truck"></i>
+                Repuestos y componentes para celulares
+            </span>
+
+            <span>
+                <i class="bi bi-headset"></i>
+                Atención al cliente
+            </span>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - WebOmnicell - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <!-- HEADER PRINCIPAL -->
+    <header class="main-header">
+        <div class="container header-container">
+
+            <!-- LOGO -->
+            <a asp-controller="Catalogo"
+               asp-action="Index"
+               class="brand-logo">
+
+                <div class="brand-icon">
+                    <i class="bi bi-phone"></i>
+                </div>
+
+                <div class="brand-text">
+                    <span class="brand-name">OmniCell</span>
+                    <span class="brand-subtitle">Repuestos y componentes</span>
+                </div>
+            </a>
+
+
+            <!-- BUSCADOR -->
+            <div class="header-search">
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Buscar productos por nombre, marca, modelo
+                     o código dentro del catálogo. -->
+
+                <form class="search-form" method="get"
+                      asp-controller="Catalogo" asp-action="Index">
+
+                    <input type="search"
+                           name="buscar"
+                           class="search-input"
+                           placeholder="Buscar pantallas, modelos, componentes..." />
+
+                    <button type="submit" class="search-button"
+                            aria-label="Buscar">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
+            </div>
+
+
+            <!-- ACCIONES DEL HEADER -->
+            <div class="header-actions">
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Mostrar el acceso a la cuenta del cliente,
+                     iniciar sesión o mostrar su perfil. -->
+                <a href="#" class="header-action">
+                    <i class="bi bi-person"></i>
+                    <span>Mi cuenta</span>
+                </a>
+
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Abrir el carrito de compras y mostrar
+                     los productos seleccionados. -->
+                <a href="#" class="header-action cart-action">
+                    <i class="bi bi-cart3"></i>
+                    <span>Carrito</span>
+                    <span class="cart-count">0</span>
+                </a>
+
+            </div>
+
         </div>
+    </header>
+
+
+    <!-- MENÚ DE NAVEGACIÓN -->
+    <nav class="category-navbar">
+
+        <div class="container">
+
+            <ul class="category-menu">
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Redirigir al catálogo general. -->
+                <li>
+                    <a asp-controller="Catalogo" asp-action="Index">
+                        <i class="bi bi-house"></i>
+                        Inicio
+                    </a>
+                </li>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Filtrar catálogo por pantallas. -->
+                <li>
+                    <a href="#">
+                        <i class="bi bi-phone"></i>
+                        Pantallas
+                    </a>
+                </li>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Filtrar catálogo por baterías. -->
+                <li>
+                    <a href="#">
+                        <i class="bi bi-battery-full"></i>
+                        Baterías
+                    </a>
+                </li>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Filtrar catálogo por componentes. -->
+                <li>
+                    <a href="#">
+                        <i class="bi bi-cpu"></i>
+                        Componentes
+                    </a>
+                </li>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Filtrar catálogo por accesorios. -->
+                <li>
+                    <a href="#">
+                        <i class="bi bi-tools"></i>
+                        Accesorios
+                    </a>
+                </li>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Mostrar productos promocionales. -->
+                <li>
+                    <a href="#">
+                        <i class="bi bi-tag"></i>
+                        Ofertas
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CONTENIDO DE CADA PÁGINA -->
+    <main class="main-content">
+
+        @RenderBody()
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+
+        <div class="container footer-container">
+
+            <div class="footer-brand">
+
+                <div class="footer-logo">
+                    <i class="bi bi-phone"></i>
+                    OmniCell
+                </div>
+
+                <p>
+                    Repuestos, pantallas y componentes
+                    para dispositivos móviles.
+                </p>
+
+            </div>
+
+
+            <div class="footer-section">
+
+                <h5>Información</h5>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Crear páginas informativas. -->
+                <a href="#">Sobre nosotros</a>
+                <a href="#">Contacto</a>
+                <a href="#">Políticas de compra</a>
+
+            </div>
+
+
+            <div class="footer-section">
+
+                <h5>Atención al cliente</h5>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Incorporar canales de atención. -->
+                <a href="#">Ayuda</a>
+                <a href="#">Pedidos</a>
+                <a href="#">Garantías</a>
+
+            </div>
+
+
+            <div class="footer-section">
+
+                <h5>Redes sociales</h5>
+
+                <!-- FUTURA FUNCIONALIDAD:
+                     Vincular las redes sociales reales. -->
+                <a href="#">
+                    <i class="bi bi-facebook"></i>
+                    Facebook
+                </a>
+
+                <a href="#">
+                    <i class="bi bi-whatsapp"></i>
+                    WhatsApp
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <div class="container">
+                <p>
+                    © @DateTime.Now.Year OmniCell.
+                    Todos los derechos reservados.
+                </p>
+            </div>
+
+        </div>
+
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+
+    <!-- Bootstrap JS -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts personalizados -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

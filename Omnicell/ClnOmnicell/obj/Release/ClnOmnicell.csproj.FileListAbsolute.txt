@@ -28,3 +28,18 @@ D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\
 D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnic.D651353A.Up2Date
 D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnicell.dll
 D:\SIS457\Omnicell mas aveance\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnicell.pdb
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\ClnOmnicell.dll.config
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\ClnOmnicell.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\ClnOmnicell.pdb
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\CadOmnicell.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\EntityFramework.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\EntityFramework.SqlServer.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\CadOmnicell.pdb
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\CadOmnicell.dll.config
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\EntityFramework.xml
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\bin\Release\EntityFramework.SqlServer.xml
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnicell.csproj.AssemblyReference.cache
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnicell.csproj.CoreCompileInputs.cache
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnic.D651353A.Up2Date
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnicell.dll
+E:\CuartoSemestro2026\SIS 457 - 2026\sis457_OmniCell\Omnicell\ClnOmnicell\obj\Release\ClnOmnicell.pdb

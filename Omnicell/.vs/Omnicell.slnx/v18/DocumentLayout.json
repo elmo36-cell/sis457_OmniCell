@@ -1,10 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\SIS457\\Omnicell mas aveance\\sis457_OmniCell\\Omnicell\\",
+  "WorkspaceRootPath": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|d:\\sis457\\omnicell mas aveance\\sis457_omnicell\\omnicell\\cpomnicell\\frmlogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{32F25C7F-3D23-4EF4-A3A9-19016017B459}|CpOmnicell\\CpOmnicell.csproj|solutionrelative:cpomnicell\\frmlogin.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8F7CB2B6-7B07-4307-AC1C-4E2B048276F8}|WebOmnicell\\WebOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\webomnicell\\wwwroot\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{8F7CB2B6-7B07-4307-AC1C-4E2B048276F8}|WebOmnicell\\WebOmnicell.csproj|solutionrelative:webomnicell\\wwwroot\\css\\login.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F7CB2B6-7B07-4307-AC1C-4E2B048276F8}|WebOmnicell\\WebOmnicell.csproj|e:\\cuartosemestro2026\\sis 457 - 2026\\sis457_omnicell\\omnicell\\webomnicell\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8F7CB2B6-7B07-4307-AC1C-4E2B048276F8}|WebOmnicell\\WebOmnicell.csproj|solutionrelative:webomnicell\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,27 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "FrmLogin.Designer.cs",
-              "DocumentMoniker": "D:\\SIS457\\Omnicell mas aveance\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmLogin.Designer.cs",
-              "RelativeDocumentMoniker": "CpOmnicell\\FrmLogin.Designer.cs",
-              "ToolTip": "D:\\SIS457\\Omnicell mas aveance\\sis457_OmniCell\\Omnicell\\CpOmnicell\\FrmLogin.Designer.cs",
-              "RelativeToolTip": "CpOmnicell\\FrmLogin.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMwAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-16T23:08:15.37Z",
+              "Title": "login.css",
+              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\wwwroot\\css\\login.css",
+              "RelativeDocumentMoniker": "WebOmnicell\\wwwroot\\css\\login.css",
+              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\wwwroot\\css\\login.css",
+              "RelativeToolTip": "WebOmnicell\\wwwroot\\css\\login.css",
+              "ViewState": "AgIAAOkBAAAAAAAAAAAIwAoCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-11-25T03:56:18.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "WebOmnicell\\Views\\Account\\Login.cshtml",
+              "ToolTip": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "WebOmnicell\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-11-25T03:55:35.129Z",
               "EditorCaption": ""
             }
           ]
