@@ -1,9 +1,12 @@
 namespace WebOmnicell.Models
 {
+    /// <summary>
+    /// Datos que muestra la pantalla de error.
+    /// </summary>
     public class ErrorViewModel
     {
-        public string? RequestId { get; set; }
+        public string? IdSolicitud { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool MostrarIdSolicitud => !string.IsNullOrEmpty(IdSolicitud);
     }
 }

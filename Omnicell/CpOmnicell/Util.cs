@@ -17,32 +17,32 @@ namespace CpMinerva
     {
         public static Usuario usuario;
         public static bool notPaste = true;
-        public static string Encrypt(string clearText)
+        // Cifra la contraseña antes de guardarla en la base.
+        public static string Cifrar(string textoPlano)
         {
-            string EncryptionKey = "SIS457-1nf0!";
-            byte[] clearBytes = Encoding.Unicode.GetBytes(clearText);
-            using (Aes encryptor = Aes.Create())
+            string claveCifrado = "SIS457-1nf0!";
+            byte[] bytesTexto = Encoding.Unicode.GetBytes(textoPlano);
+            using (Aes cifrador = Aes.Create())
             {
-                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(EncryptionKey, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
-                encryptor.Key = pdb.GetBytes(32);
-                encryptor.IV = pdb.GetBytes(16);
+                Rfc2898DeriveBytes pdb = new Rfc2898DeriveBytes(claveCifrado, new byte[] { 0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76 });
+                cifrador.Key = pdb.GetBytes(32);
+                cifrador.IV = pdb.GetBytes(16);
                 using (MemoryStream ms = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, encryptor.CreateEncryptor(), CryptoStreamMode.Write))
+                    using (CryptoStream cs = new CryptoStream(ms, cifrador.CreateEncryptor(), CryptoStreamMode.Write))
                     {
-                        cs.Write(clearBytes, 0, clearBytes.Length);
+                        cs.Write(bytesTexto, 0, bytesTexto.Length);
                         cs.Close();
                     }
-                    clearText = Convert.ToBase64String(ms.ToArray());
+                    return Convert.ToBase64String(ms.ToArray());
                 }
             }
-            return clearText;
         }
 
         /// <summary>
         /// Validar sólo números en el evento KeyPress
         /// </summary>
-        public static void onlyNumbers(object sender, KeyPressEventArgs e)
+        public static void soloNumeros(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 22 && notPaste) e.Handled = true; //Deshabilitar Ctrl + V (Pegar)
             else
@@ -56,7 +56,7 @@ namespace CpMinerva
         /// <summary>
         /// Validar sólo números enteros o decimales en el evento KeyPress
         /// </summary>
-        public static void onlyDecimals(object sender, KeyPressEventArgs e)
+        public static void soloDecimales(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 22 && notPaste) e.Handled = true; //Deshabilitar Ctrl + V (Pegar)
             else
@@ -78,7 +78,7 @@ namespace CpMinerva
         /// <summary>
         /// Validar sólo letras en el evento KeyPress
         /// </summary>
-        public static void onlyLetters(object sender, KeyPressEventArgs e)
+        public static void soloLetras(object sender, KeyPressEventArgs e)
         {
             if (Char.IsLetter(e.KeyChar)) e.Handled = false;
             else if (Char.IsControl(e.KeyChar)) e.Handled = false;
@@ -89,7 +89,7 @@ namespace CpMinerva
         /// <summary>
         /// Validar ni números ni letras en el evento KeyPress
         /// </summary>
-        public static void notNumbersLetters(object sender, KeyPressEventArgs e)
+        public static void soloSimbolos(object sender, KeyPressEventArgs e)
         {
             if (!(Char.IsLetterOrDigit(e.KeyChar) || Char.IsPunctuation(e.KeyChar))) e.Handled = false;
             else if (Char.IsControl(e.KeyChar)) e.Handled = false;
@@ -100,7 +100,7 @@ namespace CpMinerva
         }
 
 
-        public static void notButtonRight(object sender, MouseEventArgs e)
+        public static void sinBotonDerecho(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {

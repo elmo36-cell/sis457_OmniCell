@@ -1,3 +1,4 @@
+wwwroot\css\login.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
@@ -61,6 +62,7 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
+D:\SIS457\sis457_Omnicell\Omnicell\WebOmnicell\wwwroot\css\login.css
 D:\SIS457\sis457_Omnicell\Omnicell\WebOmnicell\wwwroot\css\site.css
 D:\SIS457\sis457_Omnicell\Omnicell\WebOmnicell\wwwroot\favicon.ico
 D:\SIS457\sis457_Omnicell\Omnicell\WebOmnicell\wwwroot\js\site.js

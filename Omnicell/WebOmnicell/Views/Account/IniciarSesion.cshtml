@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Iniciar sesión";
-    Layout = null; // Login tendrá su propio diseño independiente.
+    Layout = null; // El login usa su propio diseño, sin el menú de la tienda.
 }
 
 <!DOCTYPE html>
@@ -12,15 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OmniCell | Iniciar sesión</title>
 
-    <!-- Bootstrap para el diseño adaptable -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
           rel="stylesheet" />
-
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
           rel="stylesheet" />
-
-    <!-- Estilos exclusivos del inicio de sesión -->
     <link href="~/css/login.css" rel="stylesheet" />
 </head>
 
@@ -28,18 +23,16 @@
 
     <div class="login-container">
 
-        <!-- PANEL IZQUIERDO: PRESENTACIÓN DE OMNICELL -->
+        <!-- Panel izquierdo: presentación de la tienda -->
         <div class="login-banner">
 
             <div class="banner-content">
 
-                <!-- Logo de la tienda -->
                 <div class="banner-logo">
                     <i class="bi bi-phone"></i>
                     <span>Omni<span class="logo-highlight">Cell</span></span>
                 </div>
 
-                <!-- Mensaje comercial -->
                 <div class="banner-text">
 
                     <span class="banner-label">TIENDA ONLINE</span>
@@ -56,7 +49,6 @@
 
                 </div>
 
-                <!-- Ilustración decorativa -->
                 <div class="banner-illustration">
 
                     <div class="illustration-circle"></div>
@@ -65,7 +57,6 @@
                         <i class="bi bi-phone"></i>
                     </div>
 
-                    <!-- Elementos flotantes decorativos -->
                     <div class="floating-card card-one">
                         <i class="bi bi-display"></i>
                         <span>Pantallas</span>
@@ -83,7 +74,6 @@
 
                 </div>
 
-                <!-- Texto inferior -->
                 <div class="banner-footer">
                     <i class="bi bi-shield-check"></i>
                     Calidad y confianza en tus compras.
@@ -92,18 +82,17 @@
             </div>
         </div>
 
-        <!-- PANEL DERECHO: FORMULARIO DE ACCESO -->
+        <!-- Panel derecho: formulario de acceso -->
         <div class="login-form-panel">
 
             <div class="login-form-content">
 
-                <!-- Logo visible únicamente en dispositivos pequeños -->
+                <!-- Logo que solo se ve en el celular -->
                 <div class="mobile-logo">
                     <i class="bi bi-phone"></i>
                     <span>Omni<span class="logo-highlight">Cell</span></span>
                 </div>
 
-                <!-- Encabezado del formulario -->
                 <div class="login-heading">
 
                     <span class="login-welcome">BIENVENIDO</span>
@@ -116,15 +105,11 @@
 
                 </div>
 
-                <!--
-                    Formulario conectado a AccountController/Login.
-                    Enviará los datos al método POST del controlador.
-                -->
+                <!-- Envía los datos al método IniciarSesion (POST) del controlador -->
                 <form asp-controller="Account"
-                      asp-action="Login"
+                      asp-action="IniciarSesion"
                       method="post">
 
-                    <!-- Campo de usuario -->
                     <div class="form-group-custom">
 
                         <label asp-for="NombreUsuario">Usuario</label>
@@ -138,13 +123,11 @@
                                    autocomplete="username" />
                         </div>
 
-                        <!-- Mensajes de validación del usuario -->
                         <span asp-validation-for="NombreUsuario"
                               class="validation-message"></span>
 
                     </div>
 
-                    <!-- Campo de contraseña -->
                     <div class="form-group-custom">
 
                         <label asp-for="Clave">Contraseña</label>
@@ -159,20 +142,15 @@
                                    autocomplete="current-password" />
                         </div>
 
-                        <!-- Mensajes de validación de la contraseña -->
                         <span asp-validation-for="Clave"
                               class="validation-message"></span>
 
                     </div>
 
-                    <!-- Mensajes de error generales del inicio de sesión -->
+                    <!-- Errores generales, por ejemplo credenciales incorrectas -->
                     <div asp-validation-summary="ModelOnly"
                          class="login-validation"></div>
 
-                    <!--
-                        Botón para enviar las credenciales.
-                        La validación y autenticación ya están en AccountController.
-                    -->
                     <button type="submit" class="btn-login">
                         Iniciar sesión
                         <i class="bi bi-arrow-right"></i>
@@ -180,7 +158,6 @@
 
                 </form>
 
-                <!-- Enlace para regresar a la tienda -->
                 <div class="back-store">
                     <a asp-controller="Catalogo" asp-action="Index">
                         <i class="bi bi-arrow-left"></i>
@@ -188,7 +165,6 @@
                     </a>
                 </div>
 
-                <!-- Pie de página -->
                 <div class="login-bottom">
                     <span>OmniCell</span>
                     <span>© 2026</span>

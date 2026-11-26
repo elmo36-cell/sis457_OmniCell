@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj": {}
+    "D:\\SIS457\\sis457_Omnicell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj": {}
   },
   "projects": {
-    "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj": {
+    "D:\\SIS457\\sis457_Omnicell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj",
+        "projectUniqueName": "D:\\SIS457\\sis457_Omnicell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj",
         "projectName": "WebOmnicell",
-        "projectPath": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj",
-        "packagesPath": "C:\\Users\\Lucho\\.nuget\\packages\\",
-        "outputPath": "E:\\CuartoSemestro2026\\SIS 457 - 2026\\sis457_OmniCell\\Omnicell\\WebOmnicell\\obj\\",
+        "projectPath": "D:\\SIS457\\sis457_Omnicell\\Omnicell\\WebOmnicell\\WebOmnicell.csproj",
+        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
+        "outputPath": "D:\\SIS457\\sis457_Omnicell\\Omnicell\\WebOmnicell\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Lucho\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

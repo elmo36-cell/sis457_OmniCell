@@ -1,0 +1,232 @@
+@{
+    ViewData["Title"] = "Módulos";
+    ViewData["BodyClass"] = "app-shell";
+
+    bool esAdmin = ViewBag.EsAdmin as bool? ?? false;
+    string rolNombre = Context.Session.GetString("rolNombre") ?? "Usuario";
+}
+
+<div class="modules-layout">
+
+    <div class="modules-head">
+        <div class="toolbar-text">
+            <span class="eyebrow">PANEL DE TRABAJO</span>
+            <h1>Módulos disponibles</h1>
+
+            <div class="modules-meta">
+                <span class="meta-chip">
+                    <i class="bi bi-person-badge"></i>
+                    @rolNombre
+                </span>
+
+                <span class="meta-chip">
+                    <i class="bi bi-grid"></i>
+                    @(esAdmin ? "12 módulos" : "2 módulos")
+                </span>
+
+                <span class="meta-chip">
+                    <i class="bi bi-list-ol"></i>
+                    10 registros por página
+                </span>
+            </div>
+        </div>
+
+        <a class="clear-filters" asp-controller="Catalogo" asp-action="Index">
+            <i class="bi bi-shop"></i>
+            Ir al catálogo
+        </a>
+    </div>
+
+
+    <!-- GUÍA BREVE PARA QUIEN ENTRA POR PRIMERA VEZ -->
+    <div class="howto-bar">
+        <i class="bi bi-info-circle"></i>
+        <p>
+            <strong>Cómo funciona:</strong> elige un módulo, escribe en el buscador y usa
+            <em>Anterior</em> / <em>Siguiente</em> para moverte entre páginas de 10 registros.
+            Estas pantallas solo muestran información; para volver aquí usa el botón
+            <em>Módulos</em> del encabezado.
+        </p>
+    </div>
+
+
+    <div class="modules-body">
+
+        <!-- OPERACIÓN DIARIA: disponible para todos los roles -->
+        <section class="module-group tone-blue">
+            <div class="module-group-head">
+                <h2>Operación diaria</h2>
+                <span>2 módulos</span>
+            </div>
+
+            <div class="module-grid">
+
+                <a class="module-card" asp-controller="Tablas" asp-action="Ventas">
+                    <span class="module-icon"><i class="bi bi-receipt"></i></span>
+
+                    <span class="module-card-text">
+                        <span class="module-title">Ventas</span>
+                        <span class="module-desc">
+                            @(esAdmin ? "Historial completo de ventas." : "Ventas de tu sucursal.")
+                        </span>
+                    </span>
+
+                    <i class="bi bi-chevron-right module-arrow"></i>
+                </a>
+
+                <a class="module-card" asp-controller="Tablas" asp-action="Clientes">
+                    <span class="module-icon"><i class="bi bi-people"></i></span>
+
+                    <span class="module-card-text">
+                        <span class="module-title">Clientes</span>
+                        <span class="module-desc">Consulta de clientes registrados.</span>
+                    </span>
+
+                    <i class="bi bi-chevron-right module-arrow"></i>
+                </a>
+
+            </div>
+        </section>
+
+
+        @if (esAdmin)
+        {
+            <!-- CATÁLOGO -->
+            <section class="module-group tone-green">
+                <div class="module-group-head">
+                    <h2>Catálogo e inventario</h2>
+                    <span>4 módulos</span>
+                </div>
+
+                <div class="module-grid">
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Pantallas">
+                        <span class="module-icon"><i class="bi bi-phone"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Pantallas</span>
+                            <span class="module-desc">Productos, precios y stock total.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Inventario">
+                        <span class="module-icon"><i class="bi bi-box-seam"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Inventario</span>
+                            <span class="module-desc">Stock por sucursal y mínimo.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Marcas">
+                        <span class="module-icon"><i class="bi bi-award"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Marcas</span>
+                            <span class="module-desc">Marcas y cantidad de modelos.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Modelos">
+                        <span class="module-icon"><i class="bi bi-phone-vibrate"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Modelos</span>
+                            <span class="module-desc">Modelos asociados a cada marca.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                </div>
+            </section>
+
+
+            <!-- ADMINISTRACIÓN -->
+            <section class="module-group tone-purple">
+                <div class="module-group-head">
+                    <h2>Administración</h2>
+                    <span>6 módulos</span>
+                </div>
+
+                <div class="module-grid">
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Compras">
+                        <span class="module-icon"><i class="bi bi-bag-check"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Compras</span>
+                            <span class="module-desc">Compras registradas a proveedores.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Proveedores">
+                        <span class="module-icon"><i class="bi bi-truck"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Proveedores</span>
+                            <span class="module-desc">Proveedores y contactos.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Empleados">
+                        <span class="module-icon"><i class="bi bi-person-badge"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Empleados</span>
+                            <span class="module-desc">Personal y sucursal asignada.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Usuarios">
+                        <span class="module-icon"><i class="bi bi-shield-lock"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Usuarios</span>
+                            <span class="module-desc">Cuentas de acceso y rol.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Sucursales">
+                        <span class="module-icon"><i class="bi bi-geo-alt"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Sucursales</span>
+                            <span class="module-desc">Ciudad, dirección y contacto.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                    <a class="module-card" asp-controller="Tablas" asp-action="Roles">
+                        <span class="module-icon"><i class="bi bi-person-gear"></i></span>
+
+                        <span class="module-card-text">
+                            <span class="module-title">Roles</span>
+                            <span class="module-desc">Roles del sistema y sus usuarios.</span>
+                        </span>
+
+                        <i class="bi bi-chevron-right module-arrow"></i>
+                    </a>
+
+                </div>
+            </section>
+        }
+
+    </div>
+
+</div>

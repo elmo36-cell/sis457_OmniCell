@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebOmnicell")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+507358a2620b4fb5b52801bb75fc4e2a892f620f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e861d8075d4b08127b1e322b7eb6e66595f18b90")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebOmnicell")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebOmnicell")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

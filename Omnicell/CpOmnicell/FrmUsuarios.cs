@@ -157,7 +157,7 @@ namespace CpOmnicell
                 // Solo se cifra la contraseña cuando se introduce una nueva.
                 usuario.clave = string.IsNullOrWhiteSpace(txtClave.Text)
                     ? null
-                    : Util.Encrypt(txtClave.Text);
+                    : Util.Cifrar(txtClave.Text);
 
                 if (idUsuario.HasValue)
                 {

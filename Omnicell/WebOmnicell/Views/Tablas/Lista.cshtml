@@ -1,0 +1,142 @@
+@model WebOmnicell.Models.TablaViewModel
+
+@{
+    ViewData["Title"] = Model.Titulo;
+    ViewData["BodyClass"] = "app-shell";
+}
+
+<div class="table-layout">
+
+    <div class="table-panel">
+
+        <!-- Encabezado del módulo -->
+        <div class="catalog-toolbar">
+
+            <div class="toolbar-text">
+                <nav class="crumbs">
+                    <a asp-controller="Tablas" asp-action="Index">
+                        <i class="bi bi-grid"></i>
+                        Módulos
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>@Model.Titulo</span>
+                </nav>
+
+                <h1>@Model.Titulo</h1>
+                <p>
+                    @Model.Total registro(s) · página @Model.Pagina de @Model.TotalPaginas
+                </p>
+            </div>
+
+            <div class="toolbar-actions">
+
+                <form class="mini-search" method="get" asp-action="@Model.Accion">
+                    <i class="bi bi-search"></i>
+
+                    <input type="search"
+                           name="parametro"
+                           value="@Model.Parametro"
+                           placeholder="Buscar en @Model.Titulo..." />
+
+                    <button type="submit">Buscar</button>
+                </form>
+
+                <a class="clear-filters" asp-controller="Tablas" asp-action="Index">
+                    <i class="bi bi-arrow-left"></i>
+                    Módulos
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Tabla -->
+        <div class="table-wrap">
+
+            <table class="data-table">
+
+                <thead>
+                    <tr>
+                        @foreach (string columna in Model.Columnas)
+                        {
+                            <th>@columna</th>
+                        }
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (string[] fila in Model.Filas)
+                    {
+                        <tr>
+                            @for (int i = 0; i < Model.Columnas.Length; i++)
+                            {
+                                <td>@(i < fila.Length ? fila[i] : "")</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+            @if (Model.Filas.Count == 0)
+            {
+                <div class="table-empty">
+                    <i class="bi bi-inbox"></i>
+                    <p>No hay registros que coincidan con la búsqueda.</p>
+                </div>
+            }
+
+        </div>
+
+
+        <!-- Paginación -->
+        <div class="pager">
+
+            @if (Model.Pagina > 1)
+            {
+                <a class="pager-button"
+                   asp-action="@Model.Accion"
+                   asp-route-parametro="@Model.Parametro"
+                   asp-route-pagina="@(Model.Pagina - 1)">
+                    <i class="bi bi-chevron-left"></i>
+                    Anterior
+                </a>
+            }
+            else
+            {
+                <span class="pager-button disabled">
+                    <i class="bi bi-chevron-left"></i>
+                    Anterior
+                </span>
+            }
+
+            <span class="pager-info">
+                Página @Model.Pagina de @Model.TotalPaginas
+            </span>
+
+            @if (Model.Pagina < Model.TotalPaginas)
+            {
+                <a class="pager-button"
+                   asp-action="@Model.Accion"
+                   asp-route-parametro="@Model.Parametro"
+                   asp-route-pagina="@(Model.Pagina + 1)">
+                    Siguiente
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            }
+            else
+            {
+                <span class="pager-button disabled">
+                    Siguiente
+                    <i class="bi bi-chevron-right"></i>
+                </span>
+            }
+
+        </div>
+
+    </div>
+
+</div>

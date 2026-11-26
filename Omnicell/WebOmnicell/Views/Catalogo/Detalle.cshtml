@@ -1,0 +1,163 @@
+@model WebOmnicell.Models.PantallaDetalleViewModel
+
+@{
+    ViewData["Title"] = Model.Pantalla.descripcion;
+    ViewData["BodyClass"] = "app-shell";
+
+    bool disponible = Model.Pantalla.stockTotal > 0;
+}
+
+<div class="detail-layout">
+
+    <!-- MIGAS DE PAN: siempre se sabe dónde estás y cómo volver -->
+    <nav class="crumbs">
+        <a asp-controller="Catalogo" asp-action="Index">
+            <i class="bi bi-grid"></i>
+            Catálogo
+        </a>
+
+        <i class="bi bi-chevron-right"></i>
+
+        <a asp-controller="Catalogo" asp-action="Index" asp-route-calidad="@Model.Pantalla.calidad">
+            @Model.Pantalla.calidad
+        </a>
+
+        <i class="bi bi-chevron-right"></i>
+
+        <span>@Model.Pantalla.sku</span>
+    </nav>
+
+
+    <div class="detail-grid">
+
+        <!-- FOTO DEL PRODUCTO -->
+        <section class="detail-media">
+
+            @if (Model.Imagen != null)
+            {
+                <img src="@Model.Imagen" alt="@Model.Pantalla.descripcion" />
+            }
+            else
+            {
+                <i class="bi bi-phone"></i>
+            }
+
+            <span class="detail-media-badge">@Model.Pantalla.calidad</span>
+
+        </section>
+
+
+        <!-- INFORMACIÓN DEL PRODUCTO -->
+        <section class="panel-card detail-info">
+
+            <span class="eyebrow">PRODUCTO</span>
+
+            <h1>@Model.Pantalla.descripcion</h1>
+
+            <div class="detail-chips">
+                <span class="chip">
+                    <i class="bi bi-upc"></i>
+                    @Model.Pantalla.sku
+                </span>
+
+                <span class="chip">
+                    <i class="bi bi-layers"></i>
+                    @Model.Pantalla.tecnologia
+                </span>
+
+                <span class="chip">
+                    <i class="bi bi-patch-check"></i>
+                    @Model.Pantalla.calidad
+                </span>
+            </div>
+
+            <div class="detail-buy">
+
+                <div>
+                    <span class="detail-price-label">Precio de venta</span>
+                    <strong class="detail-price">Bs @Model.Pantalla.precioVenta.ToString("N2")</strong>
+                </div>
+
+                <span class="availability @(disponible ? "ok" : "out")">
+                    <i class="bi @(disponible ? "bi-check-circle" : "bi-x-circle")"></i>
+                    @(disponible ? $"Disponible ({Model.Pantalla.stockTotal:N0} u.)" : "Sin stock")
+                </span>
+
+            </div>
+
+            <div class="detail-compat">
+
+                <h2>Compatible con</h2>
+
+                @if (Model.ModelosCompatibles.Count == 0)
+                {
+                    <p class="detail-note">
+                        Todavía no hay modelos registrados para este producto.
+                    </p>
+                }
+                else
+                {
+                    <div class="compat-list">
+                        @foreach (string modelo in Model.ModelosCompatibles)
+                        {
+                            <span class="compat-chip">
+                                <i class="bi bi-phone"></i>
+                                @modelo
+                            </span>
+                        }
+                    </div>
+                }
+
+            </div>
+
+            <div class="detail-actions">
+                <a class="btn-primary"
+                   asp-controller="Catalogo"
+                   asp-action="Index">
+                    <i class="bi bi-arrow-left"></i>
+                    Volver al catálogo
+                </a>
+            </div>
+
+        </section>
+
+
+        <!-- STOCK POR SUCURSAL -->
+        <aside class="panel-card detail-side">
+
+            <h2>Stock por sucursal</h2>
+            <p class="detail-note">Cantidad disponible en cada tienda.</p>
+
+            @if (Model.Stocks.Count == 0)
+            {
+                <div class="table-empty">
+                    <i class="bi bi-inbox"></i>
+                    <p>Sin registros de inventario.</p>
+                </div>
+            }
+            else
+            {
+                <div class="stock-list">
+                    @foreach (var stock in Model.Stocks)
+                    {
+                        <div class="stock-row">
+
+                            <div class="stock-text">
+                                <strong>@stock.Sucursal</strong>
+                                <span>@stock.Ciudad</span>
+                            </div>
+
+                            <span class="stock-value @(stock.Stock <= 0 ? "out" : stock.Stock < stock.Minimo ? "low" : "")">
+                                @stock.Stock.ToString("N0")
+                            </span>
+
+                        </div>
+                    }
+                </div>
+            }
+
+        </aside>
+
+    </div>
+
+</div>

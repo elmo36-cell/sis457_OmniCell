@@ -53,7 +53,7 @@ namespace CpOmnicell
             try
             {
                 // Encriptar contraseña
-                string claveEncriptada = Util.Encrypt(txtClave.Text);
+                string claveEncriptada = Util.Cifrar(txtClave.Text);
 
                 // Autenticar usuario
                 Usuario usuario = UsuarioCln.autenticar(
@@ -115,7 +115,7 @@ namespace CpOmnicell
         {
             Usuario usuario = UsuarioCln.obtenerUno(1);
 
-            usuario.clave = Util.Encrypt("Admin123");
+            usuario.clave = Util.Cifrar("Admin123");
 
             usuario.usuarioRegistro = "admin";
 

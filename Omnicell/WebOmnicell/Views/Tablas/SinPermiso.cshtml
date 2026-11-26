@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Sin permiso";
+    ViewData["BodyClass"] = "app-shell";
+}
+
+<div class="table-layout">
+
+    <div class="empty-state">
+
+        <i class="bi bi-shield-lock"></i>
+
+        <h2>Módulo no disponible</h2>
+
+        <p>Tu rol no tiene acceso a este módulo. Solo el Administrador puede verlo.</p>
+
+        <a class="btn-primary" asp-controller="Tablas" asp-action="Index">
+            Volver a módulos
+        </a>
+
+    </div>
+
+</div>

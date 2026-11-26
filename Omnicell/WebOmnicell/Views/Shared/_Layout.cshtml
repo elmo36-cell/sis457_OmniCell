@@ -1,4 +1,8 @@
-﻿
+﻿@{
+    // El catálogo usa una pantalla fija sin scroll; el resto de páginas fluye normal.
+    string claseCuerpo = ViewData["BodyClass"] as string ?? string.Empty;
+    string usuario = Context.Session.GetString("usuario") ?? string.Empty;
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,33 +22,14 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 
-<body>
+<body class="@claseCuerpo">
 
-    <!-- BARRA SUPERIOR DE PROMOCIONES -->
-    <div class="top-bar">
-        <div class="container top-bar-content">
-            <span>
-                <i class="bi bi-truck"></i>
-                Repuestos y componentes para celulares
-            </span>
-
-            <span>
-                <i class="bi bi-headset"></i>
-                Atención al cliente
-            </span>
-        </div>
-    </div>
-
-
-    <!-- HEADER PRINCIPAL -->
-    <header class="main-header">
-        <div class="container header-container">
+    <!-- ENCABEZADO: logo, buscador y sesión -->
+    <header class="app-header">
+        <div class="header-inner">
 
             <!-- LOGO -->
-            <a asp-controller="Catalogo"
-               asp-action="Index"
-               class="brand-logo">
-
+            <a asp-controller="Catalogo" asp-action="Index" class="brand-logo">
                 <div class="brand-icon">
                     <i class="bi bi-phone"></i>
                 </div>
@@ -57,209 +42,78 @@
 
 
             <!-- BUSCADOR -->
-            <div class="header-search">
+            <form class="search-form" method="get"
+                  asp-controller="Catalogo" asp-action="Index">
 
-                <!-- FUTURA FUNCIONALIDAD:
-                     Buscar productos por nombre, marca, modelo
-                     o código dentro del catálogo. -->
+                <i class="bi bi-search search-icon"></i>
 
-                <form class="search-form" method="get"
-                      asp-controller="Catalogo" asp-action="Index">
+                <input type="search"
+                       name="parametro"
+                       class="search-input"
+                       value="@ViewBag.Parametro"
+                       placeholder="Buscar por modelo, SKU o calidad..." />
 
-                    <input type="search"
-                           name="buscar"
-                           class="search-input"
-                           placeholder="Buscar pantallas, modelos, componentes..." />
+                @if (!string.IsNullOrEmpty(ViewBag.Calidad as string))
+                {
+                    <input type="hidden" name="calidad" value="@ViewBag.Calidad" />
+                }
 
-                    <button type="submit" class="search-button"
-                            aria-label="Buscar">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
-            </div>
-
-
-            <!-- ACCIONES DEL HEADER -->
-            <div class="header-actions">
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Mostrar el acceso a la cuenta del cliente,
-                     iniciar sesión o mostrar su perfil. -->
-                <a href="#" class="header-action">
-                    <i class="bi bi-person"></i>
-                    <span>Mi cuenta</span>
-                </a>
+                <button type="submit" class="search-button" aria-label="Buscar">
+                    Buscar
+                </button>
+            </form>
 
 
-                <!-- FUTURA FUNCIONALIDAD:
-                     Abrir el carrito de compras y mostrar
-                     los productos seleccionados. -->
-                <a href="#" class="header-action cart-action">
-                    <i class="bi bi-cart3"></i>
-                    <span>Carrito</span>
-                    <span class="cart-count">0</span>
-                </a>
+            <!-- SESIÓN -->
+            <div class="header-user">
+                @if (!string.IsNullOrEmpty(usuario))
+                {
+                    <a class="logout-link"
+                       asp-controller="Tablas"
+                       asp-action="Index"
+                       title="Módulos según tu rol">
+                        <i class="bi bi-grid"></i>
+                        <span>Módulos</span>
+                    </a>
 
+                    <span class="user-chip" title="@(Context.Session.GetString("rolNombre") ?? "Sesión iniciada")">
+                        <i class="bi bi-person-circle"></i>
+                        <span>@usuario</span>
+                    </span>
+
+                    <a class="logout-link"
+                       asp-controller="Account"
+                       asp-action="CerrarSesion"
+                       title="Cerrar sesión">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Salir</span>
+                    </a>
+                }
+                else
+                {
+                    <a class="logout-link"
+                       asp-controller="Account"
+                       asp-action="IniciarSesion">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Entrar</span>
+                    </a>
+                }
             </div>
 
         </div>
     </header>
 
 
-    <!-- MENÚ DE NAVEGACIÓN -->
-    <nav class="category-navbar">
-
-        <div class="container">
-
-            <ul class="category-menu">
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Redirigir al catálogo general. -->
-                <li>
-                    <a asp-controller="Catalogo" asp-action="Index">
-                        <i class="bi bi-house"></i>
-                        Inicio
-                    </a>
-                </li>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Filtrar catálogo por pantallas. -->
-                <li>
-                    <a href="#">
-                        <i class="bi bi-phone"></i>
-                        Pantallas
-                    </a>
-                </li>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Filtrar catálogo por baterías. -->
-                <li>
-                    <a href="#">
-                        <i class="bi bi-battery-full"></i>
-                        Baterías
-                    </a>
-                </li>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Filtrar catálogo por componentes. -->
-                <li>
-                    <a href="#">
-                        <i class="bi bi-cpu"></i>
-                        Componentes
-                    </a>
-                </li>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Filtrar catálogo por accesorios. -->
-                <li>
-                    <a href="#">
-                        <i class="bi bi-tools"></i>
-                        Accesorios
-                    </a>
-                </li>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Mostrar productos promocionales. -->
-                <li>
-                    <a href="#">
-                        <i class="bi bi-tag"></i>
-                        Ofertas
-                    </a>
-                </li>
-
-            </ul>
-
-        </div>
-
-    </nav>
-
-
     <!-- CONTENIDO DE CADA PÁGINA -->
-    <main class="main-content">
-
+    <main class="app-main">
         @RenderBody()
-
     </main>
 
 
-    <!-- FOOTER -->
-    <footer class="main-footer">
-
-        <div class="container footer-container">
-
-            <div class="footer-brand">
-
-                <div class="footer-logo">
-                    <i class="bi bi-phone"></i>
-                    OmniCell
-                </div>
-
-                <p>
-                    Repuestos, pantallas y componentes
-                    para dispositivos móviles.
-                </p>
-
-            </div>
-
-
-            <div class="footer-section">
-
-                <h5>Información</h5>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Crear páginas informativas. -->
-                <a href="#">Sobre nosotros</a>
-                <a href="#">Contacto</a>
-                <a href="#">Políticas de compra</a>
-
-            </div>
-
-
-            <div class="footer-section">
-
-                <h5>Atención al cliente</h5>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Incorporar canales de atención. -->
-                <a href="#">Ayuda</a>
-                <a href="#">Pedidos</a>
-                <a href="#">Garantías</a>
-
-            </div>
-
-
-            <div class="footer-section">
-
-                <h5>Redes sociales</h5>
-
-                <!-- FUTURA FUNCIONALIDAD:
-                     Vincular las redes sociales reales. -->
-                <a href="#">
-                    <i class="bi bi-facebook"></i>
-                    Facebook
-                </a>
-
-                <a href="#">
-                    <i class="bi bi-whatsapp"></i>
-                    WhatsApp
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <div class="footer-bottom">
-
-            <div class="container">
-                <p>
-                    © @DateTime.Now.Year OmniCell.
-                    Todos los derechos reservados.
-                </p>
-            </div>
-
-        </div>
-
+    <!-- PIE COMPACTO -->
+    <footer class="app-footer">
+        <span>© @DateTime.Now.Year OmniCell</span>
+        <span>Repuestos, pantallas y componentes para dispositivos móviles</span>
     </footer>
 
 

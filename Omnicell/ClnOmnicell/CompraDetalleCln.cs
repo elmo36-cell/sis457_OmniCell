@@ -51,19 +51,18 @@ namespace ClnOmnicell
             }
         }
 
-        public static Compra obtenerUno(int id)
+        public static CompraDetalle obtenerUno(int id)
         {
             using (var context = new LabOmnicellEntities())
             {
-                var compra = context.Compra
-                    .Include("Proveedor")
-                    .Include("Empleado")
+                var compraDetalle = context.CompraDetalle
+                    .Include("Pantalla")
                     .FirstOrDefault(x => x.id == id);
 
-                if (compra == null)
-                    throw new Exception($"La compra con id {id} no existe");
+                if (compraDetalle == null)
+                    throw new Exception($"El detalle de compra con id {id} no existe");
 
-                return compra;
+                return compraDetalle;
             }
         }
 

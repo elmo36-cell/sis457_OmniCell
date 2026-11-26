@@ -133,27 +133,5 @@ namespace ClnOmnicell
 
 
 
-        /*Para boton guardar en FrmUsuario
-         * 
-      
-         Usuario usuario = new Usuario();
-
-usuario.idEmpleado = Convert.ToInt32(cbxEmpleado.SelectedValue);
-usuario.idRol = Convert.ToInt32(cbxRol.SelectedValue);
-usuario.nombreUsuario = txtUsuario.Text.Trim();
-
-// Encriptar la contraseña
-usuario.clave = Util.Encrypt(txtClave.Text);
-
-// Datos de auditoría
-usuario.usuarioRegistro = "admin"; // Temporalmente
-usuario.fechaRegistro = DateTime.Now;
-usuario.estado = 1;
-
-// Registrar usuario
-UsuarioCln.crear(usuario);
-
-MessageBox.Show("Usuario registrado correctamente.");
-         */
     }
 }
