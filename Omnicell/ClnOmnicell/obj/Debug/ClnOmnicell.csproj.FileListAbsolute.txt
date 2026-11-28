@@ -43,3 +43,13 @@ D:\SIS457\sis457_Omnicell\Omnicell\ClnOmnicell\obj\Debug\ClnOmnicell.csproj.Core
 D:\SIS457\sis457_Omnicell\Omnicell\ClnOmnicell\obj\Debug\ClnOmnic.D651353A.Up2Date
 D:\SIS457\sis457_Omnicell\Omnicell\ClnOmnicell\obj\Debug\ClnOmnicell.dll
 D:\SIS457\sis457_Omnicell\Omnicell\ClnOmnicell\obj\Debug\ClnOmnicell.pdb
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\ClnOmnicell.dll.config
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\ClnOmnicell.dll
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\ClnOmnicell.pdb
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\CadOmnicell.dll
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\EntityFramework.dll
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\EntityFramework.SqlServer.dll
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\CadOmnicell.pdb
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\CadOmnicell.dll.config
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\EntityFramework.xml
+D:\SIS457\sis457_OmniCell\Omnicell\ClnOmnicell\objDebug 2\EntityFramework.SqlServer.xml

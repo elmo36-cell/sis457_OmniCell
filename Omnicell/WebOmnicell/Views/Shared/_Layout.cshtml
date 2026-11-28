@@ -61,6 +61,27 @@
                     <input type="hidden" name="calidad" value="@ViewBag.Calidad" />
                 }
 
+                <!-- Los filtros del catálogo viajan con la búsqueda para no perderlos. -->
+                @if (ViewBag.Marca != null)
+                {
+                    <input type="hidden" name="marca" value="@ViewBag.Marca" />
+                }
+
+                @if (ViewBag.Modelo != null)
+                {
+                    <input type="hidden" name="modelo" value="@ViewBag.Modelo" />
+                }
+
+                @if (ViewBag.SoloDisponibles is bool soloDisponible && soloDisponible)
+                {
+                    <input type="hidden" name="soloDisponibles" value="true" />
+                }
+
+                @if (ViewBag.Orden is string ordenBuscado && ordenBuscado.Length > 0)
+                {
+                    <input type="hidden" name="orden" value="@ordenBuscado" />
+                }
+
                 <button type="submit" class="search-button" aria-label="Buscar">
                     Buscar
                 </button>

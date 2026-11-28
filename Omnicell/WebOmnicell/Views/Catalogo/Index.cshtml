@@ -8,8 +8,24 @@
 
     // Datos que manda CatalogoController para el panel de filtros y la paginación.
     var calidades = ViewBag.Calidades as List<string> ?? new List<string>();
+    var marcas = ViewBag.Marcas as List<Marca> ?? new List<Marca>();
+    var modelos = ViewBag.Modelos as List<Modelo> ?? new List<Modelo>();
+
     string parametro = ViewBag.Parametro as string ?? string.Empty;
     string calidadActual = ViewBag.Calidad as string ?? string.Empty;
+    string marcaNombre = ViewBag.MarcaNombre as string ?? string.Empty;
+    string modeloNombre = ViewBag.ModeloNombre as string ?? string.Empty;
+
+    int? marcaActual = ViewBag.Marca as int?;
+    int? modeloActual = ViewBag.Modelo as int?;
+
+    string ordenActual = ViewBag.Orden as string ?? string.Empty;
+    bool soloDisponibles = ViewBag.SoloDisponibles as bool? ?? false;
+
+    // Orden y "solo disponibles" viajan en cada enlace para no perderse al
+    // cambiar de filtro, de página o al usar el buscador.
+    string? ordenParam = ordenActual.Length > 0 ? ordenActual : null;
+    string? disponibleParam = soloDisponibles ? "true" : null;
 
     int total = ViewBag.Total as int? ?? Model.Count;
     int conStock = ViewBag.ConStock as int? ?? 0;
@@ -19,11 +35,16 @@
     int pagina = ViewBag.Pagina as int? ?? 1;
     int totalPaginas = ViewBag.TotalPaginas as int? ?? 1;
 
-    bool hayFiltro = parametro.Length > 0 || calidadActual.Length > 0;
+    // Con una marca o un modelo elegido también hay filtro, aunque no se escriba nada.
+    bool hayFiltro = parametro.Length > 0 || calidadActual.Length > 0
+        || marcaActual.HasValue || modeloActual.HasValue || soloDisponibles;
 
-    string titulo = calidadActual.Length > 0
-        ? calidadActual
-        : (parametro.Length > 0 ? "Resultados de búsqueda" : "Todas las pantallas");
+    // El título muestra lo más específico que eligió el cliente.
+    string titulo = modeloNombre.Length > 0 ? modeloNombre
+        : marcaNombre.Length > 0 ? marcaNombre
+        : calidadActual.Length > 0 ? calidadActual
+        : parametro.Length > 0 ? "Resultados de búsqueda"
+        : "Todas las pantallas";
 }
 
 <div class="catalog-layout">
@@ -48,14 +69,16 @@
             </div>
 
             <p class="summary-note">
-                Precios en bolivianos. Toca un producto para ver sus modelos
-                compatibles y si está disponible.
+                Precios en bolivianos. Filtra por marca y modelo, o escribe el
+                celular en el buscador («iPhone 13»). Toca un producto para ver
+                sus modelos compatibles y si está disponible.
             </p>
 
         </div>
 
 
-        <div class="panel-card filters-card">
+        <!-- CALIDAD: pocos valores, así que la lista se ve completa -->
+        <div class="panel-card filters-card compacta">
 
             <h2 class="panel-title">Calidad</h2>
 
@@ -64,7 +87,11 @@
                 <a class="filter-item @(calidadActual.Length == 0 ? "active" : "")"
                    asp-controller="Catalogo"
                    asp-action="Index"
-                   asp-route-parametro="@parametro">
+                   asp-route-parametro="@parametro"
+                   asp-route-marca="@marcaActual"
+                   asp-route-modelo="@modeloActual"
+                   asp-route-orden="@ordenParam"
+                   asp-route-soloDisponibles="@disponibleParam">
                     <span>Todas</span>
                 </a>
 
@@ -74,7 +101,11 @@
                        asp-controller="Catalogo"
                        asp-action="Index"
                        asp-route-parametro="@parametro"
-                       asp-route-calidad="@calidad">
+                       asp-route-calidad="@calidad"
+                       asp-route-marca="@marcaActual"
+                       asp-route-modelo="@modeloActual"
+                       asp-route-orden="@ordenParam"
+                       asp-route-soloDisponibles="@disponibleParam">
                         <span>@calidad</span>
                     </a>
                 }
@@ -82,6 +113,83 @@
             </div>
 
         </div>
+
+
+        <!-- MARCAS: solo las que tienen pantallas compatibles registradas -->
+        <div class="panel-card filters-card marcas">
+
+            <h2 class="panel-title">Marca</h2>
+
+            <div class="filter-list">
+
+                <a class="filter-item @(marcaActual.HasValue ? "" : "active")"
+                   asp-controller="Catalogo"
+                   asp-action="Index"
+                   asp-route-parametro="@parametro"
+                   asp-route-calidad="@calidadActual"
+                   asp-route-orden="@ordenParam"
+                   asp-route-soloDisponibles="@disponibleParam">
+                    <span>Todas</span>
+                </a>
+
+                @foreach (Marca marca in marcas)
+                {
+                    <a class="filter-item @(marcaActual == marca.id ? "active" : "")"
+                       asp-controller="Catalogo"
+                       asp-action="Index"
+                       asp-route-parametro="@parametro"
+                       asp-route-calidad="@calidadActual"
+                       asp-route-marca="@marca.id"
+                       asp-route-orden="@ordenParam"
+                       asp-route-soloDisponibles="@disponibleParam">
+                        <span>@marca.nombre</span>
+                    </a>
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- MODELOS: son muchos en total, se listan al elegir la marca -->
+        @if (modelos.Count > 0)
+        {
+            <div class="panel-card filters-card modelos">
+
+                <h2 class="panel-title">Modelo</h2>
+
+                <div class="filter-list">
+
+                    <a class="filter-item @(modeloActual.HasValue ? "" : "active")"
+                       asp-controller="Catalogo"
+                       asp-action="Index"
+                       asp-route-parametro="@parametro"
+                       asp-route-calidad="@calidadActual"
+                       asp-route-marca="@marcaActual"
+                       asp-route-orden="@ordenParam"
+                       asp-route-soloDisponibles="@disponibleParam">
+                        <span>Todos</span>
+                    </a>
+
+                    @foreach (Modelo modeloFiltro in modelos)
+                    {
+                        <a class="filter-item @(modeloActual == modeloFiltro.id ? "active" : "")"
+                           asp-controller="Catalogo"
+                           asp-action="Index"
+                           asp-route-parametro="@parametro"
+                           asp-route-calidad="@calidadActual"
+                           asp-route-marca="@marcaActual"
+                           asp-route-modelo="@modeloFiltro.id"
+                           asp-route-orden="@ordenParam"
+                           asp-route-soloDisponibles="@disponibleParam">
+                            <span>@modeloFiltro.nombre</span>
+                        </a>
+                    }
+
+                </div>
+
+            </div>
+        }
 
     </aside>
 
@@ -108,15 +216,77 @@
                 </p>
             </div>
 
-            @if (hayFiltro)
-            {
-                <a class="clear-filters"
+            <!-- ORDEN Y FILTRO RÁPIDO: se mantienen al paginar y al buscar -->
+            <div class="toolbar-filters">
+
+                <span class="toolbar-label">Orden</span>
+
+                <a class="toolbar-filter @(ordenActual.Length == 0 ? "active" : "")"
                    asp-controller="Catalogo"
-                   asp-action="Index">
-                    <i class="bi bi-x-circle"></i>
-                    Limpiar filtros
+                   asp-action="Index"
+                   asp-route-parametro="@parametro"
+                   asp-route-calidad="@calidadActual"
+                   asp-route-marca="@marcaActual"
+                   asp-route-modelo="@modeloActual"
+                   asp-route-soloDisponibles="@disponibleParam"
+                   title="Orden alfabético por descripción">
+                    <i class="bi bi-sort-alpha-down"></i>
+                    Nombre
                 </a>
-            }
+
+                <a class="toolbar-filter @(ordenActual == "precio-asc" ? "active" : "")"
+                   asp-controller="Catalogo"
+                   asp-action="Index"
+                   asp-route-parametro="@parametro"
+                   asp-route-calidad="@calidadActual"
+                   asp-route-marca="@marcaActual"
+                   asp-route-modelo="@modeloActual"
+                   asp-route-soloDisponibles="@disponibleParam"
+                   asp-route-orden="precio-asc"
+                   title="Ordenar de menor a mayor precio">
+                    <i class="bi bi-sort-numeric-down"></i>
+                    Menor precio
+                </a>
+
+                <a class="toolbar-filter @(ordenActual == "precio-desc" ? "active" : "")"
+                   asp-controller="Catalogo"
+                   asp-action="Index"
+                   asp-route-parametro="@parametro"
+                   asp-route-calidad="@calidadActual"
+                   asp-route-marca="@marcaActual"
+                   asp-route-modelo="@modeloActual"
+                   asp-route-soloDisponibles="@disponibleParam"
+                   asp-route-orden="precio-desc"
+                   title="Ordenar de mayor a menor precio">
+                    <i class="bi bi-sort-numeric-up"></i>
+                    Mayor precio
+                </a>
+
+                <a class="toolbar-filter @(soloDisponibles ? "active" : "")"
+                   asp-controller="Catalogo"
+                   asp-action="Index"
+                   asp-route-parametro="@parametro"
+                   asp-route-calidad="@calidadActual"
+                   asp-route-marca="@marcaActual"
+                   asp-route-modelo="@modeloActual"
+                   asp-route-orden="@ordenParam"
+                   asp-route-soloDisponibles="@(soloDisponibles ? null : "true")"
+                   title="@(soloDisponibles ? "Ver también los productos sin stock" : "Ver solo los productos con stock") ">
+                    <i class="bi bi-check2-circle"></i>
+                    Solo disponibles
+                </a>
+
+                @if (hayFiltro)
+                {
+                    <a class="clear-filters"
+                       asp-controller="Catalogo"
+                       asp-action="Index">
+                        <i class="bi bi-x-circle"></i>
+                        Limpiar filtros
+                    </a>
+                }
+
+            </div>
 
         </div>
 
@@ -129,6 +299,11 @@
                     <i class="bi bi-search"></i>
                     <h2>Sin resultados</h2>
                     <p>No hay pantallas que coincidan con la búsqueda.</p>
+
+                    @if (marcaNombre.Length > 0 || modeloNombre.Length > 0)
+                    {
+                        <p>Probá con otra marca o modelo, o mirá todo el catálogo.</p>
+                    }
 
                     <a class="btn-primary"
                        asp-controller="Catalogo"
@@ -242,6 +417,10 @@
                    asp-action="Index"
                    asp-route-parametro="@parametro"
                    asp-route-calidad="@calidadActual"
+                   asp-route-marca="@marcaActual"
+                   asp-route-modelo="@modeloActual"
+                   asp-route-orden="@ordenParam"
+                   asp-route-soloDisponibles="@disponibleParam"
                    asp-route-pagina="@(pagina - 1)">
                     <i class="bi bi-chevron-left"></i>
                     Anterior
@@ -264,6 +443,10 @@
                    asp-action="Index"
                    asp-route-parametro="@parametro"
                    asp-route-calidad="@calidadActual"
+                   asp-route-marca="@marcaActual"
+                   asp-route-modelo="@modeloActual"
+                   asp-route-orden="@ordenParam"
+                   asp-route-soloDisponibles="@disponibleParam"
                    asp-route-pagina="@(pagina + 1)">
                     Siguiente
                     <i class="bi bi-chevron-right"></i>

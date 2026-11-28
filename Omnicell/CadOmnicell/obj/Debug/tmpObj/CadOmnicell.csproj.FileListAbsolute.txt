@@ -1,0 +1,12 @@
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpBuild\CadOmnicell.dll.config
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpBuild\CadOmnicell.dll
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpBuild\CadOmnicell.pdb
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpBuild\EntityFramework.dll
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpBuild\EntityFramework.SqlServer.dll
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpBuild\EntityFramework.xml
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpBuild\EntityFramework.SqlServer.xml
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpObj\CadOmnicell.csproj.AssemblyReference.cache
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpObj\CadOmnicell.csproj.CoreCompileInputs.cache
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpObj\CadOmnic.169F8D2B.Up2Date
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpObj\CadOmnicell.dll
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\obj\Debug\tmpObj\CadOmnicell.pdb

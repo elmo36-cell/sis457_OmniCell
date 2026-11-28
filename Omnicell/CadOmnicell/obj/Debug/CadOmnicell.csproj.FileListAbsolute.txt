@@ -34,3 +34,10 @@ D:\SIS457\sis457_Omnicell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.csproj.Core
 D:\SIS457\sis457_Omnicell\Omnicell\CadOmnicell\obj\Debug\CadOmnic.169F8D2B.Up2Date
 D:\SIS457\sis457_Omnicell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.dll
 D:\SIS457\sis457_Omnicell\Omnicell\CadOmnicell\obj\Debug\CadOmnicell.pdb
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\objDebug 2\CadOmnicell.dll.config
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\objDebug 2\CadOmnicell.dll
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\objDebug 2\CadOmnicell.pdb
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\objDebug 2\EntityFramework.dll
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\objDebug 2\EntityFramework.SqlServer.dll
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\objDebug 2\EntityFramework.xml
+D:\SIS457\sis457_OmniCell\Omnicell\CadOmnicell\objDebug 2\EntityFramework.SqlServer.xml

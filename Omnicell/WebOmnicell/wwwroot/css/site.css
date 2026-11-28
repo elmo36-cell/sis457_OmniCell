@@ -253,6 +253,8 @@ input {
     min-height: 0;
     display: grid;
     grid-template-columns: 240px minmax(0, 1fr);
+    /* La fila no crece con el contenido: los filtros scrollean por dentro. */
+    grid-template-rows: minmax(0, 1fr);
     gap: 14px;
     padding: 14px 18px;
 }
@@ -336,6 +338,40 @@ input {
     min-height: 0;
     display: flex;
     flex-direction: column;
+}
+
+/* Calidad tiene pocos valores: dos columnas que no le quitan alto a las demás. */
+.filters-card.compacta {
+    flex: 0 0 auto;
+}
+
+.filters-card.compacta .filter-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    overflow: visible;
+}
+
+.filters-card.compacta .filter-item {
+    padding: 7px 9px;
+    font-size: 12px;
+}
+
+/* Marca y modelo traen muchas opciones: cada lista scrollea por su lado. */
+.filters-card.marcas {
+    flex: 1;
+}
+
+.filters-card.modelos {
+    flex: 1.2;
+}
+
+/* En pantallas bajas el resumen cede su alto a las listas de filtros. */
+@media (max-height: 860px) {
+
+    .summary-note {
+        display: none;
+    }
 }
 
 .panel-title {
@@ -428,6 +464,52 @@ input {
     font-weight: 600;
     white-space: nowrap;
 }
+
+/* Orden y "solo disponibles": píldoras a la derecha de la barra. */
+.catalog-toolbar .toolbar-text {
+    min-width: 0;
+}
+
+.toolbar-filters {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+.toolbar-label {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.toolbar-filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 11px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--dark-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+    .toolbar-filter:hover {
+        border-color: #bfdbfe;
+        color: var(--primary);
+    }
+
+    .toolbar-filter.active {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: var(--primary-dark);
+    }
 
     .clear-filters:hover {
         border-color: var(--primary);
@@ -725,6 +807,38 @@ input {
         flex-direction: row;
         align-items: center;
         padding: 8px;
+    }
+
+    /* Con tres listas los filtros no entran en un celular: la tira se desliza. */
+    .filters-card.compacta,
+    .filters-card.marcas,
+    .filters-card.modelos {
+        flex: 0 0 auto;
+        width: 46%;
+        min-width: 0;
+    }
+
+    .filters-card.compacta .filter-list {
+        display: flex;
+        flex-direction: row;
+        gap: 6px;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .catalog-toolbar {
+        flex-wrap: wrap;
+        min-height: 0;
+        row-gap: 8px;
+    }
+
+    .toolbar-filters {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .toolbar-label {
+        display: none;
     }
 
     .panel-title {

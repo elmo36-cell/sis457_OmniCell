@@ -258,23 +258,7 @@ CREATE PROC paProveedorListar @parametro VARCHAR(50) AS
   ORDER BY razonSocial;
 GO
 
-DROP PROC IF EXISTS paSucursalListar;
-GO
-CREATE PROC paSucursalListar @parametro VARCHAR(50) AS
-  SELECT nombre, ciudad, direccion, telefono
-  FROM Sucursal
-  WHERE estado = 1 AND (nombre + ciudad LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
-  ORDER BY nombre;
-GO
 
-DROP PROC IF EXISTS paMarcaListar;
-GO
-CREATE PROC paMarcaListar @parametro VARCHAR(50) AS
-  SELECT nombre, usuarioRegistro, fechaRegistro, estado
-  FROM Marca
-  WHERE estado = 1 AND (nombre LIKE '%' + REPLACE(@parametro, ' ', '%') + '%')
-  ORDER BY nombre;
-GO
 
 DROP PROC IF EXISTS dbo.paVentaListar;
 GO
@@ -312,40 +296,8 @@ CREATE PROC paCompraListar @parametro VARCHAR(50) AS BEGIN
 END;
 GO
 
-DROP PROC IF EXISTS paInventarioListar;
-GO
-CREATE PROC paInventarioListar @parametro VARCHAR(50) AS BEGIN
-  SELECT i.id, s.nombre AS sucursal, p.sku, p.descripcion, p.calidad, p.tecnologia, i.stockActual, i.stockMinimo, p.precioVenta
-    FROM Inventario i
-    INNER JOIN Sucursal s ON i.idSucursal = s.id
-    INNER JOIN Pantalla p ON i.idPantalla = p.id
-    WHERE i.estado = 1 AND CONCAT( s.nombre, ' ', p.sku, ' ', p.descripcion, ' ', p.calidad, ' ', p.tecnologia ) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
-    ORDER BY s.nombre, p.descripcion;
-END;
-GO
 
-DROP PROC IF EXISTS paInventarioStockBajo;
-GO
-CREATE PROC paInventarioStockBajo AS BEGIN
-  SELECT i.id, s.nombre AS sucursal, p.sku, p.descripcion, p.calidad, i.stockActual, i.stockMinimo
-    FROM Inventario i
-    INNER JOIN Sucursal s ON i.idSucursal = s.id
-    INNER JOIN Pantalla p ON i.idPantalla = p.id
-    WHERE i.estado = 1 AND i.stockActual <= i.stockMinimo
-    ORDER BY i.stockActual ASC;
-END;
-GO
 
-DROP PROC IF EXISTS paModeloListar;
-GO
-CREATE PROC paModeloListar @parametro VARCHAR(50) AS BEGIN
-  SELECT m.id, ma.nombre AS marca, m.nombre AS modelo
-    FROM Modelo m
-    INNER JOIN Marca ma ON m.idMarca = ma.id
-    WHERE m.estado = 1 AND CONCAT(ma.nombre, ' ', m.nombre) LIKE '%' + REPLACE(@parametro, ' ', '%') + '%'
-    ORDER BY ma.nombre, m.nombre;
-END;
-GO
 
 DROP PROC IF EXISTS paPantallaListarPorSucursal;
 GO

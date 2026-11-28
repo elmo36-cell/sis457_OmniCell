@@ -61,7 +61,6 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="idSucursal" Type="int" Nullable="false" />
     <Property Name="nombres" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="primerApellido" Type="varchar" MaxLength="30" Nullable="false" />
     <Property Name="segundoApellido" Type="varchar" MaxLength="30" />
@@ -72,6 +71,7 @@
     <Property Name="usuarioRegistro" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="fechaRegistro" Type="datetime" Nullable="false" />
     <Property Name="estado" Type="smallint" Nullable="false" />
+    <Property Name="idSucursal" Type="int" />
   </EntityType>
   <EntityType Name="Inventario">
     <Key>
@@ -275,7 +275,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_Empleado_Sucursal">
-    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="1" />
+    <End Role="Sucursal" Type="Self.Sucursal" Multiplicity="0..1" />
     <End Role="Empleado" Type="Self.Empleado" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Sucursal">
@@ -415,16 +415,6 @@
   <Function Name="paEmpleadoListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="parametro" Type="varchar" Mode="In" />
   </Function>
-  <Function Name="paInventarioListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="parametro" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="paInventarioStockBajo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-  <Function Name="paMarcaListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="parametro" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="paModeloListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="parametro" Type="varchar" Mode="In" />
-  </Function>
   <Function Name="paPantallaListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="parametro" Type="varchar" Mode="In" />
   </Function>
@@ -433,9 +423,6 @@
     <Parameter Name="parametro" Type="varchar" Mode="In" />
   </Function>
   <Function Name="paProveedorListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="parametro" Type="varchar" Mode="In" />
-  </Function>
-  <Function Name="paSucursalListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="parametro" Type="varchar" Mode="In" />
   </Function>
   <Function Name="paUsuarioListar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
