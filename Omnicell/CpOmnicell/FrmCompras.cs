@@ -3,18 +3,20 @@ using ClnOmnicell;
 using CpMinerva;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmCompras : Form
+    public partial class FrmCompras : FormOmnicell
     {
+        // Rangos de los controles numéricos del formulario.
+        private const decimal CantidadMaxima = 10000M;
+        private const decimal CostoMaximo = 1000000M;
+        private const decimal TotalMaximo = 10000000M;
+        private const decimal CantidadMinima = 1M;
+        private const decimal MontoCero = 0M;
+
         private List<Proveedor> listaProveedores;
         private List<Pantalla> listaPantallas;
         private List<Modelo> modelosPantallaActual = new List<Modelo>();
@@ -29,13 +31,9 @@ namespace CpOmnicell
         {
             try
             {
-                nudPrecioCompra.DecimalPlaces = 2;
-                nudPrecioCompra.Maximum = 1000000;
-                nudTotalCompra.DecimalPlaces = 2;
-                nudTotalCompra.Maximum = 10000000;
-                nudCantidad.Maximum = 10000;
+                configurarMontos();
 
-                // Enlazar eventos para que el total se actualice en tiempo real
+                // El total se actualiza en tiempo real al cargar el producto.
                 nudCantidad.ValueChanged += (s, ev) => actualizarTotalCompra();
                 nudPrecioCompra.ValueChanged += (s, ev) => actualizarTotalCompra();
 
@@ -53,14 +51,21 @@ namespace CpOmnicell
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al cargar compras",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.Message, "Error al cargar compras");
             }
         }
+
+        private void configurarMontos()
+        {
+            nudPrecioCompra.DecimalPlaces = 2;
+            nudPrecioCompra.Maximum = CostoMaximo;
+
+            nudTotalCompra.DecimalPlaces = 2;
+            nudTotalCompra.Maximum = TotalMaximo;
+
+            nudCantidad.Maximum = CantidadMaxima;
+        }
+
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
@@ -72,119 +77,100 @@ namespace CpOmnicell
                 Compra compra = new Compra
                 {
                     idProveedor = Convert.ToInt32(cbxProveedor.SelectedValue),
-                    idEmpleado = Util.usuario.idEmpleado,
-                    fechaCompra = DateTime.Today,
+                    idEmpleado = SesionCln.IdEmpleado,
+                    fechaCompra = dtpFechaCompra.Value,
                     factura = txtFactura.Text.Trim(),
                     costoTotal = nudTotalCompra.Value,
-                    usuarioRegistro = Util.usuario.nombreUsuario
+                    usuarioRegistro = SesionCln.NombreUsuario
                 };
 
-                // Preparar detalles desde el DataGridView
-                List<CompraDetalle> detalles = new List<CompraDetalle>();
-
-                foreach (DataGridViewRow fila in dgvListarProductos.Rows)
-                {
-                    CompraDetalle detalle = new CompraDetalle
-                    {
-                        idPantalla = Convert.ToInt32(
-                            fila.Cells["colIdPantalla"].Value),
-
-                        cantidad = Convert.ToDecimal(
-                            fila.Cells["colCantidad"].Value),
-
-                        costoUnitario = Convert.ToDecimal(
-                            fila.Cells["colPrecio"].Value),
-
-                        subtotal = Convert.ToDecimal(
-                            fila.Cells["colSubtotal"].Value),
-
-                        usuarioRegistro = Util.usuario.nombreUsuario
-                    };
-
-                    detalles.Add(detalle);
-                }
+                // Preparar detalles desde la grilla del carrito.
+                List<CompraDetalle> detalles =
+                    CarritoOmnicell.LeerDetallesCompra(dgvListarProductos);
 
                 // Registrar compra e incrementar inventario
-                int idCompra = CompraCln.registrarCompra(
-                    compra,
-                    detalles,
-                    idSucursalSesion
-                );
+                int idCompra = CompraCln.registrarCompra(compra, detalles, idSucursalSesion);
 
-                MessageBox.Show(
+                Util.Informar(
                     "Compra registrada correctamente. N.º de compra: " + idCompra,
-                    "Compra registrada",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
+                    "Compra registrada"
                 );
 
-                // Limpiar formulario
-                dgvListarProductos.Rows.Clear();
-                txtFactura.Clear();
-
-                cbxProveedor.SelectedIndex = -1;
-                cbxPantalla.SelectedIndex = -1;
-                cbxTipoPago.SelectedIndex = -1;
-                limpiarDatosPantalla();
-                actualizarTotalCompra();
-
+                limpiarCompra();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al registrar compra",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.Message, "Error al registrar compra");
             }
         }
+
+        // Deja el formulario listo para registrar otra compra.
+        private void limpiarCompra()
+        {
+            dgvListarProductos.Rows.Clear();
+            txtFactura.Clear();
+
+            cbxProveedor.SelectedIndex = -1;
+            cbxPantalla.SelectedIndex = -1;
+            cbxTipoPago.SelectedIndex = -1;
+
+            limpiarDatosPantalla();
+
+            dtpFechaCompra.Value = DateTime.Now;
+            actualizarTotalCompra();
+        }
+
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             Close();
         }
+
         private bool validarCompra()
         {
             if (cbxProveedor.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione un proveedor.");
+                Util.Avisar("Seleccione un proveedor.");
                 cbxProveedor.Focus();
                 return false;
             }
 
             if (dgvListarProductos.Rows.Count == 0)
             {
-                MessageBox.Show("Agregue al menos un producto a la compra.");
+                Util.Avisar("Agregue al menos un producto a la compra.");
                 cbxPantalla.Focus();
                 return false;
             }
 
             if (cbxTipoPago.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione un tipo de pago.");
+                Util.Avisar("Seleccione un tipo de pago.");
                 cbxTipoPago.Focus();
                 return false;
             }
 
-            if (nudTotalCompra.Value <= 0)
+            if (nudTotalCompra.Value <= MontoCero)
             {
-                MessageBox.Show("El total de la compra debe ser mayor a cero.");
+                Util.Avisar("El total de la compra debe ser mayor a cero.");
                 return false;
             }
+
             return true;
         }
-
 
         //Seccion Proveedores
         private void btnNuevoProveedor_Click(object sender, EventArgs e)
         {
-            FrmProveedores frmProveedores = new FrmProveedores();
-            frmProveedores.ShowDialog();
+            using (FrmProveedores formulario = new FrmProveedores())
+            {
+                formulario.ShowDialog();
+            }
+
             cargarProveedores();
         }
+
         private void cargarProveedores()
         {
-            listaProveedores = ProveedorCln.listar();
+            listaProveedores = ProveedorCln.listar() ?? new List<Proveedor>();
 
             cbxProveedor.DataSource = null;
             cbxProveedor.DisplayMember = "razonSocial";
@@ -192,6 +178,7 @@ namespace CpOmnicell
             cbxProveedor.DataSource = listaProveedores;
             cbxProveedor.SelectedIndex = -1;
         }
+
         private void cbxProveedor_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbxProveedor.SelectedItem is Proveedor proveedor)
@@ -213,46 +200,36 @@ namespace CpOmnicell
         {
             try
             {
-                if (Util.usuario == null)
-                    throw new Exception("No existe un usuario autenticado.");
-
-                int idEmpleado = Util.usuario.idEmpleado;
-
-                Empleado empleado = EmpleadoCln.obtenerConSucursal(idEmpleado);
-
-                if (!empleado.idSucursal.HasValue)
-                    throw new Exception("El empleado no tiene una sucursal asignada.");
+                Empleado empleado = SesionCln.empleadoConSucursal();
 
                 idSucursalSesion = empleado.idSucursal.Value;
 
-                txtEmpleado.Text = empleado.nombres + " " + empleado.primerApellido;
+                txtEmpleado.Text = empleado.NombreCompleto();
                 txtSucursal.Text = empleado.Sucursal.nombre;
                 dtpFechaCompra.Value = DateTime.Today;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al cargar empleado",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.Message, "Error al cargar empleado");
             }
         }
 
         //Seccion Producto(Pantallas)
         private void cargarPantallas()
         {
-            listaPantallas = PantallaCln.listar();
+            listaPantallas = PantallaCln.listar() ?? new List<Pantalla>();
 
             cbxPantalla.SelectedIndexChanged -= cbxPantalla_SelectedIndexChanged;
+
             cbxPantalla.DataSource = null;
             cbxPantalla.DisplayMember = "sku";
             cbxPantalla.ValueMember = "id";
             cbxPantalla.DataSource = listaPantallas;
             cbxPantalla.SelectedIndex = -1;
+
             cbxPantalla.SelectedIndexChanged += cbxPantalla_SelectedIndexChanged;
         }
+
         private void cbxPantalla_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -263,8 +240,7 @@ namespace CpOmnicell
                     return;
                 }
 
-                int idPantalla = pantallaSeleccionada.id;
-                Pantalla pantalla = PantallaCln.obtenerConCompatibilidad(idPantalla);
+                Pantalla pantalla = PantallaCln.obtenerConCompatibilidad(pantallaSeleccionada.id);
 
                 if (pantalla == null)
                     throw new Exception("No se encontró la pantalla seleccionada.");
@@ -273,57 +249,54 @@ namespace CpOmnicell
                 txtCalidad.Text = pantalla.calidad;
                 txtTecnologia.Text = pantalla.tecnologia;
 
-                decimal stock = InventarioCln.obtenerStock(idSucursalSesion, idPantalla);
-                txtStock.Text = stock.ToString("N2");
+                decimal stock = InventarioCln.obtenerStock(idSucursalSesion, pantalla.id);
+                txtStock.Text = stock.ToString(Formatos.Monto);
 
-                // Cargar modelos compatibles en memoria
-                modelosPantallaActual = pantalla.Compatibilidad
-                    .Where(c => c.estado == 1 && c.Modelo != null && c.Modelo.estado == 1)
-                    .Select(c => c.Modelo)
-                    .GroupBy(m => m.id)
-                    .Select(g => g.First())
-                    .OrderBy(m => m.nombre)
-                    .ToList();
+                // Marcas y modelos compatibles de la pantalla seleccionada.
+                CatalogoCompatibilidad catalogo = CompatibilidadCln.obtenerCatalogo(pantalla);
+                modelosPantallaActual = catalogo.Modelos;
 
-                // Obtener marcas únicas
-                var marcas = modelosPantallaActual
-                    .Where(m => m.Marca != null && m.Marca.estado == 1)
-                    .Select(m => m.Marca)
-                    .GroupBy(ma => ma.id)
-                    .Select(g => g.First())
-                    .OrderBy(ma => ma.nombre)
-                    .ToList();
+                cargarMarcas(catalogo.Marcas);
+                limpiarModelos();
 
-                // Desconectar evento mientras se llena cbxMarca
-                cbxMarca.SelectedIndexChanged -= cbxMarca_SelectedIndexChanged;
-                cbxMarca.DataSource = null;
-                cbxMarca.DisplayMember = "nombre";
-                cbxMarca.ValueMember = "id";
-                cbxMarca.DataSource = marcas;
-                cbxMarca.SelectedIndex = -1;
-                cbxMarca.Enabled = marcas.Count > 0;
-                cbxMarca.SelectedIndexChanged += cbxMarca_SelectedIndexChanged;
-
-                // Limpiar modelos hasta elegir marca
-                cbxModelo.SelectedIndexChanged -= cbxModelo_SelectedIndexChanged;
-                cbxModelo.DataSource = null;
-                cbxModelo.Items.Clear();
-                cbxModelo.Enabled = false;
-                cbxModelo.SelectedIndexChanged += cbxModelo_SelectedIndexChanged;
-
-                // Si solo hay 1 marca, seleccionarla automáticamente
-                if (marcas.Count == 1)
-                {
+                // La pantalla ya está registrada con su marca y modelo, así que se
+                // rellenan solos; el usuario puede cambiarlos si hay más de uno.
+                if (catalogo.Marcas.Count > 0)
                     cbxMarca.SelectedIndex = 0;
-                }
 
                 actualizarTotalCompra();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error al seleccionar pantalla", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.MostrarError(ex.Message, "Error al seleccionar pantalla");
             }
         }
+
+        private void cargarMarcas(List<Marca> marcas)
+        {
+            cbxMarca.SelectedIndexChanged -= cbxMarca_SelectedIndexChanged;
+
+            cbxMarca.DataSource = null;
+            cbxMarca.DisplayMember = "nombre";
+            cbxMarca.ValueMember = "id";
+            cbxMarca.DataSource = marcas;
+            cbxMarca.SelectedIndex = -1;
+            cbxMarca.Enabled = marcas.Count > 0;
+
+            cbxMarca.SelectedIndexChanged += cbxMarca_SelectedIndexChanged;
+        }
+
+        private void limpiarModelos()
+        {
+            cbxModelo.SelectedIndexChanged -= cbxModelo_SelectedIndexChanged;
+
+            cbxModelo.DataSource = null;
+            cbxModelo.Items.Clear();
+            cbxModelo.Enabled = false;
+
+            cbxModelo.SelectedIndexChanged += cbxModelo_SelectedIndexChanged;
+        }
+
         private void limpiarDatosPantalla()
         {
             modelosPantallaActual.Clear();
@@ -334,109 +307,63 @@ namespace CpOmnicell
             cbxMarca.Enabled = false;
             cbxMarca.SelectedIndexChanged += cbxMarca_SelectedIndexChanged;
 
-            cbxModelo.SelectedIndexChanged -= cbxModelo_SelectedIndexChanged;
-            cbxModelo.DataSource = null;
-            cbxModelo.Items.Clear();
-            cbxModelo.Enabled = false;
-            cbxModelo.SelectedIndexChanged += cbxModelo_SelectedIndexChanged;
+            limpiarModelos();
 
             txtCalidad.Clear();
             txtTecnologia.Clear();
             txtStock.Clear();
+
             nudCantidad.Value = 0;
             nudPrecioCompra.Value = 0;
+
             actualizarTotalCompra();
         }
+
         private void cbxModelo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            /*if (cbxModelo.SelectedItem is Modelo modelo)
-            {
-                cbxMarca.SelectedValue = modelo.idMarca;
-            }
-            else
-            {
-                cbxMarca.SelectedIndex = -1;
-            }*/
+            // La marca ya se elige primero; el modelo solo se muestra.
         }
+
         private void configurarDgvProductos()
         {
-            dgvListarProductos.DataSource = null;
-            dgvListarProductos.Rows.Clear();
-            dgvListarProductos.Columns.Clear();
-
-            dgvListarProductos.AutoGenerateColumns = false;
-            dgvListarProductos.AllowUserToAddRows = false;
-            dgvListarProductos.ReadOnly = true;
-            dgvListarProductos.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-            dgvListarProductos.MultiSelect = false;
-            dgvListarProductos.RowHeadersVisible = false;
-            dgvListarProductos.AutoSizeColumnsMode =
-                DataGridViewAutoSizeColumnsMode.Fill;
-
-            dgvListarProductos.Columns.Add("colNumero", "N.º");
-            dgvListarProductos.Columns["colNumero"].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            dgvListarProductos.Columns["colNumero"].Width = 35;
-            dgvListarProductos.Columns["colNumero"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
-            dgvListarProductos.Columns.Add("colIdPantalla", "ID Pantalla");
-            dgvListarProductos.Columns["colIdPantalla"].Visible = false;
-
-            dgvListarProductos.Columns.Add("colIdModelo", "ID Modelo");
-            dgvListarProductos.Columns["colIdModelo"].Visible = false;
-
-            dgvListarProductos.Columns.Add("colSku", "SKU");
-            dgvListarProductos.Columns.Add("colDescripcion", "Descripción");
-            dgvListarProductos.Columns.Add("colMarca", "Marca");
-            dgvListarProductos.Columns.Add("colModelo", "Modelo");
-            dgvListarProductos.Columns.Add("colCalidad", "Calidad");
-            dgvListarProductos.Columns.Add("colCantidad", "Cantidad");
-            dgvListarProductos.Columns.Add("colPrecio", "Costo unitario");
-            dgvListarProductos.Columns.Add("colSubtotal", "Subtotal");
-
-            dgvListarProductos.Columns["colPrecio"].DefaultCellStyle.Format = "N2";
-            dgvListarProductos.Columns["colSubtotal"].DefaultCellStyle.Format = "N2";
+            CarritoOmnicell.Configurar(dgvListarProductos, TipoCarrito.Compra);
         }
+
         private void btnAñadirProducto_Click(object sender, EventArgs e)
         {
             try
             {
-                // Validar pantalla.
                 if (cbxPantalla.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Seleccione una pantalla.");
+                    Util.Avisar("Seleccione una pantalla.");
                     cbxPantalla.Focus();
                     return;
                 }
 
-                // Validar marca.
                 if (cbxMarca.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Seleccione una marca.");
+                    Util.Avisar("Seleccione una marca.");
                     cbxMarca.Focus();
                     return;
                 }
 
-                // Validar modelo.
                 if (cbxModelo.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Seleccione un modelo compatible.");
+                    Util.Avisar("Seleccione un modelo compatible.");
                     cbxModelo.Focus();
                     return;
                 }
 
-                // Validar cantidad.
-                if (nudCantidad.Value <= 0)
+                if (nudCantidad.Value < CantidadMinima)
                 {
-                    MessageBox.Show("Ingrese una cantidad válida.");
+                    Util.Avisar("Ingrese una cantidad válida.");
                     nudCantidad.Focus();
                     return;
                 }
 
-                // Validar costo de compra.
-                if (nudPrecioCompra.Value <= 0)
+                if (nudPrecioCompra.Value <= MontoCero)
                 {
-                    MessageBox.Show("Ingrese un costo de compra válido.");
+                    Util.Avisar("Ingrese un costo de compra válido.");
                     nudPrecioCompra.Focus();
                     return;
                 }
@@ -444,9 +371,7 @@ namespace CpOmnicell
                 int idPantalla = Convert.ToInt32(cbxPantalla.SelectedValue);
                 int idModelo = Convert.ToInt32(cbxModelo.SelectedValue);
 
-                var pantalla = listaPantallas.FirstOrDefault(
-                    x => x.id == idPantalla
-                );
+                var pantalla = listaPantallas.FirstOrDefault(x => x.id == idPantalla);
 
                 if (pantalla == null)
                     throw new Exception("No se encontró la pantalla seleccionada.");
@@ -454,83 +379,57 @@ namespace CpOmnicell
                 decimal cantidad = nudCantidad.Value;
                 decimal precio = nudPrecioCompra.Value;
 
-                // Buscar si el producto ya está agregado.
-                foreach (DataGridViewRow fila in dgvListarProductos.Rows)
+                DataGridViewRow fila = CarritoOmnicell.Buscar(dgvListarProductos, idPantalla, idModelo);
+
+                if (fila != null)
                 {
-                    if (Convert.ToInt32(fila.Cells["colIdPantalla"].Value) == idPantalla &&
-                        Convert.ToInt32(fila.Cells["colIdModelo"].Value) == idModelo)
-                    {
-                        decimal cantidadActual =
-                            Convert.ToDecimal(fila.Cells["colCantidad"].Value);
+                    // Acumular cantidades y actualizar el costo del producto repetido.
+                    decimal nuevaCantidad = CarritoOmnicell.Cantidad(fila) + cantidad;
+                    CarritoOmnicell.Actualizar(fila, nuevaCantidad, precio);
 
-                        decimal nuevaCantidad = cantidadActual + cantidad;
+                    nudCantidad.Value = CantidadMinima;
+                    nudPrecioCompra.Value = MontoCero;
+                    actualizarTotalCompra();
 
-                        // Acumular cantidades.
-                        fila.Cells["colCantidad"].Value = nuevaCantidad;
-
-                        // Actualizar costo y subtotal.
-                        fila.Cells["colPrecio"].Value = precio;
-                        fila.Cells["colSubtotal"].Value = nuevaCantidad * precio;
-
-                        nudCantidad.Value = 1;
-                        nudPrecioCompra.Value = 0;
-                        actualizarTotalCompra();
-
-                        MessageBox.Show("Cantidad del producto actualizada.");
-                        return;
-                    }
+                    Util.Informar("Cantidad del producto actualizada.");
+                    return;
                 }
 
-                // Agregar nuevo producto.
-                int numero = dgvListarProductos.Rows.Count + 1;
-
-                dgvListarProductos.Rows.Add(
-                    numero,
-                    pantalla.id,
-                    idModelo,
-                    pantalla.sku,
-                    pantalla.descripcion,
-                    cbxMarca.Text,
-                    cbxModelo.Text,
-                    pantalla.calidad,
-                    cantidad,
-                    precio,
-                    cantidad * precio
-                );
+                CarritoOmnicell.Agregar(dgvListarProductos, new LineaCarrito
+                {
+                    IdPantalla = pantalla.id,
+                    IdModelo = idModelo,
+                    Sku = pantalla.sku,
+                    Descripcion = pantalla.descripcion,
+                    Marca = cbxMarca.Text,
+                    Modelo = cbxModelo.Text,
+                    Calidad = pantalla.calidad,
+                    Cantidad = cantidad,
+                    Precio = precio
+                });
 
                 // Limpiar campos de ingreso.
-                nudCantidad.Value = 1;
-                nudPrecioCompra.Value = 0;
+                nudCantidad.Value = CantidadMinima;
+                nudPrecioCompra.Value = MontoCero;
                 actualizarTotalCompra();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al agregar producto",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.Message, "Error al agregar producto");
             }
         }
+
         private void btnCancelarProducto_Click(object sender, EventArgs e)
         {
-            if (dgvListarProductos.SelectedRows.Count == 0)
+            if (dgvListarProductos.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione un producto de la lista.");
+                Util.Avisar("Seleccione un producto de la lista.");
                 return;
             }
 
-            dgvListarProductos.Rows.Remove(
-                dgvListarProductos.SelectedRows[0]
-            );
+            dgvListarProductos.Rows.Remove(dgvListarProductos.CurrentRow);
 
-            // Actualizar numeración.
-            for (int i = 0; i < dgvListarProductos.Rows.Count; i++)
-            {
-                dgvListarProductos.Rows[i].Cells["colNumero"].Value = i + 1;
-            }
-
+            CarritoOmnicell.Renumerar(dgvListarProductos);
             actualizarTotalCompra();
         }
 
@@ -539,9 +438,11 @@ namespace CpOmnicell
         {
             configurarComboBuscador(cbxProveedor);
             configurarComboBuscador(cbxPantalla);
+
             cbxMarca.DropDownStyle = ComboBoxStyle.DropDownList;
             cbxModelo.DropDownStyle = ComboBoxStyle.DropDownList;
         }
+
         private void configurarComboBuscador(ComboBox combo)
         {
             combo.DropDownStyle = ComboBoxStyle.DropDown;
@@ -553,24 +454,17 @@ namespace CpOmnicell
         private void configurarTipoPago()
         {
             cbxTipoPago.Items.Clear();
-
-            cbxTipoPago.Items.Add("Efectivo");
-            cbxTipoPago.Items.Add("QR");
-            cbxTipoPago.Items.Add("Transferencia");
+            cbxTipoPago.Items.AddRange(TipoPagoCln.listar().ToArray());
 
             cbxTipoPago.SelectedIndex = -1;
         }
+
         private void actualizarTotalCompra()
         {
-            decimal totalTabla = 0;
-
-            foreach (DataGridViewRow fila in dgvListarProductos.Rows)
-            {
-                totalTabla += Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
-            }
-
+            // BUG: la vista previa (cantidad × costo de lo que aún no se agregó) entra en el
+            // total, y ese total es el costoTotal que se guarda; no suma igual que los detalles.
             decimal vistaPreviaActual = nudCantidad.Value * nudPrecioCompra.Value;
-            decimal totalGeneral = totalTabla + vistaPreviaActual;
+            decimal totalGeneral = CarritoOmnicell.Total(dgvListarProductos) + vistaPreviaActual;
 
             nudTotalCompra.Value = Math.Min(totalGeneral, nudTotalCompra.Maximum);
         }
@@ -579,35 +473,25 @@ namespace CpOmnicell
         {
             try
             {
-                cbxModelo.SelectedIndexChanged -= cbxModelo_SelectedIndexChanged;
-                cbxModelo.DataSource = null;
-                cbxModelo.Items.Clear();
-                cbxModelo.Enabled = false;
+                limpiarModelos();
 
-                if (cbxMarca.SelectedItem is Marca marcaSeleccionada)
-                {
-                    var modelosFiltrados = modelosPantallaActual
-                        .Where(m => m.idMarca == marcaSeleccionada.id)
-                        .OrderBy(m => m.nombre)
-                        .ToList();
+                if (!(cbxMarca.SelectedItem is Marca marcaSeleccionada))
+                    return;
 
-                    cbxModelo.DisplayMember = "nombre";
-                    cbxModelo.ValueMember = "id";
-                    cbxModelo.DataSource = modelosFiltrados;
-                    cbxModelo.SelectedIndex = -1;
-                    cbxModelo.Enabled = modelosFiltrados.Count > 0;
+                List<Modelo> modelosFiltrados = modelosPantallaActual
+                    .Where(modelo => modelo.idMarca == marcaSeleccionada.id)
+                    .OrderBy(modelo => modelo.nombre)
+                    .ToList();
 
-                    if (modelosFiltrados.Count == 1)
-                    {
-                        cbxModelo.SelectedIndex = 0;
-                    }
-                }
-
-                cbxModelo.SelectedIndexChanged += cbxModelo_SelectedIndexChanged;
+                cbxModelo.DisplayMember = "nombre";
+                cbxModelo.ValueMember = "id";
+                cbxModelo.DataSource = modelosFiltrados;
+                cbxModelo.SelectedIndex = modelosFiltrados.Count > 0 ? 0 : -1;
+                cbxModelo.Enabled = modelosFiltrados.Count > 0;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error al seleccionar marca", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.MostrarError(ex.Message, "Error al seleccionar marca");
             }
         }
     }

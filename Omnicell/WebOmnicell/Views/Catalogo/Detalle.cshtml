@@ -4,7 +4,7 @@
     ViewData["Title"] = Model.Pantalla.descripcion;
     ViewData["BodyClass"] = "app-shell";
 
-    bool disponible = Model.Pantalla.stockTotal > 0;
+    bool disponible = Model.Disponible;
 }
 
 <div class="detail-layout">
@@ -80,7 +80,7 @@
 
                 <span class="availability @(disponible ? "ok" : "out")">
                     <i class="bi @(disponible ? "bi-check-circle" : "bi-x-circle")"></i>
-                    @(disponible ? $"Disponible ({Model.Pantalla.stockTotal:N0} u.)" : "Sin stock")
+                    @(disponible ? "Disponible" : "Sin stock")
                 </span>
 
             </div>
@@ -111,7 +111,37 @@
             </div>
 
             <div class="detail-actions">
-                <a class="btn-primary"
+
+                <!-- Agregar al carrito: la cantidad queda en la sesión -->
+                <form method="post"
+                      asp-controller="Carrito"
+                      asp-action="Agregar"
+                      class="detail-add">
+
+                    <input type="hidden" name="id" value="@Model.Pantalla.id" />
+                    <input type="hidden" name="volver"
+                           value="@(Context.Request.Path + Context.Request.QueryString)" />
+
+                    <label class="detail-qty">
+                        Cantidad
+
+                        <input type="number"
+                               name="cantidad"
+                               value="1"
+                               min="1"
+                               max="@Carrito.MaximoPorLinea"
+                               step="1" />
+                    </label>
+
+                    <button type="submit" class="btn-primary"
+                            disabled="@(disponible ? null : "disabled")">
+                        <i class="bi bi-bag-plus"></i>
+                        Agregar al carrito
+                    </button>
+
+                </form>
+
+                <a class="clear-filters"
                    asp-controller="Catalogo"
                    asp-action="Index">
                     <i class="bi bi-arrow-left"></i>
@@ -121,42 +151,6 @@
 
         </section>
 
-
-        <!-- STOCK POR SUCURSAL -->
-        <aside class="panel-card detail-side">
-
-            <h2>Stock por sucursal</h2>
-            <p class="detail-note">Cantidad disponible en cada tienda.</p>
-
-            @if (Model.Stocks.Count == 0)
-            {
-                <div class="table-empty">
-                    <i class="bi bi-inbox"></i>
-                    <p>Sin registros de inventario.</p>
-                </div>
-            }
-            else
-            {
-                <div class="stock-list">
-                    @foreach (var stock in Model.Stocks)
-                    {
-                        <div class="stock-row">
-
-                            <div class="stock-text">
-                                <strong>@stock.Sucursal</strong>
-                                <span>@stock.Ciudad</span>
-                            </div>
-
-                            <span class="stock-value @(stock.Stock <= 0 ? "out" : stock.Stock < stock.Minimo ? "low" : "")">
-                                @stock.Stock.ToString("N0")
-                            </span>
-
-                        </div>
-                    }
-                </div>
-            }
-
-        </aside>
 
     </div>
 

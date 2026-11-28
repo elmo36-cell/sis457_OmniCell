@@ -1,19 +1,11 @@
-﻿using CadOmnicell;
-using ClnOmnicell;
+﻿using ClnOmnicell;
 using CpMinerva;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmLogin : Form
+    public partial class FrmLogin : FormOmnicell
     {
         public FrmLogin()
         {
@@ -52,27 +44,18 @@ namespace CpOmnicell
 
             try
             {
-                // Encriptar contraseña
-                string claveEncriptada = Util.Cifrar(txtClave.Text);
+                // La capa de negocio cifra la clave y autentica al usuario.
+                var usuario = UsuarioCln.iniciarSesion(txtUsuarios.Text, txtClave.Text);
 
-                // Autenticar usuario
-                Usuario usuario = UsuarioCln.autenticar(
-                    txtUsuarios.Text.Trim(),
-                    claveEncriptada
-                );
+                SesionCln.abrir(usuario);
 
-                // Guardar usuario en sesión
-                Util.usuario = usuario;
-
-                MessageBox.Show(
+                Util.Informar(
                     $"Bienvenido a OmniCell, {usuario.nombreUsuario}",
-                    "Inicio de sesión",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
+                    "Inicio de sesión"
                 );
 
                 // Abrir menú principal
-                this.Hide();
+                Hide();
 
                 using (FrmMenuVendedor menu = new FrmMenuVendedor())
                 {
@@ -82,7 +65,7 @@ namespace CpOmnicell
                 txtClave.Clear();
                 txtUsuarios.Focus();
 
-                this.Show();
+                Show();
             }
             catch (Exception ex)
             {
@@ -93,6 +76,7 @@ namespace CpOmnicell
                 txtClave.Focus();
             }
         }
+
         private void FrmLogin_Load(object sender, EventArgs e)
         {
             erpUsuario.BlinkStyle = ErrorBlinkStyle.NeverBlink;
@@ -109,19 +93,6 @@ namespace CpOmnicell
         private void txtClave_TextChanged(object sender, EventArgs e)
         {
             erpClave.SetError(txtClave, "");
-        }
-
-        private void restablecerClaveAdmin()
-        {
-            Usuario usuario = UsuarioCln.obtenerUno(1);
-
-            usuario.clave = Util.Cifrar("Admin123");
-
-            usuario.usuarioRegistro = "admin";
-
-            UsuarioCln.actualizar(usuario);
-
-            MessageBox.Show("Contraseña restablecida correctamente.");
         }
     }
 }

@@ -2,20 +2,14 @@
 using ClnOmnicell;
 using CpMinerva;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmProveedores : Form
+    public partial class FrmProveedores : FormOmnicell
     {
         private int? idProveedor;
+
         public FrmProveedores()
         {
             InitializeComponent();
@@ -39,6 +33,7 @@ namespace CpOmnicell
                 limpiarCampos();
             }
         }
+
         private void cargarProveedor()
         {
             var proveedor = ProveedorCln.obtenerUno(idProveedor.Value);
@@ -48,6 +43,7 @@ namespace CpOmnicell
             txtContacto.Text = proveedor.contactoPersona;
             txtTelefono.Text = proveedor.telefono;
         }
+
         private void limpiarCampos()
         {
             txtRazonSocial.Clear();
@@ -58,48 +54,27 @@ namespace CpOmnicell
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtRazonSocial.Text))
-            {
-                MessageBox.Show("Ingrese la razón social del proveedor.");
-                txtRazonSocial.Focus();
+            if (!Util.Requerido(txtRazonSocial, "Ingrese la razón social del proveedor."))
                 return;
-            }
 
-            if (string.IsNullOrWhiteSpace(txtPais.Text))
-            {
-                MessageBox.Show("Ingrese el país del proveedor.");
-                txtPais.Focus();
+            if (!Util.Requerido(txtPais, "Ingrese el país del proveedor."))
                 return;
-            }
 
-            if (string.IsNullOrWhiteSpace(txtContacto.Text))
-            {
-                MessageBox.Show("Ingrese el nombre de la persona de contacto.");
-                txtContacto.Focus();
+            if (!Util.Requerido(txtContacto, "Ingrese el nombre de la persona de contacto."))
                 return;
-            }
 
-            if (string.IsNullOrWhiteSpace(txtTelefono.Text))
-            {
-                MessageBox.Show("Ingrese el teléfono del proveedor.");
-                txtTelefono.Focus();
+            if (!Util.Requerido(txtTelefono, "Ingrese el teléfono del proveedor."))
                 return;
-            }
-
-            if (Util.usuario == null)
-            {
-                MessageBox.Show("No se encontró el usuario de sesión.");
-                return;
-            }
 
             try
             {
-                Proveedor proveedor = new Proveedor();
-
-                proveedor.razonSocial = txtRazonSocial.Text.Trim();
-                proveedor.pais = txtPais.Text.Trim();
-                proveedor.contactoPersona = txtContacto.Text.Trim();
-                proveedor.telefono = txtTelefono.Text.Trim();
+                Proveedor proveedor = new Proveedor
+                {
+                    razonSocial = txtRazonSocial.Text.Trim(),
+                    pais = txtPais.Text.Trim(),
+                    contactoPersona = txtContacto.Text.Trim(),
+                    telefono = txtTelefono.Text.Trim()
+                };
 
                 if (idProveedor.HasValue)
                 {
@@ -107,39 +82,24 @@ namespace CpOmnicell
 
                     ProveedorCln.actualizar(proveedor);
 
-                    MessageBox.Show(
-                        "Proveedor actualizado correctamente.",
-                        "OmniCell",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    Util.Informar("Proveedor actualizado correctamente.");
                 }
                 else
                 {
-                    proveedor.usuarioRegistro = Util.usuario.nombreUsuario;
+                    proveedor.usuarioRegistro = SesionCln.NombreUsuario;
                     proveedor.fechaRegistro = DateTime.Now;
-                    proveedor.estado = 1;
+                    proveedor.estado = (int)Estado.Activo;
 
                     ProveedorCln.crear(proveedor);
 
-                    MessageBox.Show(
-                        "Proveedor registrado correctamente.",
-                        "OmniCell",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                    Util.Informar("Proveedor registrado correctamente.");
                 }
 
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al guardar el proveedor:\n\n" + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError("Error al guardar el proveedor:\n\n" + ex.Message);
             }
         }
 

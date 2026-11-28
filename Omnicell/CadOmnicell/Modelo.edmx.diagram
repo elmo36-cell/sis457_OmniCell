@@ -5,21 +5,21 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="bc6d7bc424434b038da85385316dff31" Name="Diagram1">
-        <EntityTypeShape EntityType="LabOmnicellModel.Cliente" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Compatibilidad" Width="1.5" PointX="14.25" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Compra" Width="1.5" PointX="5.25" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.CompraDetalle" Width="1.5" PointX="10.5" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Empleado" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Inventario" Width="1.5" PointX="6" PointY="13.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Marca" Width="1.5" PointX="9.75" PointY="2.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Modelo" Width="1.5" PointX="12" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Pantalla" Width="1.5" PointX="5.25" PointY="18.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Proveedor" Width="1.5" PointX="3" PointY="14.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Rol" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Sucursal" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Usuario" Width="1.5" PointX="8.25" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.Venta" Width="1.5" PointX="5.25" PointY="4.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="LabOmnicellModel.VentaDetalle" Width="1.5" PointX="7.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Cliente" Width="1.5" PointX="0.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Compatibilidad" Width="1.5" PointX="10.625" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Compra" Width="1.5" PointX="5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.CompraDetalle" Width="1.5" PointX="8.625" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Empleado" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Inventario" Width="1.5" PointX="0.625" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Marca" Width="1.5" PointX="8.625" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Modelo" Width="1.5" PointX="10.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Pantalla" Width="1.5" PointX="7.125" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Proveedor" Width="1.5" PointX="5" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Rol" Width="1.5" PointX="6.75" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Sucursal" Width="1.5" PointX="0.875" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Usuario" Width="1.5" PointX="6.875" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.Venta" Width="1.5" PointX="2.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LabOmnicellModel.VentaDetalle" Width="1.5" PointX="4.875" PointY="0.625" IsExpanded="true" />
         <AssociationConnector Association="LabOmnicellModel.fk_Venta_Cliente" ManuallyRouted="false" />
         <AssociationConnector Association="LabOmnicellModel.fk_Compatibilidad_Modelo" ManuallyRouted="false" />
         <AssociationConnector Association="LabOmnicellModel.fk_Compatibilidad_Pantalla" ManuallyRouted="false" />

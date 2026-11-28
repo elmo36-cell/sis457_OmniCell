@@ -9,6 +9,14 @@
 
     <div class="table-panel">
 
+        @if (TempData["ok"] is string aviso)
+        {
+            <div class="flash-ok">
+                <i class="bi bi-check-circle"></i>
+                <span>@aviso</span>
+            </div>
+        }
+
         <!-- Encabezado del módulo -->
         <div class="catalog-toolbar">
 
@@ -32,6 +40,14 @@
 
             <div class="toolbar-actions">
 
+                @if (Model.AccionEditar != null && Model.TextoNuevo != null)
+                {
+                    <a class="btn-primary btn-new" asp-action="@Model.AccionEditar">
+                        <i class="bi bi-plus-lg"></i>
+                        @Model.TextoNuevo
+                    </a>
+                }
+
                 <form class="mini-search" method="get" asp-action="@Model.Accion">
                     <i class="bi bi-search"></i>
 
@@ -40,8 +56,25 @@
                            value="@Model.Parametro"
                            placeholder="Buscar en @Model.Titulo..." />
 
+                    @if (Model.FiltroTexto != null)
+                    {
+                        <input type="hidden" name="soloBajo" value="@(Model.FiltroActivo ? "true" : "false")" />
+                    }
+
                     <button type="submit">Buscar</button>
                 </form>
+
+                @if (Model.FiltroTexto != null)
+                {
+                    <a class="filter-toggle @(Model.FiltroActivo ? "activo" : "")"
+                       asp-action="@Model.Accion"
+                       asp-route-parametro="@Model.Parametro"
+                       asp-route-soloBajo="@(Model.FiltroActivo ? null : "true")">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        @Model.FiltroTexto
+                        <span class="filter-count">@Model.FiltroTotal</span>
+                    </a>
+                }
 
                 <a class="clear-filters" asp-controller="Tablas" asp-action="Index">
                     <i class="bi bi-arrow-left"></i>
@@ -64,16 +97,40 @@
                         {
                             <th>@columna</th>
                         }
+
+                        @if (Model.AccionEditar != null)
+                        {
+                            <th>Acciones</th>
+                        }
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach (string[] fila in Model.Filas)
+                    @for (int f = 0; f < Model.Filas.Count; f++)
                     {
-                        <tr>
+                        string[] fila = Model.Filas[f];
+                        bool alerta = f < Model.Alertas.Count && Model.Alertas[f];
+
+                        <tr class="@(alerta ? "fila-alerta" : null)">
                             @for (int i = 0; i < Model.Columnas.Length; i++)
                             {
-                                <td>@(i < fila.Length ? fila[i] : "")</td>
+                                <td>
+                                    @(i < fila.Length ? fila[i] : "")
+                                    @if (alerta && i == Model.ColumnaAlerta)
+                                    {
+                                        <span class="stock-bajo" title="Stock igual o por debajo del mínimo">bajo</span>
+                                    }
+                                </td>
+                            }
+
+                            @if (Model.AccionEditar != null && f < Model.Ids.Count)
+                            {
+                                <td class="row-actions">
+                                    <a class="row-link" asp-action="@Model.AccionEditar" asp-route-id="@Model.Ids[f]">
+                                        <i class="bi bi-pencil"></i>
+                                        Editar
+                                    </a>
+                                </td>
                             }
                         </tr>
                     }
@@ -85,7 +142,11 @@
             {
                 <div class="table-empty">
                     <i class="bi bi-inbox"></i>
-                    <p>No hay registros que coincidan con la búsqueda.</p>
+                    <p>
+                        @(Model.FiltroActivo
+                            ? "Ningún registro está en o por debajo del mínimo."
+                            : "No hay registros que coincidan con la búsqueda.")
+                    </p>
                 </div>
             }
 
@@ -100,6 +161,7 @@
                 <a class="pager-button"
                    asp-action="@Model.Accion"
                    asp-route-parametro="@Model.Parametro"
+                   asp-route-soloBajo="@(Model.FiltroActivo ? "true" : null)"
                    asp-route-pagina="@(Model.Pagina - 1)">
                     <i class="bi bi-chevron-left"></i>
                     Anterior
@@ -122,6 +184,7 @@
                 <a class="pager-button"
                    asp-action="@Model.Accion"
                    asp-route-parametro="@Model.Parametro"
+                   asp-route-soloBajo="@(Model.FiltroActivo ? "true" : null)"
                    asp-route-pagina="@(Model.Pagina + 1)">
                     Siguiente
                     <i class="bi bi-chevron-right"></i>

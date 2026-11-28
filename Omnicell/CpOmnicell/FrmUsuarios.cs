@@ -3,17 +3,12 @@ using ClnOmnicell;
 using CpMinerva;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmUsuarios : Form
+    public partial class FrmUsuarios : FormOmnicell
     {
         private int? idUsuario;
         private List<Empleado> empleados;
@@ -51,6 +46,7 @@ namespace CpOmnicell
                 txtClave.Clear();
             }
         }
+
         private void cargarCombos()
         {
             // Cargar empleados
@@ -59,9 +55,7 @@ namespace CpOmnicell
             cbxNombre.DataSource = empleados.Select(x => new
             {
                 id = x.id,
-                nombreCompleto = string.Join(" ",
-                    new[] { x.nombres, x.primerApellido, x.segundoApellido }
-                    .Where(nombre => !string.IsNullOrWhiteSpace(nombre)))
+                nombreCompleto = x.NombreCompleto()
             }).ToList();
 
             cbxNombre.DisplayMember = "nombreCompleto";
@@ -93,6 +87,7 @@ namespace CpOmnicell
                 }
             }
         }
+
         private void cargarUsuario()
         {
             Usuario usuario = UsuarioCln.obtenerUno(idUsuario.Value);
@@ -112,52 +107,39 @@ namespace CpOmnicell
             {
                 if (cbxNombre.SelectedValue == null)
                 {
-                    MessageBox.Show("Seleccione un empleado.",
-                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.Avisar("Seleccione un empleado.");
                     cbxNombre.Focus();
                     return;
                 }
 
                 if (cbxRol.SelectedValue == null)
                 {
-                    MessageBox.Show("Seleccione un rol.",
-                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.Avisar("Seleccione un rol.");
                     cbxRol.Focus();
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(txtNombreUsuario.Text))
-                {
-                    MessageBox.Show("Ingrese un nombre de usuario.",
-                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNombreUsuario.Focus();
+                if (!Util.Requerido(txtNombreUsuario, "Ingrese un nombre de usuario."))
                     return;
-                }
 
                 if (!idUsuario.HasValue && string.IsNullOrWhiteSpace(txtClave.Text))
                 {
-                    MessageBox.Show("Ingrese una contraseña.",
-                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.Avisar("Ingrese una contraseña.");
                     txtClave.Focus();
                     return;
                 }
 
-                if (Util.usuario == null)
+                Usuario usuario = new Usuario
                 {
-                    MessageBox.Show("No se encontró la sesión del usuario actual.");
-                    return;
-                }
+                    idEmpleado = Convert.ToInt32(cbxNombre.SelectedValue),
+                    idRol = Convert.ToInt32(cbxRol.SelectedValue),
+                    nombreUsuario = txtNombreUsuario.Text.Trim(),
 
-                Usuario usuario = new Usuario();
-
-                usuario.idEmpleado = Convert.ToInt32(cbxNombre.SelectedValue);
-                usuario.idRol = Convert.ToInt32(cbxRol.SelectedValue);
-                usuario.nombreUsuario = txtNombreUsuario.Text.Trim();
-
-                // Solo se cifra la contraseña cuando se introduce una nueva.
-                usuario.clave = string.IsNullOrWhiteSpace(txtClave.Text)
-                    ? null
-                    : Util.Cifrar(txtClave.Text);
+                    // Solo se cifra la contraseña cuando se introduce una nueva.
+                    clave = string.IsNullOrWhiteSpace(txtClave.Text)
+                        ? null
+                        : SeguridadCln.cifrar(txtClave.Text)
+                };
 
                 if (idUsuario.HasValue)
                 {
@@ -165,27 +147,24 @@ namespace CpOmnicell
 
                     UsuarioCln.actualizar(usuario);
 
-                    MessageBox.Show("Usuario actualizado correctamente.",
-                        "OmniCell", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Util.Informar("Usuario actualizado correctamente.");
                 }
                 else
                 {
-                    usuario.usuarioRegistro = Util.usuario.nombreUsuario;
+                    usuario.usuarioRegistro = SesionCln.NombreUsuario;
                     usuario.fechaRegistro = DateTime.Now;
-                    usuario.estado = 1;
+                    usuario.estado = (int)Estado.Activo;
 
                     UsuarioCln.crear(usuario);
 
-                    MessageBox.Show("Usuario registrado correctamente.",
-                        "OmniCell", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Util.Informar("Usuario registrado correctamente.");
                 }
 
-                this.Close();
+                Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message,
-                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Util.MostrarError(ex.Message, "Error");
             }
         }
 

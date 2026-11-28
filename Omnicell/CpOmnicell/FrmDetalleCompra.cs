@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using CadOmnicell;
+﻿using CadOmnicell;
 using ClnOmnicell;
+using CpMinerva;
+using System;
+using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmDetalleCompra : Form
+    public partial class FrmDetalleCompra : FormOmnicell
     {
         private int idCompra;
 
@@ -31,22 +25,18 @@ namespace CpOmnicell
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al consultar la compra",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.Message, "Error al consultar la compra");
 
                 Close();
             }
         }
+
         private void cargarCompra()
         {
             Compra compra = CompraCln.obtenerUno(idCompra);
 
-            lblNumeroCompra.Text = compra.id.ToString("D5");
-            lblFechaCompra.Text = compra.fechaCompra.ToString("dd/MM/yyyy");
+            lblNumeroCompra.Text = compra.id.ToString(Formatos.NumeroDocumento);
+            lblFechaCompra.Text = compra.fechaCompra.ToString(Formatos.Fecha);
             lblFactura.Text = compra.factura;
 
             lblProveedor.Text = compra.Proveedor.razonSocial;
@@ -54,35 +44,23 @@ namespace CpOmnicell
             lblContacto.Text = compra.Proveedor.contactoPersona;
             lblTelefono.Text = compra.Proveedor.telefono;
 
-            lblEmpleado.Text = (
-                compra.Empleado.nombres + " " +
-                compra.Empleado.primerApellido + " " +
-                compra.Empleado.segundoApellido
-            ).Trim();
-
-            lblTotal.Text = compra.costoTotal.ToString("N2") + " Bs";
+            lblEmpleado.Text = compra.Empleado.NombreCompleto();
+            lblTotal.Text = compra.costoTotal.ToString(Formatos.Monto) + " Bs";
         }
+
         private void cargarDetalles()
         {
-            var detalles = CompraDetalleCln.listarPorCompra(idCompra);
+            GrillasOmnicell.ConfigurarDetalle(dgvDetalleCompra);
 
             dgvDetalleCompra.Rows.Clear();
 
-            foreach (var detalle in detalles)
+            foreach (CompraDetalle detalle in CompraDetalleCln.listarPorCompra(idCompra))
             {
-                var pantalla = detalle.Pantalla;
+                Pantalla pantalla = detalle.Pantalla;
 
-                string marca = "";
-                string modelo = "";
-
-                var compatibilidad = pantalla.Compatibilidad
-                    .FirstOrDefault(x => x.estado == 1);
-
-                if (compatibilidad != null)
-                {
-                    modelo = compatibilidad.Modelo.nombre;
-                    marca = compatibilidad.Modelo.Marca.nombre;
-                }
+                string marca;
+                string modelo;
+                CompatibilidadCln.obtenerMarcaModelo(pantalla, out marca, out modelo);
 
                 dgvDetalleCompra.Rows.Add(
                     pantalla.sku,
@@ -92,8 +70,8 @@ namespace CpOmnicell
                     pantalla.calidad,
                     pantalla.tecnologia,
                     detalle.cantidad,
-                    detalle.costoUnitario.ToString("N2"),
-                    detalle.subtotal.ToString("N2")
+                    detalle.costoUnitario.ToString(Formatos.Monto),
+                    detalle.subtotal.ToString(Formatos.Monto)
                 );
             }
         }

@@ -1,369 +1,441 @@
-﻿using CadOmnicell;
+﻿using ClnOmnicell;
+using CpMinerva;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Forms;
-using ClnOmnicell;
-using CpMinerva;
-using CpOmnicell.Properties;
 
 namespace CpOmnicell
 {
-    public partial class FrmMenuVendedor : Form
+    public partial class FrmMenuVendedor : FormOmnicell
     {
-
         //funciones Menu Vendedor
+
+        private const int MargenPestanas = 12;
+        private const int SeparacionPestanas = 4;
+
+        // Color de cada pestaña para resaltar la sección activa.
+        private Dictionary<BotonOmnicell, Color> coloresPestana;
+
+        private Control[] secciones;
+        private Panel[] panelesAcciones;
 
         public FrmMenuVendedor()
         {
             InitializeComponent();
-        } 
+            aplicarEstilos();
+        }
+
+        // Secciones que se muestran de a una según la pestaña activa.
+        private Control[] Secciones
+        {
+            get
+            {
+                if (secciones == null)
+                {
+                    secciones = new Control[]
+                    {
+                        panelInicio, gbxVentas, gbxCompras, gbxClientes,
+                        gbxProveedores, gbxUsuarios, gbxPantallas, gbxEmpleados
+                    };
+                }
+
+                return secciones;
+            }
+        }
+
+        private Panel[] PanelesAcciones
+        {
+            get
+            {
+                if (panelesAcciones == null)
+                {
+                    panelesAcciones = new Panel[]
+                    {
+                        pnlAccionesInicio, pnlAccionesVentas, pnlAccionesCompras,
+                        pnlAccionesInventario, pnlAccionesClientes,
+                        pnlAccionesProveedores, pnlAccionesPersonal
+                    };
+                }
+
+                return panelesAcciones;
+            }
+        }
+
+        // Uniforma fondo, iconos, colores y tamaños del menú.
+        private void aplicarEstilos()
+        {
+            // Botón Buscar: se pega al borde derecho de su grupo
+            Estilos.UbicarBotonBusqueda(btnBuscar, txtParametro);
+            Estilos.UbicarBotonBusqueda(btnBuscarCompras, txtBuscarCompras);
+            Estilos.UbicarBotonBusqueda(btnBuscarCliente, txtBuscarCliente);
+            Estilos.UbicarBotonBusqueda(btnBuscarProveedores, txtBuscarProveedores);
+            Estilos.UbicarBotonBusqueda(btnBuscarUsuario, txtBuscarUsuario);
+            Estilos.UbicarBotonBusqueda(btnBuscarPantalla, txtBuscarPantalla);
+            Estilos.UbicarBotonBusqueda(btnEmpleados, txtBuscarEmpleados);
+
+            // Cada pestaña conserva su color de sección: la activa se pinta
+            // más luminosa y con barra inferior, las demás algo más oscuras.
+            coloresPestana = new Dictionary<BotonOmnicell, Color>
+            {
+                { btnTabInicio, btnTabInicio.ColorOmnicell },
+                { btnTabVentas, btnTabVentas.ColorOmnicell },
+                { btnTabCompras, btnTabCompras.ColorOmnicell },
+                { btnTabInventario, btnTabInventario.ColorOmnicell },
+                { btnTabClientes, btnTabClientes.ColorOmnicell },
+                { btnTabProveedores, btnTabProveedores.ColorOmnicell },
+                { btnTabPersonal, btnTabPersonal.ColorOmnicell }
+            };
+
+            SeleccionarPestana(btnTabInicio, pnlAccionesInicio);
+        }
+
+        // Deja activa una pestaña y muestra solo las acciones de esa sección.
+        private void SeleccionarPestana(BotonOmnicell activa, Panel acciones)
+        {
+            foreach (KeyValuePair<BotonOmnicell, Color> par in coloresPestana)
+            {
+                par.Key.ColorOmnicell = par.Value;
+                par.Key.ActivoOmnicell = par.Key == activa;
+            }
+
+            foreach (Panel panel in PanelesAcciones)
+                panel.Visible = panel == acciones;
+        }
+
+        // Muestra una sola sección (o la portada) y resalta su pestaña.
+        private void MostrarSeccion(Control seccion, BotonOmnicell pestana, Panel acciones)
+        {
+            foreach (Control panel in Secciones)
+                panel.Visible = panel == seccion;
+
+            seccion.BringToFront();
+
+            SeleccionarPestana(pestana, acciones);
+        }
+
+        private void btnTabInicio_Click(object sender, EventArgs e)
+        {
+            MostrarSeccion(panelInicio, btnTabInicio, pnlAccionesInicio);
+        }
+
+        private void btnTabVentas_Click(object sender, EventArgs e)
+        {
+            btnHistorialVentas_Click(sender, e);
+        }
+
+        private void btnTabCompras_Click(object sender, EventArgs e)
+        {
+            btnHCompras_Click(sender, e);
+        }
+
+        private void btnTabInventario_Click(object sender, EventArgs e)
+        {
+            btnPantallas_Click(sender, e);
+        }
+
+        private void btnTabClientes_Click(object sender, EventArgs e)
+        {
+            btnClientes_Click(sender, e);
+        }
+
+        private void btnTabProveedores_Click(object sender, EventArgs e)
+        {
+            btnProveedores_Click(sender, e);
+        }
+
+        private void btnTabPersonal_Click(object sender, EventArgs e)
+        {
+            btnUsuarios_Click(sender, e);
+        }
+
+        private void btnTabSalir_Click(object sender, EventArgs e)
+        {
+            btnCerrarSesion_Click_1(sender, e);
+        }
+
+        // Las tarjetas de la portada reutilizan los botones del menú.
+        private void cardVentaInicio_Click(object sender, EventArgs e)
+        {
+            btnNuevaVenta_Click(sender, e);
+        }
+
+        private void cardHistorialInicio_Click(object sender, EventArgs e)
+        {
+            btnHistorialVentas_Click(sender, e);
+        }
+
+        private void cardClientesInicio_Click(object sender, EventArgs e)
+        {
+            btnClientes_Click(sender, e);
+        }
+
+        private void cardNuevaCompraInicio_Click(object sender, EventArgs e)
+        {
+            btnNuevaCompra_Click(sender, e);
+        }
+
         private void btnCerrarSesion_Click_1(object sender, EventArgs e)
         {
-            Util.usuario = null;
-            this.Close();
+            SesionCln.cerrar();
+            Close();
         }
+
         //texto en la parte de arriba para saludar al usuario que inisio sesion
         private void UsuarioIngreso()
         {
-            string nombre = Util.usuario.nombreUsuario;
-
-            string rol = Util.usuario.idRol == 1
-                ? "Administrador"
-                : "Vendedor";
+            string nombre = SesionCln.NombreUsuario;
+            string rol = SesionCln.NombreRol;
 
             lblUsuario.Text = $"Usuario: {nombre} | Modo: {rol}";
+
+            // Portada de bienvenida
+            string fecha = DateTime.Now.ToString("dddd, d 'de' MMMM 'de' yyyy", new CultureInfo("es-ES"));
+            fecha = char.ToUpper(fecha[0]) + fecha.Substring(1);
+
+            lblHeroTitulo.Text = $"Hola, {nombre}";
+            lblHeroSubtitulo.Text = $"Modo {rol} · Sistema de inventario y ventas OmniCell";
+            lblHeroFecha.Text = $"{fecha}  ·  {DateTime.Now:HH:mm}";
+
+            // La compra solo está disponible para administradores, igual que la pestaña.
+            cardNuevaCompra.Visible = SesionCln.EsAdministrador;
         }
+
         private void FrmMenuVendedor_Load(object sender, EventArgs e)
         {
             try
             {
+                // La sesión siempre arranca en la portada de Inicio.
+                MostrarSeccion(panelInicio, btnTabInicio, pnlAccionesInicio);
+
                 UsuarioIngreso();
                 listarVentas();
                 listarCompras();
                 listarClientes();
                 listarProveedores();
                 listarUsuarios();
-                listarPantalla();
+                listarPantallas();
                 listarEmpleados();
                 configurarPermisos();
-
-                gbxVentas.Visible = false;
-                gbxCompras.Visible = false;
-                gbxClientes.Visible = false;
-                gbxProveedores.Visible = false;
-                gbxUsuarios.Visible = false;
-                gbxPantallas.Visible = false;
-                gbxEmpleados.Visible = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.ToString(),
-                    "Error al iniciar el programa",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-
+                Util.MostrarError(ex.ToString(), "Error al iniciar el programa");
             }
         }
 
         private void configurarPermisos()
         {
-            bool esAdministrador = Util.usuario.idRol == 1;
+            bool esAdministrador = SesionCln.EsAdministrador;
 
-            rbtVentas.Visible = true;
-            rbtClientes.Visible = true;
+            btnTabVentas.Visible = true;
+            btnTabClientes.Visible = true;
 
-            rbtCompras.Visible = esAdministrador;
-            rbtProveedores.Visible = esAdministrador;
-            rbtPersonal.Visible = esAdministrador;
-            rbtInventario.Visible = esAdministrador;
+            btnTabCompras.Visible = esAdministrador;
+            btnTabProveedores.Visible = esAdministrador;
+            btnTabPersonal.Visible = esAdministrador;
+            btnTabInventario.Visible = esAdministrador;
+
+            UbicarPestanas();
         }
 
+        // Acomoda las pestañas visibles para que no queden huecos al ocultarlas.
+        private void UbicarPestanas()
+        {
+            int x = MargenPestanas;
+
+            foreach (BotonOmnicell pestana in new[]
+            {
+                btnTabInicio, btnTabVentas, btnTabCompras, btnTabInventario,
+                btnTabClientes, btnTabProveedores, btnTabPersonal
+            })
+            {
+                if (!pestana.Visible) continue;
+
+                pestana.Left = x;
+                x += pestana.Width + SeparacionPestanas;
+            }
+        }
+
+        // Pide confirmación para dar de baja un registro.
+        private bool ConfirmarBaja(string entidad, int id)
+        {
+            return Util.Confirmar($"¿Está seguro que desea dar de baja {entidad} {id}?");
+        }
 
         // SECCION VENTAS
 
         private void btnHistorialVentas_Click(object sender, EventArgs e)
         {
-            gbxCompras.Visible = false;
-            gbxClientes.Visible = false;
-            gbxProveedores.Visible = false;
-            gbxUsuarios.Visible = false;
-            gbxPantallas.Visible = false;
-            gbxEmpleados.Visible = false;
-            gbxVentas.Visible = true;
+            MostrarSeccion(gbxVentas, btnTabVentas, pnlAccionesVentas);
 
-            gbxVentas.BringToFront();
             listarVentas();
         }
+
         private void btnNuevaVenta_Click(object sender, EventArgs e)
         {
-            FrmVentas frmVentas = new FrmVentas();
-            frmVentas.ShowDialog();
+            using (FrmVentas formulario = new FrmVentas())
+            {
+                formulario.ShowDialog();
+            }
 
             listarVentas();
         }
+
         //lista de ventas
         private void listarVentas()
         {
-            var ventas = VentaCln.listarVentas(txtParametro.Text.Trim());
+            // Un vendedor solo ve las ventas de su sucursal.
+            string sucursal = SesionCln.EsVendedor ? SesionCln.NombreSucursal : null;
 
-            // Si es Vendedor (idRol == 2), mostrar solo las ventas de su sucursal
-            if (Util.usuario != null && Util.usuario.idRol == 2)
-            {
-                var empleado = EmpleadoCln.obtenerConSucursal(Util.usuario.idEmpleado);
-                string sucursalUsuario = empleado?.Sucursal?.nombre ?? "";
+            dgvListaVentas.DataSource = VentaCln.listarVentas(txtParametro.Text.Trim(), sucursal);
 
-                if (!string.IsNullOrEmpty(sucursalUsuario))
-                {
-                    ventas = ventas
-                        .Where(v => v.sucursal != null &&
-                                    v.sucursal.Equals(sucursalUsuario, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                }
-            }
+            GrillasOmnicell.Ocultar(dgvListaVentas, "id");
 
-            dgvListaVentas.DataSource = ventas;
+            GrillasOmnicell.Titulo(dgvListaVentas, "fechaVenta", "Fecha", Formatos.FechaHora);
+            GrillasOmnicell.Titulo(dgvListaVentas, "cliente", "Cliente");
+            GrillasOmnicell.Titulo(dgvListaVentas, "nitCi", "CI / NIT");
+            GrillasOmnicell.Titulo(dgvListaVentas, "vendedor", "Vendedor");
+            GrillasOmnicell.Titulo(dgvListaVentas, "sucursal", "Sucursal");
+            GrillasOmnicell.Titulo(dgvListaVentas, "tipoPago", "Tipo de pago");
+            GrillasOmnicell.Titulo(dgvListaVentas, "montoTotal", "Total (Bs)", Formatos.Monto);
 
-            if (!dgvListaVentas.Columns.Contains("colNumero"))
-            {
-                DataGridViewTextBoxColumn columnaNumero = new DataGridViewTextBoxColumn();
-
-                columnaNumero.Name = "colNumero";
-                columnaNumero.HeaderText = "N.º de Venta";
-                columnaNumero.ReadOnly = true;
-                columnaNumero.Width = 50;
-                columnaNumero.SortMode = DataGridViewColumnSortMode.NotSortable;
-                columnaNumero.DefaultCellStyle.Alignment =
-                    DataGridViewContentAlignment.MiddleCenter;
-
-                dgvListaVentas.Columns.Insert(0, columnaNumero);
-            }
-
-            // Configurar encabezados
-            dgvListaVentas.Columns["id"].Visible = false;
-            dgvListaVentas.Columns["fechaVenta"].HeaderText = "Fecha";
-            dgvListaVentas.Columns["cliente"].HeaderText = "Cliente";
-            dgvListaVentas.Columns["nitCi"].HeaderText = "CI / NIT";
-            dgvListaVentas.Columns["vendedor"].HeaderText = "Vendedor";
-            dgvListaVentas.Columns["sucursal"].HeaderText = "Sucursal";
-            dgvListaVentas.Columns["tipoPago"].HeaderText = "Tipo de pago";
-            dgvListaVentas.Columns["montoTotal"].HeaderText = "Total (Bs)";
-
-            // Formato de columnas
-            dgvListaVentas.Columns["fechaVenta"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            dgvListaVentas.Columns["montoTotal"].DefaultCellStyle.Format = "N2";
-
-            int numero = 1;
-
-            foreach (DataGridViewRow fila in dgvListaVentas.Rows)
-            {
-                if (!fila.IsNewRow)
-                {
-                    fila.Cells["colNumero"].Value = numero;
-                    numero++;
-                }
-            }
+            GrillasOmnicell.Numerar(dgvListaVentas, "N.º de Venta");
         }
+
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (dgvListaVentas.CurrentRow == null)
-                {
-                    MessageBox.Show("Seleccione una venta para dar de baja.",
-                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                int id = Convert.ToInt32(
-                    dgvListaVentas.CurrentRow.Cells["id"].Value
-                );
-                DialogResult dialog = MessageBox.Show(
-                    $"¿Está seguro que desea dar de baja la venta {id}?",
-                    "::: Confirmación - OmniCell :::",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-                if (dialog == DialogResult.Yes)
-                {
-                    VentaCln.eliminar(id, Util.usuario.nombreUsuario);
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaVentas);
 
-                    listarVentas();
-
-                    MessageBox.Show(
-                        "Venta dada de baja correctamente.",
-                        "::: Mensaje - OmniCell :::",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                }
-            }
-            catch (Exception ex)
+            if (id < 0)
             {
-                MessageBox.Show(
-                    "No se pudo dar de baja la venta.\nDetalle: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
-        }
-        private void btnEditar_Click(object sender, EventArgs e)
-        {
-            if (dgvListaVentas.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione una venta.");
+                Util.Avisar("Seleccione una venta para dar de baja.");
                 return;
             }
 
-            int id = Convert.ToInt32(
-                dgvListaVentas.CurrentRow.Cells["id"].Value
-            );
+            if (!ConfirmarBaja("la venta", id))
+                return;
+
+            try
+            {
+                VentaCln.eliminar(id, SesionCln.NombreUsuario);
+
+                listarVentas();
+
+                Util.Informar("Venta dada de baja correctamente.");
+            }
+            catch (Exception ex)
+            {
+                Util.MostrarError("No se pudo dar de baja la venta.\nDetalle: " + ex.Message, "Error");
+            }
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaVentas);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione una venta.");
+                return;
+            }
 
             using (FrmDetalleVenta formulario = new FrmDetalleVenta(id))
             {
                 formulario.ShowDialog();
             }
         }
+
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             listarVentas();
         }
+
         private void txtParametro_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter) listarVentas();
         }
 
         // SECCION COMPRAS
+
         private void btnHCompras_Click(object sender, EventArgs e)
         {
-            gbxVentas.Visible = false;
-            gbxClientes.Visible = false;
-            gbxProveedores.Visible = false;
-            gbxUsuarios.Visible = false;
-            gbxPantallas.Visible = false;
-            gbxEmpleados.Visible = false;
-            gbxCompras.Visible = true;
-
-            gbxCompras.BringToFront();
+            MostrarSeccion(gbxCompras, btnTabCompras, pnlAccionesCompras);
 
             listarCompras();
         }
+
         private void btnNuevaCompra_Click(object sender, EventArgs e)
         {
-            FrmCompras frmCompras = new FrmCompras();
-            frmCompras.ShowDialog();
+            using (FrmCompras formulario = new FrmCompras())
+            {
+                formulario.ShowDialog();
+            }
 
             listarCompras();
         }
+
         //lista de compras
         private void listarCompras()
         {
             dgvListaCompras.DataSource = CompraCln.listarCompras(txtBuscarCompras.Text.Trim());
 
-            if (!dgvListaCompras.Columns.Contains("colNumero"))
-            {
-                DataGridViewTextBoxColumn columnaNumero = new DataGridViewTextBoxColumn();
+            GrillasOmnicell.Ocultar(dgvListaCompras, "id");
 
-                columnaNumero.Name = "colNumero";
-                columnaNumero.HeaderText = "N.º de Compra";
-                columnaNumero.ReadOnly = true;
-                columnaNumero.Width = 50;
-                columnaNumero.SortMode = DataGridViewColumnSortMode.NotSortable;
-                columnaNumero.DefaultCellStyle.Alignment =
-                    DataGridViewContentAlignment.MiddleCenter;
+            GrillasOmnicell.Titulo(dgvListaCompras, "fechaCompra", "Fecha de Compra", Formatos.Fecha);
+            GrillasOmnicell.Titulo(dgvListaCompras, "proveedor", "Proveedor");
+            GrillasOmnicell.Titulo(dgvListaCompras, "pais", "País");
+            GrillasOmnicell.Titulo(dgvListaCompras, "empleado", "Empleado");
+            GrillasOmnicell.Titulo(dgvListaCompras, "factura", "Factura");
+            GrillasOmnicell.Titulo(dgvListaCompras, "costoTotal", "Costo total (Bs)", Formatos.Monto);
 
-                dgvListaCompras.Columns.Insert(0, columnaNumero);
-            }
-
-            dgvListaCompras.Columns["id"].Visible = false;
-            dgvListaCompras.Columns["fechaCompra"].HeaderText = "Fecha de Compra";
-            dgvListaCompras.Columns["proveedor"].HeaderText = "Proveedor";
-            dgvListaCompras.Columns["pais"].HeaderText = "País";
-            dgvListaCompras.Columns["empleado"].HeaderText = "Empleado";
-            dgvListaCompras.Columns["factura"].HeaderText = "Factura";
-            dgvListaCompras.Columns["costoTotal"].HeaderText = "Costo total (Bs)";
-
-            dgvListaCompras.Columns["fechaCompra"].DefaultCellStyle.Format = "dd/MM/yyyy";
-            dgvListaCompras.Columns["costoTotal"].DefaultCellStyle.Format = "N2";
-
-            int numero = 1;
-
-            foreach (DataGridViewRow fila in dgvListaCompras.Rows)
-            {
-                if (!fila.IsNewRow)
-                {
-                    fila.Cells["colNumero"].Value = numero;
-                    numero++;
-                }
-            }
+            GrillasOmnicell.Numerar(dgvListaCompras, "N.º de Compra");
         }
+
         private void btnEliminarCompra_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (dgvListaCompras.CurrentRow == null)
-                {
-                    MessageBox.Show("Seleccione una compra para dar de baja.",
-                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-                int id = Convert.ToInt32(
-                    dgvListaCompras.CurrentRow.Cells["id"].Value
-                );
-                DialogResult dialog = MessageBox.Show(
-                    $"¿Está seguro que desea dar de baja la compra {id}?",
-                    "::: Confirmación - OmniCell :::",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-                if (dialog == DialogResult.Yes)
-                {
-                    CompraCln.eliminar(id, Util.usuario.nombreUsuario);
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaCompras);
 
-                    listarCompras();
-
-                    MessageBox.Show(
-                        "Compra dada de baja correctamente.",
-                        "::: Mensaje - OmniCell :::",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                }
-            }
-            catch (Exception ex)
+            if (id < 0)
             {
-                MessageBox.Show(
-                    "No se pudo dar de baja la compra.\nDetalle: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
-            }
-        }
-        private void btnEditarCompras_Click(object sender, EventArgs e)
-        {
-            if (dgvListaCompras.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione una compra.");
+                Util.Avisar("Seleccione una compra para dar de baja.");
                 return;
             }
 
-            int id = Convert.ToInt32(
-                dgvListaCompras.CurrentRow.Cells["id"].Value
-            );
+            if (!ConfirmarBaja("la compra", id))
+                return;
+
+            try
+            {
+                CompraCln.eliminar(id, SesionCln.NombreUsuario);
+
+                listarCompras();
+
+                Util.Informar("Compra dada de baja correctamente.");
+            }
+            catch (Exception ex)
+            {
+                Util.MostrarError("No se pudo dar de baja la compra.\nDetalle: " + ex.Message, "Error");
+            }
+        }
+
+        private void btnEditarCompras_Click(object sender, EventArgs e)
+        {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaCompras);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione una compra.");
+                return;
+            }
 
             using (FrmDetalleCompra formulario = new FrmDetalleCompra(id))
             {
                 formulario.ShowDialog();
             }
         }
+
         private void btnBuscarCompras_Click(object sender, EventArgs e)
         {
             listarCompras();
@@ -378,22 +450,17 @@ namespace CpOmnicell
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            gbxCompras.Visible = false;
-            gbxVentas.Visible = false;
-            gbxProveedores.Visible = false;
-            gbxUsuarios.Visible = false;
-            gbxPantallas.Visible = false;
-            gbxEmpleados.Visible = false;
-            gbxClientes.Visible = true;
+            MostrarSeccion(gbxClientes, btnTabClientes, pnlAccionesClientes);
 
-            gbxClientes.BringToFront();
             listarClientes();
         }
 
         private void btnNuevoCliente_Click(object sender, EventArgs e)
         {
-            FrmClientes frmClientes = new FrmClientes();
-            frmClientes.ShowDialog();
+            using (FrmClientes formulario = new FrmClientes())
+            {
+                formulario.ShowDialog();
+            }
 
             listarClientes();
         }
@@ -403,108 +470,62 @@ namespace CpOmnicell
         {
             dgvListaClientes.DataSource = ClienteCln.listarClientes(txtBuscarCliente.Text.Trim());
 
-            if (!dgvListaClientes.Columns.Contains("colNumero"))
-            {
-                DataGridViewTextBoxColumn columnaNumero = new DataGridViewTextBoxColumn();
+            GrillasOmnicell.Ocultar(dgvListaClientes, "id");
 
-                columnaNumero.Name = "colNumero";
-                columnaNumero.HeaderText = "N.º de Cliente";
-                columnaNumero.ReadOnly = true;
-                columnaNumero.Width = 50;
-                columnaNumero.SortMode = DataGridViewColumnSortMode.NotSortable;
-                columnaNumero.DefaultCellStyle.Alignment =
-                    DataGridViewContentAlignment.MiddleCenter;
+            GrillasOmnicell.Titulo(dgvListaClientes, "nombres", "Nombre");
+            GrillasOmnicell.Titulo(dgvListaClientes, "nitCi", "CI/NIT");
+            GrillasOmnicell.Titulo(dgvListaClientes, "primerApellido", "Primer Apellido");
+            GrillasOmnicell.Titulo(dgvListaClientes, "segundoApellido", "Segundo Apellido");
+            GrillasOmnicell.Titulo(dgvListaClientes, "razonSocial", "Razón Social");
+            GrillasOmnicell.Titulo(dgvListaClientes, "telefono", "Teléfono");
+            GrillasOmnicell.Titulo(dgvListaClientes, "direccion", "Dirección");
+            GrillasOmnicell.Titulo(dgvListaClientes, "tipoCliente", "Tipo de Cliente");
+            GrillasOmnicell.Titulo(dgvListaClientes, "usuarioRegistro", "Usuario de Registro");
 
-                dgvListaClientes.Columns.Insert(0, columnaNumero);
-            }
-
-            dgvListaClientes.Columns["id"].Visible = false;
-            dgvListaClientes.Columns["nombres"].HeaderText = "Nombre";
-            dgvListaClientes.Columns["nitCi"].HeaderText = "CI/NIT";
-            dgvListaClientes.Columns["primerApellido"].HeaderText = "Primer Apellido";
-            dgvListaClientes.Columns["segundoApellido"].HeaderText = "Segundo Apellido";
-            dgvListaClientes.Columns["razonSocial"].HeaderText = "Razón Social";
-            dgvListaClientes.Columns["telefono"].HeaderText = "Teléfono";
-            dgvListaClientes.Columns["direccion"].HeaderText = "Dirección";
-            dgvListaClientes.Columns["tipoCliente"].HeaderText = "Tipo de Cliente";
-
-            dgvListaClientes.Columns["usuarioRegistro"].HeaderText = "Usuario de Registro";
-
-            int numero = 1;
-
-            foreach (DataGridViewRow fila in dgvListaClientes.Rows)
-            {
-                if (!fila.IsNewRow)
-                {
-                    fila.Cells["colNumero"].Value = numero;
-                    numero++;
-                }
-            }
+            GrillasOmnicell.Numerar(dgvListaClientes, "N.º de Cliente");
         }
 
         private void btnEliminarCliente_Click(object sender, EventArgs e)
         {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaClientes);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione un cliente.");
+                return;
+            }
+
+            if (!ConfirmarBaja("al cliente", id))
+                return;
+
             try
             {
-                if (dgvListaClientes.CurrentRow == null ||
-                    dgvListaClientes.CurrentRow.IsNewRow)
-                {
-                    MessageBox.Show("Seleccione un cliente.");
-                    return;
-                }
+                ClienteCln.eliminar(id, SesionCln.NombreUsuario);
 
-                int id = Convert.ToInt32(
-                    dgvListaClientes.CurrentRow.Cells["id"].Value
-                );
+                Util.Informar("Cliente eliminado correctamente.");
 
-                DialogResult dialog = MessageBox.Show(
-                    $"¿Está seguro que desea dar de baja al cliente con ID {id}?",
-                    "::: Confirmación - OmniCell :::",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (dialog == DialogResult.Yes)
-                {
-                    if (Util.usuario == null)
-                    {
-                        MessageBox.Show("No se encontró el usuario de sesión.");
-                        return;
-                    }
-
-                    ClienteCln.eliminar(id, Util.usuario.nombreUsuario);
-
-                    MessageBox.Show("Cliente eliminado correctamente.");
-
-                    listarClientes();
-                }
+                listarClientes();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al eliminar el cliente:\n\n" + ex.ToString(),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError("Error al eliminar el cliente:\n\n" + ex.Message, "Error");
             }
         }
 
         private void btnEditarCliente_Click(object sender, EventArgs e)
         {
-            if (dgvListaClientes.CurrentRow == null)
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaClientes);
+
+            if (id < 0)
             {
-                MessageBox.Show("Seleccione un cliente.");
+                Util.Avisar("Seleccione un cliente.");
                 return;
             }
 
-            int id = Convert.ToInt32(
-                dgvListaClientes.CurrentRow.Cells["id"].Value
-            );
-
-            FrmClientes frmClientes = new FrmClientes(id);
-
-            frmClientes.ShowDialog();
+            using (FrmClientes formulario = new FrmClientes(id))
+            {
+                formulario.ShowDialog();
+            }
 
             listarClientes();
         }
@@ -516,29 +537,24 @@ namespace CpOmnicell
 
         private void txtBuscarCliente_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter) listarVentas();
+            if (e.KeyChar == (char)Keys.Enter) listarClientes();
         }
 
         // SECCION PROVEEDORES
 
         private void btnProveedores_Click(object sender, EventArgs e)
         {
-            gbxCompras.Visible = false;
-            gbxVentas.Visible = false;
-            gbxClientes.Visible = false;
-            gbxUsuarios.Visible = false;
-            gbxPantallas.Visible = false;
-            gbxEmpleados.Visible = false;
-            gbxProveedores.Visible = true;
+            MostrarSeccion(gbxProveedores, btnTabProveedores, pnlAccionesProveedores);
 
-            gbxProveedores.BringToFront();
             listarProveedores();
         }
 
         private void btnNuevoProveedor_Click(object sender, EventArgs e)
         {
-            FrmProveedores frmProveedores = new FrmProveedores();
-            frmProveedores.ShowDialog();
+            using (FrmProveedores formulario = new FrmProveedores())
+            {
+                formulario.ShowDialog();
+            }
 
             listarProveedores();
         }
@@ -548,103 +564,61 @@ namespace CpOmnicell
         {
             dgvListaProveedores.DataSource = ProveedorCln.listarProveedores(txtBuscarProveedores.Text.Trim());
 
-            if (!dgvListaProveedores.Columns.Contains("colNumero"))
-            {
-                DataGridViewTextBoxColumn columnaNumero = new DataGridViewTextBoxColumn();
+            GrillasOmnicell.Ocultar(dgvListaProveedores, "id");
 
-                columnaNumero.Name = "colNumero";
-                columnaNumero.HeaderText = "N.º de Proveedor";
-                columnaNumero.ReadOnly = true;
-                columnaNumero.Width = 50;
-                columnaNumero.SortMode = DataGridViewColumnSortMode.NotSortable;
-                columnaNumero.DefaultCellStyle.Alignment =
-                    DataGridViewContentAlignment.MiddleCenter;
+            GrillasOmnicell.Titulo(dgvListaProveedores, "razonSocial", "Razón Social");
+            GrillasOmnicell.Titulo(dgvListaProveedores, "pais", "País");
+            GrillasOmnicell.Titulo(dgvListaProveedores, "contactoPersona", "Contacto");
+            GrillasOmnicell.Titulo(dgvListaProveedores, "telefono", "Teléfono");
 
-                dgvListaProveedores.Columns.Insert(0, columnaNumero);
-            }
-
-            dgvListaProveedores.Columns["id"].Visible = false;
-            dgvListaProveedores.Columns["razonSocial"].HeaderText = "Razón Social";
-            dgvListaProveedores.Columns["pais"].HeaderText = "País";
-            dgvListaProveedores.Columns["contactoPersona"].HeaderText = "Contacto";
-            dgvListaProveedores.Columns["telefono"].HeaderText = "Teléfono";
-
-            int numero = 1;
-
-            foreach (DataGridViewRow fila in dgvListaProveedores.Rows)
-            {
-                if (!fila.IsNewRow)
-                {
-                    fila.Cells["colNumero"].Value = numero;
-                    numero++;
-                }
-            }
+            GrillasOmnicell.Numerar(dgvListaProveedores, "N.º de Proveedor");
         }
 
         private void btnEditarProveedores_Click(object sender, EventArgs e)
         {
-            if (dgvListaProveedores.CurrentRow == null)
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaProveedores);
+
+            if (id < 0)
             {
-                MessageBox.Show("Seleccione un proveedor para editar.");
+                Util.Avisar("Seleccione un proveedor para editar.");
                 return;
             }
 
-            int id = Convert.ToInt32(
-                dgvListaProveedores.CurrentRow.Cells["id"].Value
-            );
-
-            FrmProveedores formulario = new FrmProveedores(id);
-            formulario.ShowDialog();
+            using (FrmProveedores formulario = new FrmProveedores(id))
+            {
+                formulario.ShowDialog();
+            }
 
             listarProveedores();
         }
+
         private void btnEliminarProveedores_Click(object sender, EventArgs e)
         {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaProveedores);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione un proveedor.");
+                return;
+            }
+
+            if (!ConfirmarBaja("al proveedor", id))
+                return;
+
             try
             {
-                if (dgvListaProveedores.CurrentRow == null ||
-                    dgvListaProveedores.CurrentRow.IsNewRow)
-                {
-                    MessageBox.Show("Seleccione un proveedor.");
-                    return;
-                }
+                ProveedorCln.eliminar(id, SesionCln.NombreUsuario);
 
-                int id = Convert.ToInt32(
-                    dgvListaProveedores.CurrentRow.Cells["id"].Value
-                );
+                Util.Informar("Proveedor eliminado correctamente.");
 
-                DialogResult dialog = MessageBox.Show(
-                    $"¿Está seguro que desea dar de baja al proveedor con ID {id}?",
-                    "::: Confirmación - OmniCell :::",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (dialog == DialogResult.Yes)
-                {
-                    if (Util.usuario == null)
-                    {
-                        MessageBox.Show("No se encontró el usuario de sesión.");
-                        return;
-                    }
-
-                    ProveedorCln.eliminar(id, Util.usuario.nombreUsuario);
-
-                    MessageBox.Show("Proveedor eliminado correctamente.");
-
-                    listarProveedores();
-                }
+                listarProveedores();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al eliminar el proveedor:\n\n" + ex.ToString(),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError("Error al eliminar el proveedor:\n\n" + ex.Message, "Error");
             }
         }
+
         private void btnBuscarProveedores_Click(object sender, EventArgs e)
         {
             listarProveedores();
@@ -655,460 +629,265 @@ namespace CpOmnicell
             if (e.KeyChar == (char)Keys.Enter) listarProveedores();
         }
 
-
         // SECCION  PERSONAL
 
         // Opcion Usuarios
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
-            gbxCompras.Visible = false;
-            gbxVentas.Visible = false;
-            gbxClientes.Visible = false;
-            gbxProveedores.Visible = false;
-            gbxPantallas.Visible = false;
-            gbxEmpleados.Visible = false;
-            gbxUsuarios.Visible = true;
+            MostrarSeccion(gbxUsuarios, btnTabPersonal, pnlAccionesPersonal);
 
-            gbxUsuarios.BringToFront();
             listarUsuarios();
         }
 
         private void btnNuevoUsuario_Click(object sender, EventArgs e)
         {
-            FrmUsuarios frmUsuario = new FrmUsuarios();
-            frmUsuario.ShowDialog();
+            using (FrmUsuarios formulario = new FrmUsuarios())
+            {
+                formulario.ShowDialog();
+            }
 
             listarUsuarios();
         }
-        //lista de usuarios
 
+        //lista de usuarios
         private void listarUsuarios()
         {
             try
             {
-                dgvListaUsuarios.DataSource = UsuarioCln.listarUsuarios(
-                    txtBuscarUsuario.Text.Trim()
-                );
+                dgvListaUsuarios.DataSource = UsuarioCln.listarUsuarios(txtBuscarUsuario.Text.Trim());
 
-                if (!dgvListaUsuarios.Columns.Contains("colNumero"))
-                {
-                    DataGridViewTextBoxColumn columnaNumero =
-                        new DataGridViewTextBoxColumn();
+                GrillasOmnicell.Ocultar(dgvListaUsuarios, "id");
 
-                    columnaNumero.Name = "colNumero";
-                    columnaNumero.HeaderText = "N.º";
-                    columnaNumero.ReadOnly = true;
-                    columnaNumero.Width = 50;
-                    columnaNumero.SortMode =
-                        DataGridViewColumnSortMode.NotSortable;
+                GrillasOmnicell.Titulo(dgvListaUsuarios, "nombres", "Nombre");
+                GrillasOmnicell.Titulo(dgvListaUsuarios, "cargo", "Cargo");
+                GrillasOmnicell.Titulo(dgvListaUsuarios, "nombre", "Rol");
+                GrillasOmnicell.Titulo(dgvListaUsuarios, "nombreUsuario", "Usuario");
 
-                    columnaNumero.DefaultCellStyle.Alignment =
-                        DataGridViewContentAlignment.MiddleCenter;
-
-                    dgvListaUsuarios.Columns.Insert(0, columnaNumero);
-                }
-
-                // Configurar encabezados solamente si existen
-                dgvListaUsuarios.Columns["id"].Visible = false;
-
-                if (dgvListaUsuarios.Columns.Contains("nombres"))
-                    dgvListaUsuarios.Columns["nombres"].HeaderText = "Nombre";
-
-                if (dgvListaUsuarios.Columns.Contains("cargo"))
-                    dgvListaUsuarios.Columns["cargo"].HeaderText = "Cargo";
-
-                if (dgvListaUsuarios.Columns.Contains("nombre"))
-                    dgvListaUsuarios.Columns["nombre"].HeaderText = "Rol";
-
-                if (dgvListaUsuarios.Columns.Contains("nombreUsuario"))
-                    dgvListaUsuarios.Columns["nombreUsuario"].HeaderText = "Usuario";
-
-                int numero = 1;
-
-                foreach (DataGridViewRow fila in dgvListaUsuarios.Rows)
-                {
-                    if (!fila.IsNewRow)
-                    {
-                        fila.Cells["colNumero"].Value = numero;
-                        numero++;
-                    }
-                }
+                GrillasOmnicell.Numerar(dgvListaUsuarios, "N.º");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.ToString(),
-                    "Error al listar usuarios",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.ToString(), "Error al listar usuarios");
             }
         }
+
         private void btnEditarUsuario_Click(object sender, EventArgs e)
         {
-            if (dgvListaUsuarios.CurrentRow == null)
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaUsuarios);
+
+            if (id < 0)
             {
-                MessageBox.Show("Seleccione un usuario para editar.");
+                Util.Avisar("Seleccione un usuario para editar.");
                 return;
             }
 
-            int id = Convert.ToInt32(
-                dgvListaUsuarios.CurrentRow.Cells["id"].Value
-            );
-
-            FrmUsuarios formulario = new FrmUsuarios(id);
-            formulario.ShowDialog();
+            using (FrmUsuarios formulario = new FrmUsuarios(id))
+            {
+                formulario.ShowDialog();
+            }
 
             listarUsuarios();
         }
+
         private void btnEliminarUsuarios_Click(object sender, EventArgs e)
         {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaUsuarios);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione un usuario.");
+                return;
+            }
+
+            if (!ConfirmarBaja("al usuario", id))
+                return;
+
             try
             {
-                if (dgvListaUsuarios.CurrentRow == null ||
-                    dgvListaUsuarios.CurrentRow.IsNewRow)
-                {
-                    MessageBox.Show("Seleccione un usuario.");
-                    return;
-                }
+                UsuarioCln.eliminar(id, SesionCln.NombreUsuario);
 
-                int id = Convert.ToInt32(
-                    dgvListaUsuarios.CurrentRow.Cells["id"].Value
-                );
+                Util.Informar("Usuario eliminado correctamente.");
 
-                DialogResult dialog = MessageBox.Show(
-                    $"¿Está seguro que desea dar de baja al usuario con ID {id}?",
-                    "::: Confirmación - OmniCell :::",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (dialog == DialogResult.Yes)
-                {
-                    if (Util.usuario == null)
-                    {
-                        MessageBox.Show("No se encontró el usuario de sesión.");
-                        return;
-                    }
-
-                    UsuarioCln.eliminar(id, Util.usuario.nombreUsuario);
-
-                    MessageBox.Show("Usuario eliminado correctamente.");
-
-                    listarUsuarios();
-                }
+                listarUsuarios();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al eliminar el usuario:\n\n" + ex.ToString(),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError("Error al eliminar el usuario:\n\n" + ex.Message, "Error");
             }
         }
+
         private void btnBuscarUsuario_Click(object sender, EventArgs e)
         {
             listarUsuarios();
         }
+
         private void txtBuscarUsuario_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter) listarUsuarios();
         }
 
-
         //SECCION INVENTARIO
 
         private void btnPantallas_Click(object sender, EventArgs e)
         {
-            gbxCompras.Visible = false;
-            gbxClientes.Visible = false;
-            gbxProveedores.Visible = false;
-            gbxUsuarios.Visible = false;
-            gbxVentas.Visible = false;
-            gbxEmpleados.Visible = false;
-            gbxPantallas.Visible= true;
+            MostrarSeccion(gbxPantallas, btnTabInventario, pnlAccionesInventario);
 
-            gbxPantallas.BringToFront();
-            listarPantalla();
+            listarPantallas();
         }
 
-        private void listarPantalla()
+        private void listarPantallas()
         {
             try
             {
-                dgvListaPantallas.DataSource = PantallaCln.listarPantalla(
-                    txtBuscarPantalla.Text.Trim()
-                );
+                dgvListaPantallas.DataSource = PantallaCln.listarPantalla(txtBuscarPantalla.Text.Trim());
 
-                if (!dgvListaPantallas.Columns.Contains("colNumero"))
-                {
-                    DataGridViewTextBoxColumn columnaNumero =
-                        new DataGridViewTextBoxColumn();
+                GrillasOmnicell.Ocultar(dgvListaPantallas, "id");
 
-                    columnaNumero.Name = "colNumero";
-                    columnaNumero.HeaderText = "N.º";
-                    columnaNumero.ReadOnly = true;
-                    columnaNumero.Width = 50;
-                    columnaNumero.SortMode =
-                        DataGridViewColumnSortMode.NotSortable;
+                GrillasOmnicell.Titulo(dgvListaPantallas, "sku", "SKU");
+                GrillasOmnicell.Titulo(dgvListaPantallas, "descripcion", "Descripción");
+                GrillasOmnicell.Titulo(dgvListaPantallas, "calidad", "Calidad");
+                GrillasOmnicell.Titulo(dgvListaPantallas, "tecnologia", "Tecnología");
+                GrillasOmnicell.Titulo(dgvListaPantallas, "precioVenta", "Precio de Venta", Formatos.Monto);
+                GrillasOmnicell.Titulo(dgvListaPantallas, "stockTotal", "Stock Total", Formatos.Monto);
 
-                    columnaNumero.DefaultCellStyle.Alignment =
-                        DataGridViewContentAlignment.MiddleCenter;
-
-                    dgvListaPantallas.Columns.Insert(0, columnaNumero);
-                }
-
-                dgvListaPantallas.Columns["id"].Visible = false;
-
-                if (dgvListaPantallas.Columns.Contains("sku"))
-                    dgvListaPantallas.Columns["sku"].HeaderText = "SKU";
-
-                if (dgvListaPantallas.Columns.Contains("descripcion"))
-                    dgvListaPantallas.Columns["descripcion"].HeaderText = "Descripción";
-
-                if (dgvListaPantallas.Columns.Contains("calidad"))
-                    dgvListaPantallas.Columns["calidad"].HeaderText = "Calidad";
-
-                if (dgvListaPantallas.Columns.Contains("tecnologia"))
-                    dgvListaPantallas.Columns["tecnologia"].HeaderText = "Tecnología";
-
-                if (dgvListaPantallas.Columns.Contains("precioVenta"))
-                {
-                    dgvListaPantallas.Columns["precioVenta"].HeaderText = "Precio de Venta";
-                    dgvListaPantallas.Columns["precioVenta"].DefaultCellStyle.Format = "N2";
-                }
-
-                if (dgvListaPantallas.Columns.Contains("stockTotal"))
-                {
-                    dgvListaPantallas.Columns["stockTotal"].HeaderText = "Stock Total";
-                    dgvListaPantallas.Columns["stockTotal"].DefaultCellStyle.Format = "N2";
-                }
-
-                int numero = 1;
-                foreach (DataGridViewRow fila in dgvListaPantallas.Rows)
-                {
-                    if (!fila.IsNewRow)
-                    {
-                        fila.Cells["colNumero"].Value = numero;
-                        numero++;
-                    }
-                }
+                GrillasOmnicell.Numerar(dgvListaPantallas, "N.º");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.ToString(),
-                    "Error al listar pantallas",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.ToString(), "Error al listar pantallas");
             }
         }
 
         private void btnAñadirPantalla_Click(object sender, EventArgs e)
         {
-            FrmPantalla frmPantalla = new FrmPantalla();
-            frmPantalla.ShowDialog();
+            using (FrmPantalla formulario = new FrmPantalla())
+            {
+                formulario.ShowDialog();
+            }
         }
+
         private void btnEliminarPantalla_Click(object sender, EventArgs e)
         {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaPantallas);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione una pantalla.");
+                return;
+            }
+
+            if (!ConfirmarBaja("a la pantalla", id))
+                return;
+
             try
             {
-                if (dgvListaPantallas.CurrentRow == null ||
-                    dgvListaPantallas.CurrentRow.IsNewRow)
-                {
-                    MessageBox.Show("Seleccione una pantalla.");
-                    return;
-                }
+                PantallaCln.eliminar(id, SesionCln.NombreUsuario);
 
-                int id = Convert.ToInt32(
-                    dgvListaPantallas.CurrentRow.Cells["id"].Value
-                );
+                Util.Informar("Pantalla eliminada correctamente.");
 
-                DialogResult dialog = MessageBox.Show(
-                    $"¿Está seguro que desea dar de baja a la pantalla con ID {id}?",
-                    "::: Confirmación - OmniCell :::",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (dialog == DialogResult.Yes)
-                {
-                    if (Util.usuario == null)
-                    {
-                        MessageBox.Show("No se encontró el usuario de sesión.");
-                        return;
-                    }
-
-                    PantallaCln.eliminar(id, Util.usuario.nombreUsuario);
-
-                    MessageBox.Show("Pantalla eliminada correctamente.");
-
-                    listarPantalla();
-                }
+                listarPantallas();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al eliminar el usuario:\n\n" + ex.ToString(),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError("Error al eliminar la pantalla:\n\n" + ex.Message, "Error");
             }
         }
+
         private void btnBuscarPantalla_Click(object sender, EventArgs e)
         {
-            listarPantalla();
+            listarPantallas();
         }
 
         private void txtBuscarPantalla_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (e.KeyChar == (char)Keys.Enter) listarPantalla();
+            if (e.KeyChar == (char)Keys.Enter) listarPantallas();
         }
 
         //Opcion Empleados
 
         private void btnEmpleado_Click(object sender, EventArgs e)
         {
-            gbxCompras.Visible = false;
-            gbxClientes.Visible = false;
-            gbxProveedores.Visible = false;
-            gbxUsuarios.Visible = false;
-            gbxVentas.Visible = false;
-            gbxPantallas.Visible = false;
-            gbxEmpleados.Visible = true;
+            MostrarSeccion(gbxEmpleados, btnTabPersonal, pnlAccionesPersonal);
 
-            gbxEmpleados.BringToFront();
             listarEmpleados();
         }
 
         private void btnNuevoEmpleado_Click(object sender, EventArgs e)
         {
-            FrmEmpleados frmEmpleados = new FrmEmpleados();
-            frmEmpleados.ShowDialog();
+            using (FrmEmpleados formulario = new FrmEmpleados())
+            {
+                formulario.ShowDialog();
+            }
 
             listarEmpleados();
         }
+
+        private void btnEditarEmpleado_Click(object sender, EventArgs e)
+        {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaEmpleados);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione un empleado para editar.");
+                return;
+            }
+
+            using (FrmEmpleados formulario = new FrmEmpleados(id))
+            {
+                formulario.ShowDialog();
+            }
+
+            listarEmpleados();
+        }
+
         private void listarEmpleados()
         {
             try
             {
-                dgvListaEmpleados.DataSource = EmpleadoCln.listarEmpleados(
-                    txtBuscarEmpleados.Text.Trim()
-                );
+                dgvListaEmpleados.DataSource = EmpleadoCln.listarEmpleados(txtBuscarEmpleados.Text.Trim());
 
-                if (!dgvListaEmpleados.Columns.Contains("colNumero"))
-                {
-                    DataGridViewTextBoxColumn columnaNumero =
-                        new DataGridViewTextBoxColumn();
+                GrillasOmnicell.Ocultar(dgvListaEmpleados, "id");
 
-                    columnaNumero.Name = "colNumero";
-                    columnaNumero.HeaderText = "N.º";
-                    columnaNumero.ReadOnly = true;
-                    columnaNumero.Width = 50;
-                    columnaNumero.SortMode =
-                        DataGridViewColumnSortMode.NotSortable;
+                GrillasOmnicell.Titulo(dgvListaEmpleados, "nombres", "Nombre");
+                GrillasOmnicell.Titulo(dgvListaEmpleados, "primerApellido", "Primer Apellido");
+                GrillasOmnicell.Titulo(dgvListaEmpleados, "segundoApellido", "Segundo Apellido");
+                GrillasOmnicell.Titulo(dgvListaEmpleados, "ci", "CI");
+                GrillasOmnicell.Titulo(dgvListaEmpleados, "celular", "Celular");
+                GrillasOmnicell.Titulo(dgvListaEmpleados, "direccion", "Direccion");
+                GrillasOmnicell.Titulo(dgvListaEmpleados, "cargo", "Cargo");
 
-                    columnaNumero.DefaultCellStyle.Alignment =
-                        DataGridViewContentAlignment.MiddleCenter;
-
-                    dgvListaEmpleados.Columns.Insert(0, columnaNumero);
-                }
-
-                // Configurar encabezados solamente si existen
-                dgvListaEmpleados.Columns["id"].Visible = false;
-
-                if (dgvListaEmpleados.Columns.Contains("nombres"))
-                    dgvListaEmpleados.Columns["nombres"].HeaderText = "Nombre";
-
-                if (dgvListaEmpleados.Columns.Contains("primerPellido"))
-                    dgvListaEmpleados.Columns["primerApellido"].HeaderText = "Primer Apellido";
-
-                if (dgvListaEmpleados.Columns.Contains("segundoApellido"))
-                    dgvListaEmpleados.Columns["segundoApellido"].HeaderText = "Segundo Apellido";
-
-                if (dgvListaEmpleados.Columns.Contains("ci"))
-                    dgvListaEmpleados.Columns["ci"].HeaderText = "CI";
-
-                if (dgvListaEmpleados.Columns.Contains("celular"))
-                    dgvListaEmpleados.Columns["celular"].HeaderText = "Celular";
-
-                if (dgvListaEmpleados.Columns.Contains("direccion"))
-                    dgvListaEmpleados.Columns["direccion"].HeaderText = "Direccion";
-
-                if (dgvListaEmpleados.Columns.Contains("cargo"))
-                    dgvListaEmpleados.Columns["cargo"].HeaderText = "Cargo";
-
-                int numero = 1;
-
-                foreach (DataGridViewRow fila in dgvListaEmpleados.Rows)
-                {
-                    if (!fila.IsNewRow)
-                    {
-                        fila.Cells["colNumero"].Value = numero;
-                        numero++;
-                    }
-                }
+                GrillasOmnicell.Numerar(dgvListaEmpleados, "N.º");
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.ToString(),
-                    "Error al listar empleados",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.ToString(), "Error al listar empleados");
             }
         }
 
         private void btnEliminarEmpleado_Click(object sender, EventArgs e)
         {
+            int id = GrillasOmnicell.IdSeleccionado(dgvListaEmpleados);
+
+            if (id < 0)
+            {
+                Util.Avisar("Seleccione un empleado.");
+                return;
+            }
+
+            if (!ConfirmarBaja("al empleado", id))
+                return;
+
             try
             {
-                if (dgvListaEmpleados.CurrentRow == null ||
-                    dgvListaEmpleados.CurrentRow.IsNewRow)
-                {
-                    MessageBox.Show("Seleccione un empleado.");
-                    return;
-                }
+                EmpleadoCln.eliminar(id, SesionCln.NombreUsuario);
 
-                int id = Convert.ToInt32(
-                    dgvListaEmpleados.CurrentRow.Cells["id"].Value
-                );
+                Util.Informar("Empleado eliminado correctamente.");
 
-                DialogResult dialog = MessageBox.Show(
-                    $"¿Está seguro que desea dar de baja al empleado con ID {id}?",
-                    "::: Confirmación - OmniCell :::",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (dialog == DialogResult.Yes)
-                {
-                    if (Util.usuario == null)
-                    {
-                        MessageBox.Show("No se encontró el usuario de sesión.");
-                        return;
-                    }
-
-                    EmpleadoCln.eliminar(id, Util.usuario.nombreUsuario);
-
-                    MessageBox.Show("Empleado eliminado correctamente.");
-
-                    listarEmpleados();
-                }
+                listarEmpleados();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al eliminar el empleado:\n\n" + ex.ToString(),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError("Error al eliminar el empleado:\n\n" + ex.Message, "Error");
             }
         }
 

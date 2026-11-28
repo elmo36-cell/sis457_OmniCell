@@ -1,0 +1,122 @@
+@model WebOmnicell.Models.InventarioMinimoViewModel
+
+@{
+    ViewData["Title"] = "Stock mínimo";
+    ViewData["BodyClass"] = "app-shell";
+
+    string stockActual = Model.StockActual.ToString("N0");
+    string pantalla = Model.Sku + " · " + Model.Descripcion;
+}
+
+<div class="table-layout">
+
+    <div class="table-panel">
+
+        <!-- Encabezado del módulo -->
+        <div class="catalog-toolbar">
+
+            <div class="toolbar-text">
+
+                <nav class="crumbs">
+                    <a asp-controller="Tablas" asp-action="Index">
+                        <i class="bi bi-grid"></i>
+                        Módulos
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <a asp-action="Inventario">Inventario</a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>Stock mínimo</span>
+                </nav>
+
+                <h1>Stock mínimo</h1>
+
+                <p>@pantalla</p>
+
+            </div>
+
+            <div class="toolbar-actions">
+
+                <a class="clear-filters" asp-action="Inventario">
+                    <i class="bi bi-arrow-left"></i>
+                    Volver al inventario
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrap form-wrap">
+
+            <form method="post" asp-action="InventarioMinimo">
+
+                <input type="hidden" asp-for="Id" />
+
+                <div asp-validation-summary="ModelOnly" class="login-validation"></div>
+
+                <div class="form-grid">
+
+                    <div class="form-field">
+                        <label>Sucursal</label>
+
+                        <input value="@Model.Sucursal" disabled />
+                    </div>
+
+                    <div class="form-field">
+                        <label>Pantalla</label>
+
+                        <input value="@pantalla" disabled />
+                    </div>
+
+                    <div class="form-field">
+                        <label>Stock actual</label>
+
+                        <input value="@stockActual" disabled />
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="StockMinimo"></label>
+
+                        <input asp-for="StockMinimo"
+                               type="number"
+                               min="0"
+                               max="1000000"
+                               step="1"
+                               autocomplete="off" />
+
+                        <span asp-validation-for="StockMinimo" class="validation-message"></span>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button type="submit" class="btn-primary btn-new">
+                        <i class="bi bi-save"></i>
+                        Guardar mínimo
+                    </button>
+
+                    <a class="clear-filters" asp-action="Inventario">Cancelar</a>
+
+                </div>
+
+            </form>
+
+            <p class="detail-note">
+                El mínimo se guarda por sucursal y pantalla. Cuando el stock actual queda
+                igual o por debajo de este valor, la fila se marca como «bajo» en el inventario.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

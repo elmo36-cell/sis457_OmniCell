@@ -51,7 +51,7 @@ namespace ClnOmnicell
                 var existe = context.Empleado.Find(id);
                 if (existe == null) throw new Exception($"El empleado con id {id} no existe");
 
-                existe.estado = -1;
+                existe.estado = (int)Estado.Eliminado;
                 existe.usuarioRegistro = usuario;
                 return context.SaveChanges();
             }
@@ -67,21 +67,13 @@ namespace ClnOmnicell
             }
         }
 
-        public static List<Empleado> listar()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Empleado.Where(x => x.estado == 1).OrderBy(x => x.nombres).ToList();
-            }
-        }
-
         public static Empleado obtenerConSucursal(int id)
         {
             using (var context = new LabOmnicellEntities())
             {
                 var empleado = context.Empleado
                     .Include("Sucursal")
-                    .FirstOrDefault(x => x.id == id && x.estado == 1);
+                    .FirstOrDefault(x => x.id == id && x.estado == (int)Estado.Activo);
 
                 if (empleado == null)
                     throw new Exception("No se encontró el empleado.");
@@ -93,7 +85,7 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.paEmpleadoListar(parametro.Trim()).ToList();
+                return context.paEmpleadoListar((parametro ?? string.Empty).Trim()).ToList();
             }
         }
         public static List<Sucursal> listarSucursalCombo()
@@ -101,7 +93,7 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 return context.Sucursal
-                    .Where(x => x.estado == 1)
+                    .Where(x => x.estado == (int)Estado.Activo)
                     .OrderBy(x => x.nombre)
                     .ToList();
             }

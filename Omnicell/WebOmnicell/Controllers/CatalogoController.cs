@@ -2,15 +2,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebOmnicell.Data;
 using WebOmnicell.Models;
-using WebOmnicell.Seguridad;
 using WebOmnicell.Servicios;
 
 namespace WebOmnicell.Controllers
 {
     /// <summary>
-    /// Catálogo de pantallas. Hace lo mismo que paPantallaListar: solo las activas y
-    /// búsqueda por sku, descripción y calidad. La ficha (Detalle) muestra además
-    /// los modelos compatibles y el stock de cada sucursal.
+    /// Catálogo de pantallas, público: no pide sesión para que lo vea un cliente.
+    /// Hace lo mismo que paPantallaListar: solo las activas y búsqueda por sku,
+    /// descripción y calidad. La ficha (Detalle) muestra además los modelos
+    /// compatibles. El stock por sucursal y los mínimos no se publican: la página
+    /// solo dice si el producto está disponible.
     /// </summary>
     public class CatalogoController : Controller
     {
@@ -29,10 +30,6 @@ namespace WebOmnicell.Controllers
         [HttpGet]
         public IActionResult Index(string parametro, string calidad, int pagina = 1)
         {
-            // Si no hay sesión, no se puede ver el catálogo.
-            if (!Acceso.HaySesion(HttpContext.Session))
-                return RedirectToAction("IniciarSesion", "Account");
-
             parametro = (parametro ?? string.Empty).Trim();
             calidad = (calidad ?? string.Empty).Trim();
 
@@ -76,42 +73,41 @@ namespace WebOmnicell.Controllers
             ViewBag.Total = total;
             ViewBag.Pagina = paginaActual;
             ViewBag.TotalPaginas = totalPaginas;
-            ViewBag.StockTotal = consulta.Sum(x => (decimal?)x.stockTotal) ?? 0;
 
-            // BUG (heredado): Pantalla.stockTotal no se sincroniza con Inventario.stockActual,
-            // así que el stock que se muestra puede no ser el real por sucursal.
+            // Disponibilidad de la página. Se calcula con Inventario porque
+            // Pantalla.stockTotal no se sincroniza (BUG heredado) y ya no se muestra.
+            var idsPagina = pantallas.Select(x => x.id).ToList();
+
+            ViewBag.Disponibles = _context.Inventario
+                .Where(x => idsPagina.Contains(x.idPantalla) && x.estado == 1 && x.stockActual > 0)
+                .Select(x => x.idPantalla)
+                .Distinct()
+                .ToList();
+
+            // Productos del filtro que tienen stock en alguna sucursal.
+            ViewBag.ConStock = consulta.Count(x => _context.Inventario.Any(i =>
+                i.idPantalla == x.id && i.estado == 1 && i.stockActual > 0));
+
             return View(pantallas);
         }
 
-        // Ficha del producto: precio, modelos compatibles y stock por sucursal.
+        // Ficha del producto: precio, modelos compatibles y disponibilidad.
         [HttpGet]
         public IActionResult Detalle(int id)
         {
-            if (!Acceso.HaySesion(HttpContext.Session))
-                return RedirectToAction("IniciarSesion", "Account");
-
             var pantalla = _context.Pantalla.FirstOrDefault(x => x.id == id && x.estado == 1);
 
             if (pantalla == null) return NotFound();
 
+            // Disponibilidad pública: alcanza con que una sucursal tenga stock.
+            bool disponible = _context.Inventario.Any(i =>
+                i.idPantalla == id && i.estado == 1 && i.stockActual > 0);
+
             var modelo = new PantallaDetalleViewModel
             {
                 Pantalla = pantalla,
-                Imagen = Imagenes.RutaPantalla(_entorno, pantalla.sku),
-
-                // Inventario real de la pantalla, sucursal por sucursal.
-                Stocks =
-                    (from i in _context.Inventario
-                     join s in _context.Sucursal on i.idSucursal equals s.id
-                     where i.idPantalla == id && i.estado == 1
-                     orderby s.nombre
-                     select new StockPorSucursal
-                     {
-                         Sucursal = s.nombre,
-                         Ciudad = s.ciudad ?? string.Empty,
-                         Stock = i.stockActual,
-                         Minimo = i.stockMinimo
-                     }).ToList(),
+                Imagen = Imagenes.RutaPantalla(_entorno, pantalla.sku, pantalla.calidad),
+                Disponible = disponible,
 
                 // Modelos de celular en los que encaja esta pantalla.
                 ModelosCompatibles =

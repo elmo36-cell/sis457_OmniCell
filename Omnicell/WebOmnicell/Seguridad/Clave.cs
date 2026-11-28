@@ -5,7 +5,7 @@ using System.Text;
 namespace WebOmnicell.Seguridad
 {
     /// <summary>
-    /// Cifra la contraseña con el mismo algoritmo que el escritorio (CpOmnicell/Util.Cifrar),
+    /// Cifra la contraseña con el mismo algoritmo que el escritorio (ClnOmnicell/SeguridadCln.cs),
     /// para poder compararla con lo que ya está guardado en la tabla Usuario.
     /// </summary>
     public static class Clave
@@ -18,7 +18,7 @@ namespace WebOmnicell.Seguridad
             0x49, 0x76, 0x61, 0x6e, 0x20, 0x4d, 0x65, 0x64, 0x76, 0x65, 0x64, 0x65, 0x76
         };
 
-        // Devuelve el texto cifrado en Base64, igual que Util.Cifrar del escritorio.
+        // Devuelve el texto cifrado en Base64, igual que SeguridadCln.cifrar del escritorio.
         public static string Cifrar(string textoPlano)
         {
             // El escritorio saca la clave (32 bytes) y luego el IV (16 bytes) del mismo flujo,

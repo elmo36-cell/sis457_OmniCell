@@ -2,6 +2,9 @@
     // El catálogo usa una pantalla fija sin scroll; el resto de páginas fluye normal.
     string claseCuerpo = ViewData["BodyClass"] as string ?? string.Empty;
     string usuario = Context.Session.GetString("usuario") ?? string.Empty;
+
+    // Unidades guardadas en el carrito: alimentan el contador del encabezado.
+    int unidadesCarrito = Carrito.Unidades(Context.Session);
 }
 <!DOCTYPE html>
 <html lang="es">
@@ -66,6 +69,20 @@
 
             <!-- SESIÓN -->
             <div class="header-user">
+
+                <!-- CARRITO: contador de las unidades guardadas en la sesión -->
+                <a class="cart-link @(unidadesCarrito > 0 ? "con-items" : "")"
+                   asp-controller="Carrito"
+                   asp-action="Index"
+                   title="Carrito de compra">
+                    <i class="bi bi-bag"></i>
+                    <span>Carrito</span>
+
+                    @if (unidadesCarrito > 0)
+                    {
+                        <span class="cart-count">@unidadesCarrito</span>
+                    }
+                </a>
                 @if (!string.IsNullOrEmpty(usuario))
                 {
                     <a class="logout-link"

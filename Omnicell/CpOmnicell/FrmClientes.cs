@@ -2,20 +2,17 @@
 using ClnOmnicell;
 using CpMinerva;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmClientes : Form
+    public partial class FrmClientes : FormOmnicell
     {
         private int? idCliente;
+
+        // Id del cliente recién registrado, para que el formulario que lo abrió pueda seleccionarlo.
+        public int? IdClienteRegistrado { get; private set; }
+
         public FrmClientes()
         {
             InitializeComponent();
@@ -30,6 +27,7 @@ namespace CpOmnicell
 
         private void FrmClientes_Load(object sender, EventArgs e)
         {
+            configurarCINit();
             cargarTiposCliente();
 
             if (idCliente.HasValue)
@@ -41,13 +39,21 @@ namespace CpOmnicell
                 cbxTipoCliente.SelectedIndex = -1;
             }
         }
+
+        // El CI/NIT se escribe solo con números; el filtro se aplica al teclear.
+        private void configurarCINit()
+        {
+            txtCINit.KeyPress -= Util.SoloNumeros;
+            txtCINit.KeyPress += Util.SoloNumeros;
+        }
+
         private void cargarTiposCliente()
         {
-            cbxTipoCliente.DataSource =
-                ClienteCln.listarTiposClienteCombo();
+            cbxTipoCliente.DataSource = ClienteCln.listarTiposClienteCombo();
 
             cbxTipoCliente.SelectedIndex = -1;
         }
+
         private void cargarCliente()
         {
             var cliente = ClienteCln.obtenerUno(idCliente.Value);
@@ -64,9 +70,12 @@ namespace CpOmnicell
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtCINit.Text))
+            if (!Util.Requerido(txtCINit, "Ingrese el CI/NIT del cliente."))
+                return;
+
+            if (!Util.SoloDigitos(txtCINit.Text.Trim()))
             {
-                MessageBox.Show("Ingrese el CI/NIT del cliente.");
+                Util.Avisar("El CI/NIT solo admite números.");
                 txtCINit.Focus();
                 return;
             }
@@ -74,36 +83,31 @@ namespace CpOmnicell
             if (string.IsNullOrWhiteSpace(txtNombre.Text) &&
                 string.IsNullOrWhiteSpace(txtRazonSocial.Text))
             {
-                MessageBox.Show("Ingrese el nombre o la razón social del cliente.");
+                Util.Avisar("Ingrese el nombre o la razón social del cliente.");
                 txtNombre.Focus();
                 return;
             }
 
             if (cbxTipoCliente.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione el tipo de cliente.");
+                Util.Avisar("Seleccione el tipo de cliente.");
                 cbxTipoCliente.Focus();
-                return;
-            }
-
-            if (Util.usuario == null)
-            {
-                MessageBox.Show("No se encontró el usuario de sesión.");
                 return;
             }
 
             try
             {
-                Cliente cliente = new Cliente();
-
-                cliente.nitCi = txtCINit.Text.Trim();
-                cliente.nombres = txtNombre.Text.Trim();
-                cliente.primerApellido = txtPrimerApellido.Text.Trim();
-                cliente.segundoApellido = txtSegundoApellido.Text.Trim();
-                cliente.razonSocial = txtRazonSocial.Text.Trim();
-                cliente.tipoCliente = cbxTipoCliente.SelectedItem.ToString();
-                cliente.telefono = txtTelefono.Text.Trim();
-                cliente.direccion = txtDireccion.Text.Trim();
+                Cliente cliente = new Cliente
+                {
+                    nitCi = txtCINit.Text.Trim(),
+                    nombres = txtNombre.Text.Trim(),
+                    primerApellido = txtPrimerApellido.Text.Trim(),
+                    segundoApellido = txtSegundoApellido.Text.Trim(),
+                    razonSocial = txtRazonSocial.Text.Trim(),
+                    tipoCliente = cbxTipoCliente.SelectedItem.ToString(),
+                    telefono = txtTelefono.Text.Trim(),
+                    direccion = txtDireccion.Text.Trim()
+                };
 
                 if (idCliente.HasValue)
                 {
@@ -111,24 +115,27 @@ namespace CpOmnicell
 
                     ClienteCln.actualizar(cliente);
 
-                    MessageBox.Show("Cliente actualizado correctamente.");
+                    Util.Informar("Cliente actualizado correctamente.");
                 }
                 else
                 {
-                    cliente.usuarioRegistro = Util.usuario.nombreUsuario;
+                    cliente.usuarioRegistro = SesionCln.NombreUsuario;
                     cliente.fechaRegistro = DateTime.Now;
-                    cliente.estado = 1;
+                    cliente.estado = (int)Estado.Activo;
 
+                    // INSERT del cliente; el id generado queda en IdClienteRegistrado.
                     ClienteCln.crear(cliente);
 
-                    MessageBox.Show("Cliente registrado correctamente.");
+                    IdClienteRegistrado = cliente.id;
+
+                    Util.Informar("Cliente registrado correctamente.");
                 }
 
                 Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar el cliente: " + ex.Message);
+                Util.MostrarError("Error al guardar el cliente: " + ex.Message);
             }
         }
 

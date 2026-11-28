@@ -54,7 +54,7 @@ namespace ClnOmnicell
                 var existe = context.Proveedor.Find(id);
                 if (existe == null) throw new Exception($"El proveedor con id {id} no existe");
 
-                existe.estado = -1;
+                existe.estado = (int)Estado.Eliminado;
                 existe.usuarioRegistro = usuario;
                 return context.SaveChanges();
             }
@@ -74,7 +74,7 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.Proveedor.Where(x => x.estado == 1).OrderBy(x => x.razonSocial).ToList();
+                return context.Proveedor.Where(x => x.estado == (int)Estado.Activo).OrderBy(x => x.razonSocial).ToList();
             }
         }
 
@@ -82,7 +82,7 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.paProveedorListar(parametro.Trim()).ToList();
+                return context.paProveedorListar((parametro ?? string.Empty).Trim()).ToList();
             }
         }
     }

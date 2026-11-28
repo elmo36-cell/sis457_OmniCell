@@ -2,20 +2,18 @@
 using ClnOmnicell;
 using CpMinerva;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmPantalla : Form
+    public partial class FrmPantalla : FormOmnicell
     {
+        // Rangos de los controles numéricos del formulario.
+        private const decimal PrecioMaximo = 1000000M;
+        private const decimal StockMaximo = 1000000M;
+
         private int? idPantalla;
+
         public FrmPantalla()
         {
             InitializeComponent();
@@ -30,7 +28,9 @@ namespace CpOmnicell
 
         private void FrmPantalla_Load(object sender, EventArgs e)
         {
+            configurarLimites();
             cargarMarcas();
+
             if (idPantalla.HasValue)
             {
                 cargarPantalla();
@@ -40,6 +40,17 @@ namespace CpOmnicell
                 limpiarCampos();
             }
         }
+
+        // El diseñador deja el máximo en 100, así que una pantalla con un precio
+        // o un stock mayor no se podía abrir ni guardar.
+        private void configurarLimites()
+        {
+            nudPrecioVenta.DecimalPlaces = 2;
+            nudPrecioVenta.Maximum = PrecioMaximo;
+
+            nudStockTotal.Maximum = StockMaximo;
+        }
+
         private void cargarMarcas()
         {
             cbxMarca.DataSource = null;
@@ -53,6 +64,7 @@ namespace CpOmnicell
             cbxMarca.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbxMarca.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
+
         private void cargarPantalla()
         {
             var pantalla = PantallaCln.obtenerUno(idPantalla.Value);
@@ -64,6 +76,7 @@ namespace CpOmnicell
             nudPrecioVenta.Value = pantalla.precioVenta;
             nudStockTotal.Value = pantalla.stockTotal;
         }
+
         private void limpiarCampos()
         {
             txtSku.Clear();
@@ -83,59 +96,33 @@ namespace CpOmnicell
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            if (!Util.Requerido(txtSku, "Ingrese el SKU de la pantalla."))
+                return;
+
+            if (!Util.Requerido(txtDescripcion, "Ingrese la descripción de la pantalla."))
+                return;
+
+            if (!Util.Requerido(txtCalidad, "Ingrese la calidad de la pantalla."))
+                return;
+
+            if (!Util.Requerido(txtTecnologia, "Ingrese la tecnología de la pantalla."))
+                return;
+
+            if (!Util.Requerido(cbxMarca, "Seleccione o escriba una marca."))
+                return;
+
+            if (!Util.Requerido(txtModelo, "Ingrese el modelo de la pantalla."))
+                return;
+
+            if (nudPrecioVenta.Value <= 0)
+            {
+                Util.Avisar("El precio de venta debe ser mayor a cero.");
+                nudPrecioVenta.Focus();
+                return;
+            }
+
             try
             {
-                // Validaciones
-                if (string.IsNullOrWhiteSpace(txtSku.Text))
-                {
-                    MessageBox.Show("Ingrese el SKU de la pantalla.");
-                    txtSku.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
-                {
-                    MessageBox.Show("Ingrese la descripción de la pantalla.");
-                    txtDescripcion.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtCalidad.Text))
-                {
-                    MessageBox.Show("Ingrese la calidad de la pantalla.");
-                    txtCalidad.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtTecnologia.Text))
-                {
-                    MessageBox.Show("Ingrese la tecnología de la pantalla.");
-                    txtTecnologia.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(cbxMarca.Text))
-                {
-                    MessageBox.Show("Seleccione o escriba una marca.");
-                    cbxMarca.Focus();
-                    return;
-                }
-
-                if (string.IsNullOrWhiteSpace(txtModelo.Text))
-                {
-                    MessageBox.Show("Ingrese el modelo de la pantalla.");
-                    txtModelo.Focus();
-                    return;
-                }
-
-                if (nudPrecioVenta.Value <= 0)
-                {
-                    MessageBox.Show("El precio de venta debe ser mayor a cero.");
-                    nudPrecioVenta.Focus();
-                    return;
-                }
-
-                // Crear objeto pantalla
                 Pantalla pantalla = new Pantalla
                 {
                     sku = txtSku.Text.Trim(),
@@ -144,21 +131,15 @@ namespace CpOmnicell
                     tecnologia = txtTecnologia.Text.Trim(),
                     precioVenta = nudPrecioVenta.Value,
                     stockTotal = 0,
-                    usuarioRegistro = Util.usuario.nombreUsuario
+                    usuarioRegistro = SesionCln.NombreUsuario
                 };
 
-                // Registrar pantalla, marca, modelo y compatibilidad
-                int id = PantallaCln.registrarConCompatibilidad(
-                    pantalla,
-                    cbxMarca.Text,
-                    txtModelo.Text
-                );
+                // La capa de negocio registra pantalla, marca, modelo y compatibilidad.
+                PantallaCln.registrarConCompatibilidad(pantalla, cbxMarca.Text, txtModelo.Text);
 
-                MessageBox.Show(
+                Util.Informar(
                     "Pantalla registrada correctamente.\nStock inicial: 0",
-                    "Registro exitoso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
+                    "Registro exitoso"
                 );
 
                 limpiarCampos();
@@ -166,12 +147,7 @@ namespace CpOmnicell
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al registrar pantalla",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.Message, "Error al registrar pantalla");
             }
         }
 

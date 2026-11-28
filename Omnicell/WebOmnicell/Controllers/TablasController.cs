@@ -44,6 +44,7 @@ namespace WebOmnicell.Controllers
 
             parametro = (parametro ?? string.Empty).Trim();
 
+            // SELECT con JOIN: venta + cliente + empleado + sucursal (solo activas).
             var consulta =
                 from v in _context.Venta
                 join c in _context.Cliente on v.idCliente equals c.id
@@ -88,7 +89,7 @@ namespace WebOmnicell.Controllers
                 pag.datos.Select(x => new[]
                 {
                     x.id.ToString(),
-                    x.fechaVenta.ToString("dd/MM/yyyy"),
+                    x.fechaVenta.ToString("dd/MM/yyyy HH:mm"),
                     x.Cliente ?? "—",
                     x.Vendedor ?? "—",
                     x.Sucursal ?? "—",
@@ -142,7 +143,10 @@ namespace WebOmnicell.Controllers
                     x.telefono ?? "—",
                     x.tipoCliente ?? "—"
                 }).ToList(),
-                pag);
+                pag,
+                accionEditar: "Cliente",
+                textoNuevo: "Nuevo cliente",
+                ids: pag.datos.Select(x => x.id).ToList());
         }
 
 
@@ -159,6 +163,7 @@ namespace WebOmnicell.Controllers
 
             parametro = (parametro ?? string.Empty).Trim();
 
+            // SELECT con JOIN: compra + proveedor + empleado (solo activas).
             var consulta =
                 from c in _context.Compra
                 join p in _context.Proveedor on c.idProveedor equals p.id
@@ -407,7 +412,7 @@ namespace WebOmnicell.Controllers
         // ----------------------------- INVENTARIO -----------------------------
 
         [HttpGet]
-        public IActionResult Inventario(string parametro, int pagina = 1)
+        public IActionResult Inventario(string parametro, bool soloBajo = false, int pagina = 1)
         {
             if (!Acceso.HaySesion(HttpContext.Session))
                 return RedirectToAction("IniciarSesion", "Account");
@@ -417,11 +422,19 @@ namespace WebOmnicell.Controllers
 
             parametro = (parametro ?? string.Empty).Trim();
 
+            // Regla de stock bajo: stock en o por debajo del mínimo.
+            int enAlerta = _context.Inventario
+                .Count(i => i.estado == 1 && i.stockActual <= i.stockMinimo);
+
+            var filasInventario = _context.Inventario.Where(i => i.estado == 1);
+
+            if (soloBajo)
+                filasInventario = filasInventario.Where(i => i.stockActual <= i.stockMinimo);
+
             var consulta =
-                from i in _context.Inventario
+                from i in filasInventario
                 join s in _context.Sucursal on i.idSucursal equals s.id
                 join p in _context.Pantalla on i.idPantalla equals p.id
-                where i.estado == 1
                 select new
                 {
                     i.id,
@@ -454,7 +467,88 @@ namespace WebOmnicell.Controllers
                     x.stockActual.ToString("N0"),
                     x.stockMinimo.ToString("N0")
                 }).ToList(),
-                pag);
+                pag,
+                accionEditar: "InventarioMinimo",
+                ids: pag.datos.Select(x => x.id).ToList(),
+                alertas: pag.datos.Select(x => x.stockActual <= x.stockMinimo).ToList(),
+                columnaAlerta: 4,
+                filtroTexto: "Solo stock bajo",
+                filtroActivo: soloBajo,
+                filtroTotal: enAlerta);
+        }
+
+
+        // --------------------------- STOCK MÍNIMO -----------------------------
+
+        [HttpGet]
+        public IActionResult InventarioMinimo(int id)
+        {
+            if (!Acceso.HaySesion(HttpContext.Session))
+                return RedirectToAction("IniciarSesion", "Account");
+
+            if (!Acceso.PuedeVerAdministracion(HttpContext.Session))
+                return View("SinPermiso");
+
+            var modelo = datosInventario(id);
+
+            if (modelo == null) return NotFound();
+
+            return View(modelo);
+        }
+
+        // Guarda solo el mínimo de esa fila: no toca el stock ni el resto del inventario.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InventarioMinimo(InventarioMinimoViewModel modelo)
+        {
+            if (!Acceso.HaySesion(HttpContext.Session))
+                return RedirectToAction("IniciarSesion", "Account");
+
+            if (!Acceso.PuedeVerAdministracion(HttpContext.Session))
+                return View("SinPermiso");
+
+            // Sucursal, SKU y stock actual no vienen del formulario: se releen de la base.
+            var datos = datosInventario(modelo.Id);
+
+            if (datos == null) return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                datos.StockMinimo = modelo.StockMinimo;
+                return View(datos);
+            }
+
+            var fila = _context.Inventario.FirstOrDefault(i => i.id == modelo.Id && i.estado == 1);
+
+            if (fila == null) return NotFound();
+
+            fila.stockMinimo = modelo.StockMinimo;
+            _context.SaveChanges();
+
+            TempData["ok"] = "Mínimo actualizado: " + modelo.StockMinimo.ToString("N0") +
+                             " unidad(es) para " + datos.Sku + " en " + datos.Sucursal + ".";
+
+            return RedirectToAction("Inventario");
+        }
+
+        // Fila de inventario con los datos que muestra el formulario del mínimo.
+        private InventarioMinimoViewModel? datosInventario(int id)
+        {
+            return (from i in _context.Inventario
+                    join s in _context.Sucursal on i.idSucursal equals s.id
+                    join p in _context.Pantalla on i.idPantalla equals p.id
+                    where i.id == id && i.estado == 1
+                    select new InventarioMinimoViewModel
+                    {
+                        Id = i.id,
+                        Sucursal = s.nombre,
+                        Sku = p.sku,
+                        Descripcion = p.descripcion,
+                        StockActual = i.stockActual,
+
+                        // El mínimo se maneja en unidades enteras (ver el view model).
+                        StockMinimo = (int)i.stockMinimo
+                    }).FirstOrDefault();
         }
 
 
@@ -628,6 +722,200 @@ namespace WebOmnicell.Controllers
         }
 
 
+        // ------------------ CLIENTES: ALTA, EDICIÓN Y BAJA ------------------
+
+        // Formulario del cliente. Con "id" carga un cliente existente (rellena todos
+        // los campos) y con "buscar" trae coincidencias por nombre o CI/NIT.
+        [HttpGet]
+        public IActionResult Cliente(int? id, string? buscar)
+        {
+            if (!Acceso.HaySesion(HttpContext.Session))
+                return RedirectToAction("IniciarSesion", "Account");
+
+            var modelo = new ClienteFormViewModel { Buscar = (buscar ?? string.Empty).Trim() };
+
+            if (id.HasValue)
+            {
+                var cliente = _context.Cliente.FirstOrDefault(x => x.id == id.Value && x.estado == 1);
+
+                if (cliente == null) return NotFound();
+
+                modelo.Id = cliente.id;
+                modelo.NitCi = cliente.nitCi ?? string.Empty;
+                modelo.Nombres = cliente.nombres;
+                modelo.PrimerApellido = cliente.primerApellido;
+                modelo.SegundoApellido = cliente.segundoApellido;
+                modelo.RazonSocial = cliente.razonSocial;
+                modelo.Telefono = cliente.telefono;
+                modelo.Direccion = cliente.direccion;
+                modelo.TipoCliente = cliente.tipoCliente;
+            }
+
+            PrepararCliente(modelo);
+            return View(modelo);
+        }
+
+        // Guarda el cliente con las reglas de ClienteCln.crear / ClienteCln.actualizar:
+        // CI/NIT único, estado activo y usuario que lo registra.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GuardarCliente(ClienteFormViewModel modelo)
+        {
+            if (!Acceso.HaySesion(HttpContext.Session))
+                return RedirectToAction("IniciarSesion", "Account");
+
+            modelo.NitCi = (modelo.NitCi ?? string.Empty).Trim();
+            modelo.Buscar = (modelo.Buscar ?? string.Empty).Trim();
+
+            if (modelo.NitCi.Length == 0)
+                ModelState.AddModelError(nameof(modelo.NitCi), "Ingrese el CI/NIT del cliente.");
+            else if (!modelo.NitCi.All(char.IsDigit))
+                ModelState.AddModelError(nameof(modelo.NitCi), "El CI/NIT solo admite números.");
+
+            bool tieneNombre = !string.IsNullOrWhiteSpace(modelo.Nombres) ||
+                               !string.IsNullOrWhiteSpace(modelo.RazonSocial);
+
+            if (!tieneNombre)
+                ModelState.AddModelError(nameof(modelo.Nombres), "Ingrese el nombre o la razón social del cliente.");
+
+            if (string.IsNullOrWhiteSpace(modelo.TipoCliente))
+                ModelState.AddModelError(nameof(modelo.TipoCliente), "Seleccione el tipo de cliente.");
+
+            // Mismo control de duplicados que hace el escritorio antes de insertar.
+            if (modelo.NitCi.Length > 0)
+            {
+                var repetidos = _context.Cliente.Where(x => x.estado == 1 && x.nitCi == modelo.NitCi);
+
+                if (modelo.Id.HasValue)
+                    repetidos = repetidos.Where(x => x.id != modelo.Id.Value);
+
+                if (repetidos.Any())
+                    ModelState.AddModelError(nameof(modelo.NitCi), "Ya existe un cliente con ese CI/NIT.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                PrepararCliente(modelo);
+                return View("Cliente", modelo);
+            }
+
+            string usuario = HttpContext.Session.GetString("usuario") ?? string.Empty;
+
+            if (modelo.Id.HasValue)
+            {
+                var cliente = _context.Cliente.FirstOrDefault(x => x.id == modelo.Id.Value && x.estado == 1);
+
+                if (cliente == null) return NotFound();
+
+                cliente.nitCi = modelo.NitCi;
+                cliente.nombres = modelo.Nombres?.Trim();
+                cliente.primerApellido = modelo.PrimerApellido?.Trim();
+                cliente.segundoApellido = modelo.SegundoApellido?.Trim();
+                cliente.razonSocial = modelo.RazonSocial?.Trim();
+                cliente.telefono = modelo.Telefono?.Trim();
+                cliente.direccion = modelo.Direccion?.Trim();
+                cliente.tipoCliente = modelo.TipoCliente;
+
+                _context.SaveChanges();
+
+                TempData["ok"] = "Cliente actualizado correctamente.";
+            }
+            else
+            {
+                _context.Cliente.Add(new Cliente
+                {
+                    nitCi = modelo.NitCi,
+                    nombres = modelo.Nombres?.Trim(),
+                    primerApellido = modelo.PrimerApellido?.Trim(),
+                    segundoApellido = modelo.SegundoApellido?.Trim(),
+                    razonSocial = modelo.RazonSocial?.Trim(),
+                    telefono = modelo.Telefono?.Trim(),
+                    direccion = modelo.Direccion?.Trim(),
+                    tipoCliente = modelo.TipoCliente,
+                    usuarioRegistro = usuario,
+                    fechaRegistro = DateTime.Now,
+                    estado = 1
+                });
+
+                _context.SaveChanges();
+
+                TempData["ok"] = "Cliente registrado correctamente.";
+            }
+
+            return RedirectToAction(nameof(Clientes));
+        }
+
+        // Baja lógica, igual que ClienteCln.eliminar: no se borra la fila.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EliminarCliente(int id)
+        {
+            if (!Acceso.HaySesion(HttpContext.Session))
+                return RedirectToAction("IniciarSesion", "Account");
+
+            var cliente = _context.Cliente.FirstOrDefault(x => x.id == id && x.estado == 1);
+
+            if (cliente == null) return NotFound();
+
+            cliente.estado = -1;
+            cliente.usuarioRegistro = HttpContext.Session.GetString("usuario") ?? string.Empty;
+
+            _context.SaveChanges();
+
+            TempData["ok"] = "Cliente dado de baja correctamente.";
+            return RedirectToAction(nameof(Clientes));
+        }
+
+        // Tipos de cliente del desplegable y coincidencias del buscador por nombre o CI/NIT.
+        private void PrepararCliente(ClienteFormViewModel modelo)
+        {
+            modelo.Buscar = (modelo.Buscar ?? string.Empty).Trim();
+
+            // Igual que ClienteCln.listarTiposClienteCombo: los tipos que ya existen.
+            modelo.Tipos = _context.Cliente
+                .Where(x => x.estado == 1 && x.tipoCliente != null && x.tipoCliente != "")
+                .Select(x => x.tipoCliente!)
+                .Distinct()
+                .OrderBy(x => x)
+                .ToList();
+
+            if (!string.IsNullOrWhiteSpace(modelo.TipoCliente) && !modelo.Tipos.Contains(modelo.TipoCliente))
+                modelo.Tipos.Add(modelo.TipoCliente);
+
+            if (modelo.Buscar.Length < 2)
+                return;
+
+            string patron = "%" + modelo.Buscar.Replace(" ", "%") + "%";
+
+            modelo.Sugerencias = _context.Cliente
+                .Where(x => x.estado == 1)
+                .Where(x =>
+                    EF.Functions.Like(x.nitCi, patron) ||
+                    EF.Functions.Like(x.nombres, patron) ||
+                    EF.Functions.Like(x.primerApellido, patron) ||
+                    EF.Functions.Like(x.razonSocial, patron))
+                .OrderBy(x => x.nombres)
+                .ThenBy(x => x.razonSocial)
+                .Take(8)
+                .ToList()
+                .Select(x => new SugerenciaCliente
+                {
+                    Id = x.id,
+                    Texto = NombreParaMostrar(x) + " · CI/NIT " + x.nitCi
+                })
+                .ToList();
+        }
+
+        // Nombre con el que se reconoce a un cliente (razón social o nombre y apellido).
+        private static string NombreParaMostrar(Cliente cliente)
+        {
+            if (!string.IsNullOrWhiteSpace(cliente.razonSocial))
+                return cliente.razonSocial;
+
+            return (cliente.nombres + " " + cliente.primerApellido).Trim();
+        }
+
+
         // ----------------------------- AUXILIARES -----------------------------
 
         // Devuelve la sucursal del empleado logueado (para filtrar ventas).
@@ -665,7 +953,15 @@ namespace WebOmnicell.Controllers
             string parametro,
             string[] columnas,
             List<string[]> filas,
-            (List<T> datos, int pagina, int total, int totalPaginas) pag)
+            (List<T> datos, int pagina, int total, int totalPaginas) pag,
+            string? accionEditar = null,
+            string? textoNuevo = null,
+            List<int>? ids = null,
+            List<bool>? alertas = null,
+            int columnaAlerta = -1,
+            string? filtroTexto = null,
+            bool filtroActivo = false,
+            int filtroTotal = 0)
         {
             return View("Lista", new TablaViewModel
             {
@@ -676,7 +972,15 @@ namespace WebOmnicell.Controllers
                 Filas = filas,
                 Pagina = pag.pagina,
                 Total = pag.total,
-                TotalPaginas = pag.totalPaginas
+                TotalPaginas = pag.totalPaginas,
+                AccionEditar = accionEditar,
+                TextoNuevo = textoNuevo,
+                Ids = ids ?? new List<int>(),
+                Alertas = alertas ?? new List<bool>(),
+                ColumnaAlerta = columnaAlerta,
+                FiltroTexto = filtroTexto,
+                FiltroActivo = filtroActivo,
+                FiltroTotal = filtroTotal
             });
         }
     }

@@ -1,0 +1,179 @@
+@model WebOmnicell.Models.CarritoViewModel
+
+@{
+    ViewData["Title"] = "Carrito";
+    ViewData["BodyClass"] = "app-shell";
+}
+
+<div class="table-layout">
+
+    <div class="table-panel">
+
+        <!-- Encabezado del carrito -->
+        <div class="catalog-toolbar">
+
+            <div class="toolbar-text">
+
+                <nav class="crumbs">
+                    <a asp-controller="Catalogo" asp-action="Index">
+                        <i class="bi bi-grid"></i>
+                        Catálogo
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>Carrito</span>
+                </nav>
+
+                <h1>Carrito</h1>
+
+                <p>@Model.Unidades unidad(es) en @Model.Lineas.Count producto(s)</p>
+
+            </div>
+
+            <div class="toolbar-actions">
+
+                @if (Model.Lineas.Count > 0)
+                {
+                    <form method="post" asp-action="Vaciar">
+                        <button type="submit" class="clear-filters">
+                            <i class="bi bi-trash"></i>
+                            Vaciar
+                        </button>
+                    </form>
+                }
+
+                <a class="clear-filters" asp-controller="Catalogo" asp-action="Index">
+                    <i class="bi bi-arrow-left"></i>
+                    Seguir comprando
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- Líneas guardadas en la sesión -->
+        <div class="table-wrap">
+
+            @if (Model.Lineas.Count == 0)
+            {
+                <div class="empty-state">
+                    <i class="bi bi-bag"></i>
+
+                    <h2>El carrito está vacío</h2>
+
+                    <p>Agrega pantallas desde el catálogo para verlas acá.</p>
+
+                    <a class="btn-primary" asp-controller="Catalogo" asp-action="Index">
+                        <i class="bi bi-grid"></i>
+                        Ver el catálogo
+                    </a>
+                </div>
+            }
+            else
+            {
+                <table class="data-table">
+
+                    <thead>
+                        <tr>
+                            <th>Foto</th>
+                            <th>Producto</th>
+                            <th>SKU</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var linea in Model.Lineas)
+                        {
+                            <tr>
+
+                                <td class="carrito-foto">
+                                    @if (linea.Imagen != null)
+                                    {
+                                        <img src="@linea.Imagen" alt="@linea.Pantalla.descripcion" />
+                                    }
+                                    else
+                                    {
+                                        <i class="bi bi-phone"></i>
+                                    }
+                                </td>
+
+                                <td>@linea.Pantalla.descripcion</td>
+
+                                <td>@linea.Pantalla.sku</td>
+
+                                <td>Bs @linea.Pantalla.precioVenta.ToString("N2")</td>
+
+                                <td>
+                                    <form method="post" asp-action="Cambiar" class="carrito-cantidad">
+
+                                        <input type="hidden" name="id" value="@linea.Pantalla.id" />
+
+                                        <input type="number"
+                                               name="cantidad"
+                                               value="@linea.Cantidad"
+                                               min="0"
+                                               max="@Carrito.MaximoPorLinea"
+                                               step="1"
+                                               aria-label="Cantidad de @linea.Pantalla.sku" />
+
+                                        <button type="submit" title="Actualizar cantidad">
+                                            <i class="bi bi-arrow-repeat"></i>
+                                        </button>
+
+                                    </form>
+                                </td>
+
+                                <td>
+                                    <strong>Bs @linea.Subtotal.ToString("N2")</strong>
+                                </td>
+
+                                <td class="row-actions">
+                                    <form method="post" asp-action="Quitar">
+
+                                        <input type="hidden" name="id" value="@linea.Pantalla.id" />
+
+                                        <button type="submit" class="row-link" title="Quitar del carrito">
+                                            <i class="bi bi-x-lg"></i>
+                                            Quitar
+                                        </button>
+
+                                    </form>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            }
+
+        </div>
+
+
+        <!-- Total: el pedido todavía se confirma con un vendedor -->
+        @if (Model.Lineas.Count > 0)
+        {
+            <div class="carrito-total">
+
+                <div class="carrito-total-texto">
+                    <span>Total</span>
+                    <strong>Bs @Model.Total.ToString("N2")</strong>
+                </div>
+
+                <p class="detail-note">
+                    El carrito se guarda mientras navegás. La confirmación del pedido
+                    se hace con un vendedor.
+                </p>
+
+            </div>
+        }
+
+    </div>
+
+</div>

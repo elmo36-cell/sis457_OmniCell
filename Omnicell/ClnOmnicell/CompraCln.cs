@@ -9,41 +9,16 @@ namespace ClnOmnicell
 {
     public class CompraCln
     {
-        public static int crear(Compra compra)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                context.Compra.Add(compra);
-                context.SaveChanges();
-                return compra.id;
-            }
-        }
-
-        public static int actualizar(Compra compra)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.Compra.Find(compra.id);
-                if (existe == null) throw new Exception($"La compra con id {compra.id} no existe");
-
-                existe.idProveedor = compra.idProveedor;
-                existe.idEmpleado = compra.idEmpleado;
-                existe.fechaCompra = compra.fechaCompra;
-                existe.factura = compra.factura;
-                existe.costoTotal = compra.costoTotal;
-
-                return context.SaveChanges();
-            }
-        }
-
         public static int eliminar(int id, string usuario)
         {
             using (var context = new LabOmnicellEntities())
             {
+                // SELECT por id antes de dar de baja.
                 var existe = context.Compra.Find(id);
                 if (existe == null) throw new Exception($"La compra con id {id} no existe");
 
-                existe.estado = -1;
+                // Baja lógica: UPDATE estado = -1 (la fila no se borra).
+                existe.estado = (int)Estado.Eliminado;
                 existe.usuarioRegistro = usuario;
                 return context.SaveChanges();
             }
@@ -53,6 +28,7 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
+                // SELECT con JOIN: Include trae Proveedor y Empleado en la misma consulta.
                 return context.Compra
                     .Include("Proveedor")
                     .Include("Empleado")
@@ -60,43 +36,15 @@ namespace ClnOmnicell
             }
         }
 
-        public static List<Compra> listar()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Compra.Where(x => x.estado == 1).OrderByDescending(x => x.fechaCompra).ToList();
-            }
-        }
-
         public static List<paCompraListar_Result> listarCompras(string parametro)
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.paCompraListar(parametro.Trim()).ToList();
+                // Procedimiento almacenado: busca compras por proveedor o factura.
+                return context.paCompraListar((parametro ?? string.Empty).Trim()).ToList();
             }
         }
 
-        public static List<Proveedor> listarProveedoresCombo()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Proveedor
-                    .Where(x => x.estado == 1)
-                    .OrderBy(x => x.razonSocial)
-                    .ToList();
-            }
-        }
-
-        public static List<Empleado> listarEmpleadosCombo()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Empleado
-                    .Where(x => x.estado == 1)
-                    .OrderBy(x => x.nombres)
-                    .ToList();
-            }
-        }
         public static int registrarCompra(Compra compra,List<CompraDetalle> detalles,int idSucursal)
         {
             if (compra == null)
@@ -112,8 +60,9 @@ namespace ClnOmnicell
                 {
                     // Registrar cabecera de compra
                     compra.fechaRegistro = DateTime.Now;
-                    compra.estado = 1;
+                    compra.estado = (int)Estado.Activo;
 
+                    // INSERT de la cabecera de la compra.
                     context.Compra.Add(compra);
                     context.SaveChanges();
 
@@ -123,15 +72,16 @@ namespace ClnOmnicell
                         detalle.idCompra = compra.id;
                         detalle.fechaRegistro = DateTime.Now;
                         detalle.usuarioRegistro = compra.usuarioRegistro;
-                        detalle.estado = 1;
+                        detalle.estado = (int)Estado.Activo;
 
                         context.CompraDetalle.Add(detalle);
 
+                        // SELECT del stock de esa sucursal y pantalla.
                         var inventario = context.Inventario
                             .FirstOrDefault(i =>
                                 i.idSucursal == idSucursal &&
                                 i.idPantalla == detalle.idPantalla &&
-                                i.estado == 1);
+                                i.estado == (int)Estado.Activo);
 
                         if (inventario == null)
                         {
@@ -143,25 +93,28 @@ namespace ClnOmnicell
                                 stockMinimo = 0,
                                 usuarioRegistro = compra.usuarioRegistro,
                                 fechaRegistro = DateTime.Now,
-                                estado = 1
+                                estado = (int)Estado.Activo
                             };
 
                             context.Inventario.Add(inventario);
                         }
                         else
                         {
+                            // UPDATE: suma el stock. Solo se toca Inventario, no Pantalla.
                             inventario.stockActual += detalle.cantidad;
-                            inventario.estado = 1;
+                            inventario.estado = (int)Estado.Activo;
                         }
                     }
 
                     context.SaveChanges();
+                    // COMMIT: confirma compra, detalles e inventario juntos.
                     transaction.Commit();
 
                     return compra.id;
                 }
                 catch
                 {
+                    // ROLLBACK: deshace todo si alguna parte falla.
                     transaction.Rollback();
                     throw;
                 }

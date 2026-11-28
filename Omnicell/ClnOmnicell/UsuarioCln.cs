@@ -59,7 +59,7 @@ namespace ClnOmnicell
                 var existe = context.Usuario.Find(id);
                 if (existe == null) throw new Exception($"El usuario con id {id} no existe");
 
-                existe.estado = -1;
+                existe.estado = (int)Estado.Eliminado;
                 existe.usuarioRegistro = usuarioLog;
                 return context.SaveChanges();
             }
@@ -83,7 +83,7 @@ namespace ClnOmnicell
                 var usuario = context.Usuario
                     .Include("Rol")      // Relacion del rol
                     .Include("Empleado") // Relación del empleado (para saber su nombre real)
-                    .FirstOrDefault(x => x.nombreUsuario == nombreUsuario && x.clave == clave && x.estado == 1);
+                    .FirstOrDefault(x => x.nombreUsuario == nombreUsuario && x.clave == clave && x.estado == (int)Estado.Activo);
 
                 if (usuario == null)
                 {
@@ -94,19 +94,23 @@ namespace ClnOmnicell
             }
         }
 
-        public static List<Usuario> listar()
+        // Autentica con la contraseña en claro: el cifrado es responsabilidad de esta capa.
+        public static Usuario iniciarSesion(string nombreUsuario, string clavePlana)
         {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Usuario.Where(x => x.estado == 1).OrderBy(x => x.nombreUsuario).ToList();
-            }
+            if (string.IsNullOrWhiteSpace(nombreUsuario))
+                throw new Exception("Ingrese su nombre de usuario.");
+
+            if (string.IsNullOrWhiteSpace(clavePlana))
+                throw new Exception("Ingrese su contraseña.");
+
+            return autenticar(nombreUsuario.Trim(), SeguridadCln.cifrar(clavePlana));
         }
 
         public static List<paUsuarioListar_Result> listarUsuarios(string parametro)
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.paUsuarioListar(parametro.Trim()).ToList();
+                return context.paUsuarioListar((parametro ?? string.Empty).Trim()).ToList();
             }
         }
         public static List<Empleado> listarEmpleadosCombo()
@@ -114,7 +118,7 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 return context.Empleado
-                    .Where(x => x.estado == 1)
+                    .Where(x => x.estado == (int)Estado.Activo)
                     .OrderBy(x => x.nombres)
                     .ToList();
             }
@@ -124,7 +128,7 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 return context.Rol
-                    .Where(x => x.estado == 1)
+                    .Where(x => x.estado == (int)Estado.Activo)
                     .OrderBy(x => x.nombre)
                     .ToList();
             }

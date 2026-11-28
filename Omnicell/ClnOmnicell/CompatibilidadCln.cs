@@ -7,65 +7,68 @@ using System.Threading.Tasks;
 
 namespace ClnOmnicell
 {
+    // Marcas y modelos activos que se pueden elegir para una pantalla.
+    public class CatalogoCompatibilidad
+    {
+        public List<Modelo> Modelos { get; private set; }
+        public List<Marca> Marcas { get; private set; }
+
+        public CatalogoCompatibilidad(List<Modelo> modelos)
+        {
+            Modelos = modelos;
+            Marcas = modelos
+                .Where(modelo => modelo.Marca != null)
+                .Select(modelo => modelo.Marca)
+                .GroupBy(marca => marca.id)
+                .Select(grupo => grupo.First())
+                .OrderBy(marca => marca.nombre)
+                .ToList();
+        }
+    }
+
     public class CompatibilidadCln
     {
-        public static int crear(Compatibilidad compatibilidad)
+        // Marcas y modelos compatibles con la pantalla, sin repetir y ordenados por nombre.
+        public static CatalogoCompatibilidad obtenerCatalogo(Pantalla pantalla)
         {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.Compatibilidad.Where(x => x.idPantalla == compatibilidad.idPantalla && x.idModelo == compatibilidad.idModelo).FirstOrDefault();
-                if (existe != null) throw new Exception("La compatibilidad entre esta pantalla y modelo ya existe");
+            if (pantalla == null)
+                throw new ArgumentNullException(nameof(pantalla));
 
-                context.Compatibilidad.Add(compatibilidad);
-                context.SaveChanges();
-                return compatibilidad.id;
-            }
+            IEnumerable<Compatibilidad> compatibilidades =
+                pantalla.Compatibilidad ?? Enumerable.Empty<Compatibilidad>();
+
+            List<Modelo> modelos = compatibilidades
+                .Where(c => c.estado == (int)Estado.Activo &&
+                            c.Modelo != null &&
+                            c.Modelo.estado == (int)Estado.Activo)
+                .Select(c => c.Modelo)
+                .GroupBy(modelo => modelo.id)
+                .Select(grupo => grupo.First())
+                .OrderBy(modelo => modelo.nombre)
+                .ToList();
+
+            return new CatalogoCompatibilidad(modelos);
         }
 
-        public static int actualizar(Compatibilidad compatibilidad)
+        // Marca y modelo con los que se registró la pantalla (primera compatibilidad activa).
+        public static void obtenerMarcaModelo(Pantalla pantalla, out string marca, out string modelo)
         {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.Compatibilidad.Find(compatibilidad.id);
-                if (existe == null) throw new Exception($"La compatibilidad con id {compatibilidad.id} no existe");
+            marca = string.Empty;
+            modelo = string.Empty;
 
-                existe.idPantalla = compatibilidad.idPantalla;
-                existe.idModelo = compatibilidad.idModelo;
-                existe.usuarioRegistro = compatibilidad.usuarioRegistro;
+            if (pantalla == null || pantalla.Compatibilidad == null)
+                return;
 
-                return context.SaveChanges();
-            }
-        }
+            Compatibilidad compatibilidad = pantalla.Compatibilidad
+                .FirstOrDefault(c => c.estado == (int)Estado.Activo && c.Modelo != null);
 
-        public static int eliminar(int id, string usuario)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.Compatibilidad.Find(id);
-                if (existe == null) throw new Exception($"La compatibilidad con id {id} no existe");
+            if (compatibilidad == null)
+                return;
 
-                existe.estado = -1;
-                existe.usuarioRegistro = usuario;
-                return context.SaveChanges();
-            }
-        }
-
-        public static Compatibilidad obtenerUno(int id)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var compatibilidad = context.Compatibilidad.Find(id);
-                if (compatibilidad == null) throw new Exception($"La compatibilidad con id {id} no existe");
-                return compatibilidad;
-            }
-        }
-
-        public static List<Compatibilidad> listar()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Compatibilidad.Where(x => x.estado == 1).ToList();
-            }
+            modelo = compatibilidad.Modelo.nombre;
+            marca = compatibilidad.Modelo.Marca == null
+                ? string.Empty
+                : compatibilidad.Modelo.Marca.nombre;
         }
     }
 }

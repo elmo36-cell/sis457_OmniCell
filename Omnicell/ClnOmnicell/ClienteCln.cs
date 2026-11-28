@@ -49,7 +49,7 @@ namespace ClnOmnicell
                 var existe = context.Cliente.Find(id);
                 if (existe == null) throw new Exception($"El cliente con id {id} no existe");
 
-                existe.estado = -1;
+                existe.estado = (int)Estado.Eliminado;
                 existe.usuarioRegistro = usuario;
                 return context.SaveChanges();
             }
@@ -65,19 +65,11 @@ namespace ClnOmnicell
             }
         }
 
-        public static List<Cliente> listar()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Cliente.Where(x => x.estado == 1).OrderBy(x => x.nitCi).ToList();
-            }
-        }
-
         public static List<paClienteListar_Result> listarClientes(string parametro)
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.paClienteListar(parametro != null ? parametro.Trim() : "").ToList();
+                return context.paClienteListar(parametro != null ? (parametro ?? string.Empty).Trim() : "").ToList();
             }
         }
 
@@ -86,11 +78,20 @@ namespace ClnOmnicell
             using (var context = new LabOmnicellEntities())
             {
                 return context.Cliente
-                    .Where(x => x.estado == 1 && x.tipoCliente != null && x.tipoCliente != "")
+                    .Where(x => x.estado == (int)Estado.Activo && x.tipoCliente != null && x.tipoCliente != "")
                     .Select(x => x.tipoCliente)
                     .Distinct()
                     .OrderBy(x => x)
                     .ToList();
+            }
+        }
+
+        public static List<Cliente> listarClientesCombo()
+        {
+            using (var context = new LabOmnicellEntities())
+            {
+                // SELECT de clientes para el combo de ventas.
+                return context.Cliente.OrderBy(x => x.nombres).ToList();
             }
         }
     }

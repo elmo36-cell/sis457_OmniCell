@@ -11,17 +11,6 @@ namespace ClnOmnicell
 {
     public class VentaCln
     {
-        public static int crear(Venta venta)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                context.Venta.Add(venta);
-                context.SaveChanges();
-                return venta.id;
-            }
-        }
-
-
         public static int registrarVenta(Venta venta, List<VentaDetalle> detalles)
         {
             if (venta == null)
@@ -31,6 +20,7 @@ namespace ClnOmnicell
                 throw new Exception("Debe agregar al menos un producto.");
 
             using (var context = new LabOmnicellEntities())
+            // BEGIN TRANSACTION: o se guarda todo o no se guarda nada.
             using (var transaction = context.Database.BeginTransaction())
             {
                 try
@@ -60,10 +50,11 @@ namespace ClnOmnicell
                     // Verificar y descontar el inventario.
                     foreach (var producto in productosAgrupados)
                     {
+                        // SELECT del stock de la sucursal para cada pantalla.
                         var inventario = context.Inventario.FirstOrDefault(i =>
                             i.idSucursal == venta.idSucursal &&
                             i.idPantalla == producto.idPantalla &&
-                            i.estado == 1);
+                            i.estado == (int)Estado.Activo);
 
                         if (inventario == null)
                             throw new Exception(
@@ -73,6 +64,7 @@ namespace ClnOmnicell
                             throw new Exception(
                                 "Stock insuficiente para uno de los productos.");
 
+                        // UPDATE: descuenta el stock vendido.
                         inventario.stockActual -= producto.cantidad;
                     }
 
@@ -89,42 +81,24 @@ namespace ClnOmnicell
                         detalle.idVenta = venta.id;
                         detalle.usuarioRegistro = venta.usuarioRegistro;
                         detalle.fechaRegistro = venta.fechaRegistro;
-                        detalle.estado = 1;
+                        detalle.estado = (int)Estado.Activo;
 
                         context.VentaDetalle.Add(detalle);
                     }
 
                     context.SaveChanges();
 
-                    // Confirmar todas las operaciones.
+                    // COMMIT: confirma venta, detalles y descuento de stock.
                     transaction.Commit();
 
                     return venta.id;
                 }
                 catch
                 {
+                    // ROLLBACK: deshace todo si alguna parte falla.
                     transaction.Rollback();
                     throw;
                 }
-            }
-        }
-
-
-        public static int actualizar(Venta venta)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.Venta.Find(venta.id);
-                if (existe == null) throw new Exception($"La venta con id {venta.id} no existe");
-
-                existe.idCliente = venta.idCliente;
-                existe.idEmpleado = venta.idEmpleado;
-                existe.idSucursal = venta.idSucursal;
-                existe.fechaVenta = venta.fechaVenta;
-                existe.tipoPago = venta.tipoPago;
-                existe.montoTotal = venta.montoTotal;
-
-                return context.SaveChanges();
             }
         }
 
@@ -135,7 +109,8 @@ namespace ClnOmnicell
                 var existe = context.Venta.Find(id);
                 if (existe == null) throw new Exception($"La venta con id {id} no existe");
 
-                existe.estado = -1;
+                // Baja lógica: UPDATE estado = -1 (la fila no se borra).
+                existe.estado = (int)Estado.Eliminado;
                 existe.usuarioRegistro = usuario;
                 return context.SaveChanges();
             }
@@ -145,6 +120,7 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
+                // SELECT con JOIN: Include trae Cliente, Empleado y Sucursal.
                 var venta = context.Venta
                     .Include("Cliente")
                     .Include("Empleado")
@@ -158,99 +134,27 @@ namespace ClnOmnicell
             }
         }
 
-        public static List<Venta> listar()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Venta.Where(x => x.estado == 1).OrderByDescending(x => x.fechaVenta).ToList();
-            }
-        }
-
         public static List<paVentaListar_Result> listarVentas(string parametro)
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.paVentaListar(parametro.Trim()).ToList();
+                // Procedimiento almacenado: busca ventas por cliente, vendedor o sucursal.
+                return context.paVentaListar((parametro ?? string.Empty).Trim()).ToList();
             }
         }
 
-        // Buscar ID del cliente mediante CI/NIT
-        public static int obtenerIdCliente(string nitCi)
+        // Un vendedor solo ve las ventas de su sucursal; el administrador ve todas.
+        public static List<paVentaListar_Result> listarVentas(string parametro, string sucursal)
         {
-            using (var context = new LabOmnicellEntities())
-            {
-                var cliente = context.Cliente
-                    .SingleOrDefault(x => x.nitCi == nitCi);
+            List<paVentaListar_Result> ventas = listarVentas(parametro);
 
-                if (cliente == null)
-                    throw new Exception("No existe un cliente con ese CI/NIT.");
+            if (string.IsNullOrWhiteSpace(sucursal))
+                return ventas;
 
-                return cliente.id;
-            }
-        }
-
-        // Buscar ID del empleado mediante su nombre completo
-        public static int obtenerIdEmpleado(string nombreCompleto)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var empleados = context.Empleado.ToList()
-                    .Where(x => (x.nombres + " " + x.primerApellido).Trim()
-                        .Equals(nombreCompleto.Trim(),
-                            StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-
-                if (empleados.Count == 0)
-                    throw new Exception("No existe ese empleado.");
-
-                if (empleados.Count > 1)
-                    throw new Exception("Hay varios empleados con ese nombre. Debes identificarlos de otra manera.");
-
-                return empleados[0].id;
-            }
-        }
-
-        // Buscar ID de la sucursal mediante su nombre
-        public static int obtenerIdSucursal(string nombre)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var sucursales = context.Sucursal
-                    .Where(x => x.nombre == nombre)
-                    .ToList();
-
-                if (sucursales.Count == 0)
-                    throw new Exception("No existe esa sucursal.");
-
-                if (sucursales.Count > 1)
-                    throw new Exception("Hay varias sucursales con ese nombre.");
-
-                return sucursales[0].id;
-            }
-        }
-
-        public static List<Cliente> listarClientesCombo()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Cliente.OrderBy(x => x.nombres).ToList();
-            }
-        }
-
-        public static List<Empleado> listarEmpleadosCombo()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Empleado.OrderBy(x => x.nombres).ToList();
-            }
-        }
-
-        public static List<Sucursal> listarSucursalesCombo()
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Sucursal.OrderBy(x => x.nombre).ToList();
-            }
+            return ventas
+                .Where(venta => venta.sucursal != null &&
+                                venta.sucursal.Equals(sucursal, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
     }
 }

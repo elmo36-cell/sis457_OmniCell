@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.cabeceraOmnicell = new CpOmnicell.CabeceraOmnicell();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmUsuarios));
-            this.lblTitulo = new System.Windows.Forms.Label();
-            this.gbxDatos = new System.Windows.Forms.GroupBox();
+            this.gbxDatos = new CpOmnicell.GroupBoxOmnicell();
             this.cbxRol = new System.Windows.Forms.ComboBox();
             this.lblClave = new System.Windows.Forms.Label();
             this.cbxNombre = new System.Windows.Forms.ComboBox();
@@ -38,30 +38,17 @@
             this.txtClave = new System.Windows.Forms.TextBox();
             this.txtCargo = new System.Windows.Forms.TextBox();
             this.lblNombreUsuario = new System.Windows.Forms.Label();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnGuardar = new CpOmnicell.BotonOmnicell();
+            this.btnCancelar = new CpOmnicell.BotonOmnicell();
             this.lblCargo = new System.Windows.Forms.Label();
             this.lblRol = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
             this.gbxDatos.SuspendLayout();
             this.SuspendLayout();
             // 
-            // lblTitulo
-            // 
-            this.lblTitulo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTitulo.AutoSize = true;
-            this.lblTitulo.Font = new System.Drawing.Font("Microsoft YaHei", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitulo.Location = new System.Drawing.Point(154, 11);
-            this.lblTitulo.Name = "lblTitulo";
-            this.lblTitulo.Size = new System.Drawing.Size(147, 39);
-            this.lblTitulo.TabIndex = 33;
-            this.lblTitulo.Text = "Omnicell";
-            // 
             // gbxDatos
             // 
-            this.gbxDatos.Controls.Add(this.label1);
+            this.gbxDatos.BackColor = System.Drawing.Color.White;
             this.gbxDatos.Controls.Add(this.cbxRol);
             this.gbxDatos.Controls.Add(this.lblClave);
             this.gbxDatos.Controls.Add(this.cbxNombre);
@@ -74,154 +61,173 @@
             this.gbxDatos.Controls.Add(this.lblCargo);
             this.gbxDatos.Controls.Add(this.lblRol);
             this.gbxDatos.Controls.Add(this.lblNombre);
-            this.gbxDatos.Location = new System.Drawing.Point(7, 53);
+            this.gbxDatos.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.gbxDatos.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(78)))), ((int)(((byte)(156)))));
+            this.gbxDatos.Location = new System.Drawing.Point(5, 108);
             this.gbxDatos.Name = "gbxDatos";
-            this.gbxDatos.Size = new System.Drawing.Size(419, 383);
+            this.gbxDatos.Padding = new System.Windows.Forms.Padding(6, 4, 6, 6);
+            this.gbxDatos.Size = new System.Drawing.Size(750, 228);
             this.gbxDatos.TabIndex = 32;
             this.gbxDatos.TabStop = false;
-            this.gbxDatos.Text = "Datos";
+            this.gbxDatos.Text = "Datos del Usuario";
             // 
             // cbxRol
             // 
+            this.cbxRol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxRol.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbxRol.FormattingEnabled = true;
-            this.cbxRol.Location = new System.Drawing.Point(79, 106);
+            this.cbxRol.Location = new System.Drawing.Point(162, 74);
             this.cbxRol.Name = "cbxRol";
-            this.cbxRol.Size = new System.Drawing.Size(332, 21);
+            this.cbxRol.Size = new System.Drawing.Size(190, 23);
             this.cbxRol.TabIndex = 23;
             // 
             // lblClave
             // 
             this.lblClave.AutoSize = true;
-            this.lblClave.Location = new System.Drawing.Point(20, 255);
+            this.lblClave.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblClave.Location = new System.Drawing.Point(22, 117);
             this.lblClave.Name = "lblClave";
-            this.lblClave.Size = new System.Drawing.Size(64, 13);
+            this.lblClave.Size = new System.Drawing.Size(73, 15);
             this.lblClave.TabIndex = 22;
             this.lblClave.Text = "Contraseña:";
             // 
             // cbxNombre
             // 
+            this.cbxNombre.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbxNombre.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.cbxNombre.FormattingEnabled = true;
-            this.cbxNombre.Location = new System.Drawing.Point(79, 32);
+            this.cbxNombre.Location = new System.Drawing.Point(162, 34);
             this.cbxNombre.Name = "cbxNombre";
-            this.cbxNombre.Size = new System.Drawing.Size(332, 21);
+            this.cbxNombre.Size = new System.Drawing.Size(190, 23);
             this.cbxNombre.TabIndex = 21;
             this.cbxNombre.SelectedIndexChanged += new System.EventHandler(this.cbxNombre_SelectedIndexChanged);
             // 
             // txtNombreUsuario
             // 
-            this.txtNombreUsuario.Location = new System.Drawing.Point(122, 216);
+            this.txtNombreUsuario.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNombreUsuario.Location = new System.Drawing.Point(526, 74);
             this.txtNombreUsuario.MaxLength = 30;
             this.txtNombreUsuario.Name = "txtNombreUsuario";
-            this.txtNombreUsuario.Size = new System.Drawing.Size(290, 20);
+            this.txtNombreUsuario.Size = new System.Drawing.Size(200, 24);
             this.txtNombreUsuario.TabIndex = 20;
             // 
             // txtClave
             // 
-            this.txtClave.Location = new System.Drawing.Point(95, 253);
+            this.txtClave.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtClave.Location = new System.Drawing.Point(162, 114);
             this.txtClave.MaxLength = 50;
             this.txtClave.Name = "txtClave";
-            this.txtClave.Size = new System.Drawing.Size(316, 20);
+            this.txtClave.Size = new System.Drawing.Size(190, 24);
             this.txtClave.TabIndex = 18;
             this.txtClave.UseSystemPasswordChar = true;
             // 
             // txtCargo
             // 
-            this.txtCargo.Location = new System.Drawing.Point(78, 69);
+            this.txtCargo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtCargo.Location = new System.Drawing.Point(526, 34);
             this.txtCargo.MaxLength = 30;
             this.txtCargo.Name = "txtCargo";
-            this.txtCargo.Size = new System.Drawing.Size(333, 20);
+            this.txtCargo.Size = new System.Drawing.Size(200, 24);
             this.txtCargo.TabIndex = 14;
             // 
             // lblNombreUsuario
             // 
             this.lblNombreUsuario.AutoSize = true;
-            this.lblNombreUsuario.Location = new System.Drawing.Point(15, 219);
+            this.lblNombreUsuario.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblNombreUsuario.Location = new System.Drawing.Point(386, 77);
             this.lblNombreUsuario.Name = "lblNombreUsuario";
-            this.lblNombreUsuario.Size = new System.Drawing.Size(101, 13);
+            this.lblNombreUsuario.Size = new System.Drawing.Size(115, 15);
             this.lblNombreUsuario.TabIndex = 11;
             this.lblNombreUsuario.Text = "Nombre de Usuario:";
             // 
             // btnGuardar
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.MediumSeaGreen;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnGuardar.Image = ((System.Drawing.Image)(resources.GetObject("btnGuardar.Image")));
-            this.btnGuardar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnGuardar.Location = new System.Drawing.Point(207, 335);
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(125)))), ((int)(((byte)(50)))));
+            this.btnGuardar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGuardar.Font = new System.Drawing.Font("Segoe UI", 9.25F, System.Drawing.FontStyle.Bold);
+            this.btnGuardar.ForeColor = System.Drawing.Color.White;
+            this.btnGuardar.IconoOmnicell = CpOmnicell.Icono.Guardar;
+            this.btnGuardar.Location = new System.Drawing.Point(380, 165);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(120, 42);
             this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnCancelar
             // 
-            this.btnCancelar.BackColor = System.Drawing.Color.Red;
-            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelar.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnCancelar.Image = ((System.Drawing.Image)(resources.GetObject("btnCancelar.Image")));
-            this.btnCancelar.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnCancelar.Location = new System.Drawing.Point(78, 335);
+            this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(198)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.btnCancelar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelar.Font = new System.Drawing.Font("Segoe UI", 9.25F, System.Drawing.FontStyle.Bold);
+            this.btnCancelar.ForeColor = System.Drawing.Color.White;
+            this.btnCancelar.IconoOmnicell = CpOmnicell.Icono.Cancelar;
+            this.btnCancelar.Location = new System.Drawing.Point(250, 165);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(123, 42);
+            this.btnCancelar.Size = new System.Drawing.Size(120, 42);
             this.btnCancelar.TabIndex = 10;
             this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
             // 
             // lblCargo
             // 
             this.lblCargo.AutoSize = true;
-            this.lblCargo.Location = new System.Drawing.Point(20, 71);
+            this.lblCargo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblCargo.Location = new System.Drawing.Point(386, 37);
             this.lblCargo.Name = "lblCargo";
-            this.lblCargo.Size = new System.Drawing.Size(38, 13);
+            this.lblCargo.Size = new System.Drawing.Size(42, 15);
             this.lblCargo.TabIndex = 7;
             this.lblCargo.Text = "Cargo:";
             // 
             // lblRol
             // 
             this.lblRol.AutoSize = true;
-            this.lblRol.Location = new System.Drawing.Point(17, 109);
+            this.lblRol.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblRol.Location = new System.Drawing.Point(22, 77);
             this.lblRol.Name = "lblRol";
-            this.lblRol.Size = new System.Drawing.Size(26, 13);
+            this.lblRol.Size = new System.Drawing.Size(28, 15);
             this.lblRol.TabIndex = 2;
             this.lblRol.Text = "Rol:";
             // 
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
-            this.lblNombre.Location = new System.Drawing.Point(17, 34);
+            this.lblNombre.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(41)))), ((int)(((byte)(55)))));
+            this.lblNombre.Location = new System.Drawing.Point(22, 37);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(50, 13);
+            this.lblNombre.Size = new System.Drawing.Size(57, 15);
             this.lblNombre.TabIndex = 1;
-            this.lblNombre.Text = "Nombre :";
+            this.lblNombre.Text = "Nombre:";
             // 
-            // label1
             // 
-            this.label1.Image = ((System.Drawing.Image)(resources.GetObject("label1.Image")));
-            this.label1.Location = new System.Drawing.Point(149, 144);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(145, 69);
-            this.label1.TabIndex = 24;
+            // cabeceraOmnicell
             // 
+            this.cabeceraOmnicell.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) | System.Windows.Forms.AnchorStyles.Right)));
+            this.cabeceraOmnicell.IconoOmnicell = CpOmnicell.Icono.Usuarios;
+            this.cabeceraOmnicell.Location = new System.Drawing.Point(0, 0);
+            this.cabeceraOmnicell.Name = "cabeceraOmnicell";
+            this.cabeceraOmnicell.Size = new System.Drawing.Size(760, 76);
+            this.cabeceraOmnicell.Subtitulo = "Credenciales y rol del usuario";
+            this.cabeceraOmnicell.TabIndex = 0;
+            this.cabeceraOmnicell.Titulo = "Usuarios";
             // FrmUsuarios
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.RoyalBlue;
-            this.ClientSize = new System.Drawing.Size(433, 446);
-            this.Controls.Add(this.lblTitulo);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(245)))));
+            this.ClientSize = new System.Drawing.Size(760, 350);
             this.Controls.Add(this.gbxDatos);
+            this.Controls.Add(this.cabeceraOmnicell);
+            this.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "FrmUsuarios";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "::: Omnecell - Usuarios :::";
+            this.Text = "::: Omnicell - Usuarios :::";
             this.Load += new System.EventHandler(this.FrmUsuarios_Load);
             this.gbxDatos.ResumeLayout(false);
             this.gbxDatos.PerformLayout();
@@ -231,21 +237,20 @@
         }
 
         #endregion
+        private CpOmnicell.CabeceraOmnicell cabeceraOmnicell;
 
-        private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.GroupBox gbxDatos;
+        private CpOmnicell.GroupBoxOmnicell gbxDatos;
         private System.Windows.Forms.TextBox txtNombreUsuario;
         private System.Windows.Forms.TextBox txtClave;
         private System.Windows.Forms.TextBox txtCargo;
         private System.Windows.Forms.Label lblNombreUsuario;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.Button btnCancelar;
+        private CpOmnicell.BotonOmnicell btnGuardar;
+        private CpOmnicell.BotonOmnicell btnCancelar;
         private System.Windows.Forms.Label lblCargo;
         private System.Windows.Forms.Label lblRol;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.ComboBox cbxNombre;
         private System.Windows.Forms.Label lblClave;
         private System.Windows.Forms.ComboBox cbxRol;
-        private System.Windows.Forms.Label label1;
     }
 }

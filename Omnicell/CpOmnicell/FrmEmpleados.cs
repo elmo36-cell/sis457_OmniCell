@@ -3,18 +3,15 @@ using ClnOmnicell;
 using CpMinerva;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmEmpleados : Form
+    public partial class FrmEmpleados : FormOmnicell
     {
+        private const string ErrorClaveDuplicada = "UNIQUE";
+        private const string ErrorDuplicadoSql = "duplicate";
+
         private int? idEmpleado;
         private List<Sucursal> sucursales;
 
@@ -23,11 +20,13 @@ namespace CpOmnicell
             InitializeComponent();
             idEmpleado = null;
         }
+
         public FrmEmpleados(int id)
         {
             InitializeComponent();
             idEmpleado = id;
         }
+
         private void FrmEmpleados_Load(object sender, EventArgs e)
         {
             cargarCombos();
@@ -41,6 +40,7 @@ namespace CpOmnicell
                 limpiarCampos();
             }
         }
+
         private void cargarCombos()
         {
             sucursales = EmpleadoCln.listarSucursalCombo();
@@ -55,6 +55,7 @@ namespace CpOmnicell
             cbxSucursal.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             cbxSucursal.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
+
         private void limpiarCampos()
         {
             txtNombre.Clear();
@@ -67,14 +68,14 @@ namespace CpOmnicell
 
             cbxSucursal.SelectedIndex = -1;
         }
+
         private void cargarEmpleado()
         {
-            Empleado empleado =
-                EmpleadoCln.obtenerUno(idEmpleado.Value);
+            Empleado empleado = EmpleadoCln.obtenerUno(idEmpleado.Value);
 
             if (empleado == null)
             {
-                MessageBox.Show("No se encontró el empleado.");
+                Util.Avisar("No se encontró el empleado.");
                 Close();
                 return;
             }
@@ -85,47 +86,50 @@ namespace CpOmnicell
             txtCi.Text = empleado.ci;
             txtCargo.Text = empleado.cargo;
             txtDireccion.Text = empleado.direccion;
-            txtCelular.Text= empleado.celular.ToString();
+            txtCelular.Text = empleado.celular.ToString();
 
             cbxSucursal.SelectedValue = empleado.idSucursal;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
-                string.IsNullOrWhiteSpace(txtPrimerApellido.Text) ||
-                string.IsNullOrWhiteSpace(txtSegundoApellido.Text) ||
-                string.IsNullOrWhiteSpace(txtCi.Text) ||
-                string.IsNullOrWhiteSpace(txtCargo.Text) ||
-                string.IsNullOrWhiteSpace(txtDireccion.Text) ||
-                string.IsNullOrWhiteSpace(txtCelular.Text) ||
-                cbxSucursal.SelectedIndex == -1)
+            if (!Util.Requerido(txtNombre, "Ingrese los nombres del empleado."))
+                return;
+
+            if (!Util.Requerido(txtPrimerApellido, "Ingrese el primer apellido del empleado."))
+                return;
+
+            if (!Util.Requerido(txtSegundoApellido, "Ingrese el segundo apellido del empleado."))
+                return;
+
+            if (!Util.Requerido(txtCi, "Ingrese el CI del empleado."))
+                return;
+
+            if (!Util.Requerido(txtCargo, "Ingrese el cargo del empleado."))
+                return;
+
+            if (!Util.Requerido(txtDireccion, "Ingrese la dirección del empleado."))
+                return;
+
+            if (!Util.Requerido(txtCelular, "Ingrese el celular del empleado."))
+                return;
+
+            if (cbxSucursal.SelectedIndex == -1 || cbxSucursal.SelectedValue == null)
             {
-                MessageBox.Show(
-                    "Complete todos los campos obligatorios.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                Util.Avisar("Seleccione una sucursal válida de la lista.");
+                cbxSucursal.Focus();
+                return;
+            }
+
+            if (!long.TryParse(txtCelular.Text.Trim(), out long celularNumero))
+            {
+                Util.Avisar("El celular debe contener solo números.");
+                txtCelular.Focus();
                 return;
             }
 
             try
             {
-                if (cbxSucursal.SelectedValue == null)
-                {
-                    MessageBox.Show("Seleccione una sucursal válida de la lista.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    cbxSucursal.Focus();
-                    return;
-                }
-
-                if (!long.TryParse(txtCelular.Text.Trim(), out long celularNumero))
-                {
-                    MessageBox.Show("El celular debe contener solo números.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCelular.Focus();
-                    return;
-                }
-
                 Empleado empleado = new Empleado
                 {
                     nombres = txtNombre.Text.Trim(),
@@ -136,7 +140,7 @@ namespace CpOmnicell
                     direccion = txtDireccion.Text.Trim(),
                     celular = celularNumero,
                     idSucursal = Convert.ToInt32(cbxSucursal.SelectedValue),
-                    usuarioRegistro = Util.usuario.nombreUsuario,
+                    usuarioRegistro = SesionCln.NombreUsuario,
                     fechaRegistro = DateTime.Now
                 };
 
@@ -145,14 +149,14 @@ namespace CpOmnicell
                     empleado.id = idEmpleado.Value;
                     EmpleadoCln.actualizar(empleado);
 
-                    MessageBox.Show("Empleado actualizado correctamente.");
+                    Util.Informar("Empleado actualizado correctamente.");
                 }
                 else
                 {
-                    empleado.estado = 1;
+                    empleado.estado = (int)Estado.Activo;
                     EmpleadoCln.crear(empleado);
 
-                    MessageBox.Show("Empleado registrado correctamente.");
+                    Util.Informar("Empleado registrado correctamente.");
                 }
 
                 Close();
@@ -163,13 +167,14 @@ namespace CpOmnicell
                                       ?? ex.InnerException?.Message
                                       ?? ex.Message;
 
-                if (detalleError.Contains("UNIQUE") || detalleError.Contains("duplicate"))
+                if (detalleError.IndexOf(ErrorClaveDuplicada, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                    detalleError.IndexOf(ErrorDuplicadoSql, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    MessageBox.Show("Ya existe un empleado registrado con ese número de CI.", "CI Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    Util.Avisar("Ya existe un empleado registrado con ese número de CI.", "CI Duplicado");
                 }
                 else
                 {
-                    MessageBox.Show(detalleError, "Error al guardar", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Util.MostrarError(detalleError, "Error al guardar");
                 }
             }
         }

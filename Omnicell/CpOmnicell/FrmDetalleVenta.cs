@@ -1,18 +1,12 @@
 ﻿using CadOmnicell;
 using ClnOmnicell;
+using CpMinerva;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CpOmnicell
 {
-    public partial class FrmDetalleVenta : Form
+    public partial class FrmDetalleVenta : FormOmnicell
     {
         private int idVenta;
 
@@ -31,72 +25,40 @@ namespace CpOmnicell
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message,
-                    "Error al consultar la venta",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                Util.MostrarError(ex.Message, "Error al consultar la venta");
 
                 Close();
             }
-
         }
+
         private void cargarVenta()
         {
             Venta venta = VentaCln.obtenerUno(idVenta);
 
-            lblNumeroVenta.Text = venta.id.ToString("D5");
-
-            lblFechaVenta.Text =
-                venta.fechaVenta.ToString("dd/MM/yyyy HH:mm");
-
+            lblNumeroVenta.Text = venta.id.ToString(Formatos.NumeroDocumento);
+            lblFechaVenta.Text = venta.fechaVenta.ToString(Formatos.FechaHora);
             lblTipoPago.Text = venta.tipoPago;
-
-            lblCliente.Text = (
-                venta.Cliente.nombres + " " +
-                venta.Cliente.primerApellido + " " +
-                venta.Cliente.segundoApellido
-            ).Trim();
-
-            if (!string.IsNullOrWhiteSpace(venta.Cliente.razonSocial))
-                lblCliente.Text = venta.Cliente.razonSocial;
-
+            lblCliente.Text = venta.Cliente.NombreMostrar();
             lblCiNit.Text = venta.Cliente.nitCi;
-
-            lblVendedor.Text = (
-                venta.Empleado.nombres + " " +
-                venta.Empleado.primerApellido + " " +
-                venta.Empleado.segundoApellido
-            ).Trim();
-
+            lblVendedor.Text = venta.Empleado.NombreCompleto();
             lblCargo.Text = venta.Empleado.cargo;
-
             lblSucursal.Text = venta.Sucursal.nombre;
-
-            lblTotal.Text = venta.montoTotal.ToString("N2") + " Bs";
+            lblTotal.Text = venta.montoTotal.ToString(Formatos.Monto) + " Bs";
         }
+
         private void cargarDetalles()
         {
-            var detalles = VentaDetalleCln.listarPorVenta(idVenta);
+            GrillasOmnicell.ConfigurarDetalle(dgvDetalleVenta);
 
             dgvDetalleVenta.Rows.Clear();
 
-            foreach (var detalle in detalles)
+            foreach (VentaDetalle detalle in VentaDetalleCln.listarPorVenta(idVenta))
             {
-                var pantalla = detalle.Pantalla;
+                Pantalla pantalla = detalle.Pantalla;
 
-                string marca = "";
-                string modelo = "";
-
-                var compatibilidad = pantalla.Compatibilidad
-                    .FirstOrDefault(x => x.estado == 1);
-
-                if (compatibilidad != null)
-                {
-                    modelo = compatibilidad.Modelo.nombre;
-                    marca = compatibilidad.Modelo.Marca.nombre;
-                }
+                string marca;
+                string modelo;
+                CompatibilidadCln.obtenerMarcaModelo(pantalla, out marca, out modelo);
 
                 dgvDetalleVenta.Rows.Add(
                     pantalla.sku,
@@ -106,15 +68,10 @@ namespace CpOmnicell
                     pantalla.calidad,
                     pantalla.tecnologia,
                     detalle.cantidad,
-                    detalle.precioUnitario.ToString("N2"),
-                    detalle.subtotal.ToString("N2"),
+                    detalle.precioUnitario.ToString(Formatos.Monto),
+                    detalle.subtotal.ToString(Formatos.Monto),
                     detalle.observacionGarantia
                 );
-                dgvDetalleVenta.AutoGenerateColumns = false;
-                dgvDetalleVenta.AllowUserToAddRows = false;
-                dgvDetalleVenta.ReadOnly = true;
-                dgvDetalleVenta.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                dgvDetalleVenta.MultiSelect = false;
             }
         }
 

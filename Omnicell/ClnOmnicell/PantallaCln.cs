@@ -10,46 +10,16 @@ namespace ClnOmnicell
 {
     public class PantallaCln
     {
-        public static int crear(Pantalla pantalla)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.Pantalla.Where(x => x.sku == pantalla.sku).FirstOrDefault();
-                if (existe != null) throw new Exception($"La pantalla con SKU {pantalla.sku} ya existe");
-
-                context.Pantalla.Add(pantalla);
-                context.SaveChanges();
-                return pantalla.id;
-            }
-        }
-
-        public static int actualizar(Pantalla pantalla)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.Pantalla.Find(pantalla.id);
-                if (existe == null) throw new Exception($"La pantalla con id {pantalla.id} no existe");
-
-                existe.sku = pantalla.sku;
-                existe.descripcion = pantalla.descripcion;
-                existe.calidad = pantalla.calidad;
-                existe.tecnologia = pantalla.tecnologia;
-                existe.precioVenta = pantalla.precioVenta;
-                existe.stockTotal = pantalla.stockTotal;
-                existe.usuarioRegistro = pantalla.usuarioRegistro;
-
-                return context.SaveChanges();
-            }
-        }
-
         public static int eliminar(int id, string usuario)
         {
             using (var context = new LabOmnicellEntities())
             {
+                // SELECT por id antes de dar de baja.
                 var existe = context.Pantalla.Find(id);
                 if (existe == null) throw new Exception($"La pantalla con id {id} no existe");
 
-                existe.estado = -1;
+                // Baja lógica: UPDATE estado = -1 (la fila no se borra).
+                existe.estado = (int)Estado.Eliminado;
                 existe.usuarioRegistro = usuario;
                 return context.SaveChanges();
             }
@@ -69,7 +39,8 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.Pantalla.Where(x => x.estado == 1).OrderBy(x => x.descripcion).ToList();
+                // SELECT ... WHERE estado = 1 ORDER BY descripcion.
+                return context.Pantalla.Where(x => x.estado == (int)Estado.Activo).OrderBy(x => x.descripcion).ToList();
             }
         }
 
@@ -77,30 +48,18 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
-                return context.paPantallaListar(parametro != null ? parametro.Trim() : "").ToList();
+                // Procedimiento almacenado paPantallaListar: búsqueda por texto.
+                return context.paPantallaListar(parametro != null ? (parametro ?? string.Empty).Trim() : "").ToList();
             }
         }
 
-        public static List<Pantalla> listarPorSucursal(int idSucursal)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                return context.Pantalla
-                    .Include("Compatibilidad.Modelo.Marca")
-                    .Where(p => p.estado == 1 &&
-                        p.Inventario.Any(i =>
-                            i.idSucursal == idSucursal &&
-                            i.estado == 1 &&
-                            i.stockActual > 0))
-                    .OrderBy(p => p.descripcion)
-                    .ToList();
-            }
-        }
+        
         public static List<paPantallaListarPorSucursal_Result> listarPorSucursal(
         int idSucursal, string parametro)
         {
             using (var context = new LabOmnicellEntities())
             {
+                // Procedimiento paPantallaListarPorSucursal: filtra por sucursal y texto.
                 return context.paPantallaListarPorSucursal(
                     idSucursal, parametro
                 ).ToList();
@@ -110,9 +69,10 @@ namespace ClnOmnicell
         {
             using (var context = new LabOmnicellEntities())
             {
+                // SELECT de la pantalla con sus modelos compatibles (Include = JOIN).
                 return context.Pantalla
                     .Include("Compatibilidad.Modelo.Marca")
-                    .FirstOrDefault(x => x.id == id && x.estado == 1);
+                    .FirstOrDefault(x => x.id == id && x.estado == (int)Estado.Activo);
             }
         }
 
@@ -121,6 +81,7 @@ namespace ClnOmnicell
             Pantalla pantalla, string nombreMarca, string nombreModelo)
         {
             using (var context = new LabOmnicellEntities())
+            // BEGIN TRANSACTION: marca, modelo, pantalla y compatibilidad se guardan juntos.
             using (var transaccion = context.Database.BeginTransaction())
             {
                 try
@@ -147,15 +108,15 @@ namespace ClnOmnicell
                             nombre = nombreMarca,
                             usuarioRegistro = pantalla.usuarioRegistro,
                             fechaRegistro = DateTime.Now,
-                            estado = 1
+                            estado = (int)Estado.Activo
                         };
 
                         context.Marca.Add(marca);
                         context.SaveChanges();
                     }
-                    else if (marca.estado != 1)
+                    else if (marca.estado != (int)Estado.Activo)
                     {
-                        marca.estado = 1;
+                        marca.estado = (int)Estado.Activo;
                         marca.usuarioRegistro = pantalla.usuarioRegistro;
                     }
 
@@ -172,15 +133,15 @@ namespace ClnOmnicell
                             nombre = nombreModelo,
                             usuarioRegistro = pantalla.usuarioRegistro,
                             fechaRegistro = DateTime.Now,
-                            estado = 1
+                            estado = (int)Estado.Activo
                         };
 
                         context.Modelo.Add(modelo);
                         context.SaveChanges();
                     }
-                    else if (modelo.estado != 1)
+                    else if (modelo.estado != (int)Estado.Activo)
                     {
-                        modelo.estado = 1;
+                        modelo.estado = (int)Estado.Activo;
                         modelo.usuarioRegistro = pantalla.usuarioRegistro;
                     }
 
@@ -188,7 +149,7 @@ namespace ClnOmnicell
                     pantalla.sku = sku;
                     pantalla.stockTotal = 0;
                     pantalla.fechaRegistro = DateTime.Now;
-                    pantalla.estado = 1;
+                    pantalla.estado = (int)Estado.Activo;
 
                     context.Pantalla.Add(pantalla);
                     context.SaveChanges();
@@ -200,18 +161,20 @@ namespace ClnOmnicell
                         idModelo = modelo.id,
                         usuarioRegistro = pantalla.usuarioRegistro,
                         fechaRegistro = DateTime.Now,
-                        estado = 1
+                        estado = (int)Estado.Activo
                     };
 
                     context.Compatibilidad.Add(compatibilidad);
                     context.SaveChanges();
 
+                    // COMMIT: confirma todos los INSERT.
                     transaccion.Commit();
 
                     return pantalla.id;
                 }
                 catch
                 {
+                    // ROLLBACK: deshace todo si algo falla.
                     transaccion.Rollback();
                     throw;
                 }

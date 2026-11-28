@@ -1,0 +1,228 @@
+@model WebOmnicell.Models.ClienteFormViewModel
+
+@{
+    ViewData["Title"] = Model.Id.HasValue ? "Editar cliente" : "Nuevo cliente";
+    ViewData["BodyClass"] = "app-shell";
+
+    bool edicion = Model.Id.HasValue;
+}
+
+<div class="table-layout">
+
+    <div class="table-panel">
+
+        <!-- Encabezado del módulo -->
+        <div class="catalog-toolbar">
+
+            <div class="toolbar-text">
+
+                <nav class="crumbs">
+                    <a asp-controller="Tablas" asp-action="Index">
+                        <i class="bi bi-grid"></i>
+                        Módulos
+                    </a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <a asp-action="Clientes">Clientes</a>
+
+                    <i class="bi bi-chevron-right"></i>
+
+                    <span>@(edicion ? "Editar" : "Nuevo")</span>
+                </nav>
+
+                <h1>@(edicion ? "Editar cliente" : "Nuevo cliente")</h1>
+
+                <p>El CI/NIT se guarda solo con números.</p>
+
+            </div>
+
+            <div class="toolbar-actions">
+
+                <a class="clear-filters" asp-action="Clientes">
+                    <i class="bi bi-arrow-left"></i>
+                    Volver al listado
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrap form-wrap">
+
+            <!-- BUSCADOR: escribe el nombre o el CI/NIT y elige una coincidencia
+                 para que el formulario se rellene con esos datos -->
+            <form class="cliente-search" method="get" asp-action="Cliente">
+
+                <div class="mini-search">
+                    <i class="bi bi-search"></i>
+
+                    <input type="search"
+                           name="buscar"
+                           value="@Model.Buscar"
+                           placeholder="Buscar cliente por nombre o CI/NIT..." />
+                </div>
+
+                <button type="submit" class="btn-primary btn-new">
+                    <i class="bi bi-search"></i>
+                    Buscar
+                </button>
+
+            </form>
+
+
+            @if (Model.Sugerencias.Count > 0)
+            {
+                <div class="suggestions">
+
+                    <span class="suggestions-title">
+                        @Model.Sugerencias.Count coincidencia(s) · elige una para cargar sus datos
+                    </span>
+
+                    @foreach (var sugerencia in Model.Sugerencias)
+                    {
+                        <a class="suggestion" asp-action="Cliente" asp-route-id="@sugerencia.Id">
+                            <i class="bi bi-person"></i>
+                            <span>@sugerencia.Texto</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    }
+
+                </div>
+            }
+            else if ((Model.Buscar ?? string.Empty).Length >= 2)
+            {
+                <p class="detail-note">
+                    No hay clientes que coincidan con «@Model.Buscar».
+                </p>
+            }
+
+
+            <!-- FORMULARIO DEL CLIENTE -->
+            <form method="post" asp-action="GuardarCliente">
+
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="Buscar" />
+
+                <div asp-validation-summary="ModelOnly" class="login-validation"></div>
+
+                <div class="form-grid">
+
+                    <div class="form-field">
+                        <label asp-for="NitCi">CI / NIT</label>
+
+                        <input asp-for="NitCi"
+                               inputmode="numeric"
+                               maxlength="15"
+                               autocomplete="off"
+                               placeholder="Solo números"
+                               oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
+
+                        <span asp-validation-for="NitCi" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="Telefono">Teléfono</label>
+
+                        <input asp-for="Telefono" maxlength="20" autocomplete="off" />
+
+                        <span asp-validation-for="Telefono" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="Nombres">Nombres</label>
+
+                        <input asp-for="Nombres" maxlength="30" autocomplete="off" />
+
+                        <span asp-validation-for="Nombres" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="PrimerApellido">Primer apellido</label>
+
+                        <input asp-for="PrimerApellido" maxlength="30" autocomplete="off" />
+
+                        <span asp-validation-for="PrimerApellido" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="SegundoApellido">Segundo apellido</label>
+
+                        <input asp-for="SegundoApellido" maxlength="30" autocomplete="off" />
+
+                        <span asp-validation-for="SegundoApellido" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="RazonSocial">Razón social</label>
+
+                        <input asp-for="RazonSocial" maxlength="60" autocomplete="off" />
+
+                        <span asp-validation-for="RazonSocial" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="Direccion">Dirección</label>
+
+                        <input asp-for="Direccion" maxlength="60" autocomplete="off" />
+
+                        <span asp-validation-for="Direccion" class="validation-message"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <label asp-for="TipoCliente">Tipo de cliente</label>
+
+                        <select asp-for="TipoCliente">
+                            <option value="">— Seleccione —</option>
+
+                            @foreach (string tipo in Model.Tipos)
+                            {
+                                <option value="@tipo">@tipo</option>
+                            }
+                        </select>
+
+                        <span asp-validation-for="TipoCliente" class="validation-message"></span>
+                    </div>
+
+                </div>
+
+                <div class="form-actions">
+
+                    <button type="submit" class="btn-primary btn-new">
+                        <i class="bi bi-save"></i>
+                        @(edicion ? "Guardar cambios" : "Registrar cliente")
+                    </button>
+
+                    <a class="clear-filters" asp-action="Clientes">Cancelar</a>
+
+                </div>
+
+            </form>
+
+
+            @if (edicion)
+            {
+                <form class="cliente-delete"
+                      method="post"
+                      asp-action="EliminarCliente"
+                      asp-route-id="@Model.Id"
+                      onsubmit="return confirm('¿Dar de baja a este cliente?');">
+
+                    <button type="submit" class="btn-danger">
+                        <i class="bi bi-trash"></i>
+                        Dar de baja
+                    </button>
+
+                </form>
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,71 +1,12 @@
-﻿using CadOmnicell;
-using System;
+using CadOmnicell;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Linq;
 
 namespace ClnOmnicell
 {
     public class CompraDetalleCln
     {
-        public static int crear(CompraDetalle compraDetalle)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                context.CompraDetalle.Add(compraDetalle);
-                context.SaveChanges();
-                return compraDetalle.id;
-            }
-        }
-
-        public static int actualizar(CompraDetalle compraDetalle)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.CompraDetalle.Find(compraDetalle.id);
-                if (existe == null) throw new Exception($"El detalle de compra con id {compraDetalle.id} no existe");
-
-                existe.idCompra = compraDetalle.idCompra;
-                existe.idPantalla = compraDetalle.idPantalla;
-                existe.cantidad = compraDetalle.cantidad;
-                existe.costoUnitario = compraDetalle.costoUnitario;
-                existe.subtotal = compraDetalle.subtotal;
-                existe.usuarioRegistro = compraDetalle.usuarioRegistro;
-
-                return context.SaveChanges();
-            }
-        }
-
-        public static int eliminar(int id, string usuario)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var existe = context.CompraDetalle.Find(id);
-                if (existe == null) throw new Exception($"El detalle de compra con id {id} no existe");
-
-                existe.estado = -1;
-                existe.usuarioRegistro = usuario;
-                return context.SaveChanges();
-            }
-        }
-
-        public static CompraDetalle obtenerUno(int id)
-        {
-            using (var context = new LabOmnicellEntities())
-            {
-                var compraDetalle = context.CompraDetalle
-                    .Include("Pantalla")
-                    .FirstOrDefault(x => x.id == id);
-
-                if (compraDetalle == null)
-                    throw new Exception($"El detalle de compra con id {id} no existe");
-
-                return compraDetalle;
-            }
-        }
-
         public static List<CompraDetalle> listarPorCompra(int idCompra)
         {
             using (var context = new LabOmnicellEntities())
@@ -73,7 +14,7 @@ namespace ClnOmnicell
                 return context.CompraDetalle
                     .Include("Pantalla")
                     .Include("Pantalla.Compatibilidad.Modelo.Marca")
-                    .Where(x => x.idCompra == idCompra && x.estado == 1)
+                    .Where(x => x.idCompra == idCompra && x.estado == (int)Estado.Activo)
                     .ToList();
             }
         }

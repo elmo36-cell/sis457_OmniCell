@@ -12,7 +12,10 @@
     string calidadActual = ViewBag.Calidad as string ?? string.Empty;
 
     int total = ViewBag.Total as int? ?? Model.Count;
-    decimal stockTotal = ViewBag.StockTotal as decimal? ?? 0;
+    int conStock = ViewBag.ConStock as int? ?? 0;
+
+    // Productos de esta página con stock en alguna sucursal.
+    var disponibles = (ViewBag.Disponibles as List<int> ?? new List<int>()).ToHashSet();
     int pagina = ViewBag.Pagina as int? ?? 1;
     int totalPaginas = ViewBag.TotalPaginas as int? ?? 1;
 
@@ -39,14 +42,14 @@
                 </div>
 
                 <div>
-                    <strong>@stockTotal.ToString("N0")</strong>
-                    <span>En stock</span>
+                    <strong>@conStock.ToString("N0")</strong>
+                    <span>Con stock</span>
                 </div>
             </div>
 
             <p class="summary-note">
                 Precios en bolivianos. Toca un producto para ver sus modelos
-                compatibles y el stock de cada sucursal.
+                compatibles y si está disponible.
             </p>
 
         </div>
@@ -140,9 +143,11 @@
 
                     @foreach (var pantalla in Model)
                     {
-                        string? imagen = Imagenes.RutaPantalla(Entorno, pantalla.sku);
+                        string? imagen = Imagenes.RutaPantalla(Entorno, pantalla.sku, pantalla.calidad);
 
-                        <a class="product-card"
+                        <div class="product-card">
+
+                        <a class="product-card-link"
                            asp-controller="Catalogo"
                            asp-action="Detalle"
                            asp-route-id="@pantalla.id">
@@ -177,26 +182,48 @@
                                         @pantalla.tecnologia
                                     </span>
 
-                                    <span class="product-stock @(pantalla.stockTotal <= 0 ? "out" : "")">
-                                        <i class="bi bi-box-seam"></i>
-                                        @pantalla.stockTotal.ToString("N0")
-                                    </span>
-                                </div>
+                                    @{
+                                        bool hayStock = disponibles.Contains(pantalla.id);
+                                    }
 
-                                <div class="product-footer">
-                                    <span class="product-price">
-                                        Bs @pantalla.precioVenta.ToString("N2")
-                                    </span>
-
-                                    <span class="product-link">
-                                        Ver
-                                        <i class="bi bi-chevron-right"></i>
+                                    <span class="product-stock @(hayStock ? "" : "out")">
+                                        <i class="bi @(hayStock ? "bi-check-circle" : "bi-x-circle")"></i>
+                                        @(hayStock ? "Disponible" : "Sin stock")
                                     </span>
                                 </div>
 
                             </div>
 
                         </a>
+
+                        <!-- Agregar al carrito: va fuera del enlace para no anidar formularios -->
+                        <div class="product-footer">
+
+                            <span class="product-price">
+                                Bs @pantalla.precioVenta.ToString("N2")
+                            </span>
+
+                            <form method="post"
+                                  asp-controller="Carrito"
+                                  asp-action="Agregar"
+                                  class="product-add">
+
+                                <input type="hidden" name="id" value="@pantalla.id" />
+                                <input type="hidden" name="cantidad" value="1" />
+                                <input type="hidden" name="volver"
+                                       value="@(Context.Request.Path + Context.Request.QueryString)" />
+
+                                <button type="submit" class="btn-add"
+                                        title="Agregar @pantalla.sku al carrito">
+                                    <i class="bi bi-bag-plus"></i>
+                                    Agregar
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                        </div>
                     }
 
                 </div>
